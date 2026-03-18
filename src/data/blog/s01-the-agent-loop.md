@@ -227,6 +227,10 @@ Tool inputs are arbitrary JSON, so we model JSON itself as a recursive enum (`JS
 
 ### Taking it for a spin
 
+Here's the agent in action — a single prompt triggers multiple tool calls, with the loop driving the entire interaction:
+
+![swift-claude-code demo](https://raw.githubusercontent.com/ivan-magda/swift-claude-code/master/demo.gif)
+
 If we build and run our agent now, we can try the kind of multi-step tasks that show the loop in action:
 
 ```bash
