@@ -26,3 +26,6 @@ pnpm-debug.log*
 # pagefind
 
 public/pagefind
+
+# context files
+BLOG-SETUP-CONTEXT.md
