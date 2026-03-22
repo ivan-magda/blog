@@ -16,9 +16,14 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+const pageNum = page.currentPage;
+const description =
+  pageNum > 1
+    ? `All articles — page ${pageNum}.`
+    : "All the articles I've posted.";
 ---
 
-<Layout title={`Posts | ${SITE.title}`}>
+<Layout title={`Posts | ${SITE.title}`} description={description}>
   <Header />
   <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
     <ul>

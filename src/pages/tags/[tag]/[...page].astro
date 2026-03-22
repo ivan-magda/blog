@@ -29,9 +29,14 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 const params = Astro.params;
 const { tag } = params;
 const { page, tagName } = Astro.props;
+const pageNum = page.currentPage;
+const description =
+  pageNum > 1
+    ? `Articles tagged "${tagName}" — page ${pageNum}.`
+    : `All articles tagged "${tagName}".`;
 ---
 
-<Layout title={`Tag: ${tagName} | ${SITE.title}`}>
+<Layout title={`Tag: ${tagName} | ${SITE.title}`} description={description}>
   <Header />
   <Main
     pageTitle={[`Tag:`, `${tagName}`]}

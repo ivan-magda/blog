@@ -11,7 +11,10 @@ type Props = MarkdownLayoutProps<{ title: string }>;
 const { frontmatter } = Astro.props;
 ---
 
-<Layout title={`${frontmatter.title} | ${SITE.title}`}>
+<Layout
+  title={`${frontmatter.title} | ${SITE.title}`}
+  description="About Ivan Magda — mobile developer writing about AI agents and software development."
+>
   <Header />
   <Breadcrumb />
   <main id="main-content" class="app-layout">
