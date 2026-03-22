@@ -32,6 +32,15 @@ pnpm run sync         # Generate Astro TypeScript types
 - **OG images** — Auto-generated via Satori when `SITE.dynamicOgImage` is true
 - **Deployment** — `.github/workflows/deploy.yml` using `withastro/action@v3` + GitHub Pages
 
+## SEO & Meta Tags
+
+- **Meta description** — `Layout.astro` renders `<meta name="description">`, `og:description`, and `twitter:description` from a single `description` prop (defaults to `SITE.desc`). Each page must pass an explicit `description` prop to avoid duplicates.
+- **Important**: `Main.astro`'s `pageDesc` prop is visible page text only — it does NOT set the meta description.
+- **Titles** — `Layout.astro` renders `<title>` from a `title` prop (defaults to `SITE.title`). Paginated pages should append " — Page N" for uniqueness using `page.currentPage`.
+- **Canonicals** — Self-referencing, handled automatically by `Layout.astro` via `Astro.url.pathname`.
+- **llms.txt** — Static file in `public/llms.txt` for AI search engines. Update when adding new posts.
+- **Static files** — Dynamic generation via `src/pages/*.ts` (robots.txt, rss.xml, og.png); plain static files in `public/`.
+
 ## Blog Post Frontmatter
 
 ```yaml
