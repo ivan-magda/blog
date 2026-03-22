@@ -30,7 +30,7 @@ pnpm run sync         # Generate Astro TypeScript types
 - **Prev/Next post links** — Modified in `PostDetails.astro` to follow chronological order (not default newest-first)
 - **Search** — Pagefind static search, indexed at build time
 - **OG images** — Auto-generated via Satori when `SITE.dynamicOgImage` is true
-- **Deployment** — `.github/workflows/deploy.yml` using `withastro/action@v3` + GitHub Pages
+- **Deployment** — `.github/workflows/deploy.yml` using `withastro/action@v6` + GitHub Pages
 
 ## SEO & Meta Tags
 
