@@ -36,7 +36,10 @@ const description =
     : `All articles tagged "${tagName}".`;
 ---
 
-<Layout title={`Tag: ${tagName} | ${SITE.title}`} description={description}>
+<Layout
+  title={`Tag: ${tagName}${pageNum > 1 ? ` — Page ${pageNum}` : ""} | ${SITE.title}`}
+  description={description}
+>
   <Header />
   <Main
     pageTitle={[`Tag:`, `${tagName}`]}
