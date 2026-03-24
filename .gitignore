@@ -20,6 +20,9 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# playwright mcp
+.playwright-mcp
+
 # jetbrains setting folder
 .idea/
 
