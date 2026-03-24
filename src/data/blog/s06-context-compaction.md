@@ -22,7 +22,7 @@ _The complete source code for this stage is available at the [`06-context-compac
 
 ---
 
-### Three layers, three strategies
+## Three layers, three strategies
 
 The compression strategy works in layers, each more aggressive than the last. Layer 1 — **micro-compact** — runs silently before every API call. It scans the messages array for old tool results (anything beyond the three most recent) and replaces their content with a short placeholder like `"[Previous: used read_file]"`. The model still sees that a tool was called and what kind it was, but the actual output — the 500-line file, the verbose bash output — is gone. This is the quiet housekeeping layer: no API call required, no information loss that the model would typically need, and it runs every single turn.
 
@@ -32,7 +32,7 @@ Layer 3 — the **compact tool** — is the same summarization as layer 2, but t
 
 ---
 
-### The ContextCompactor type
+## The ContextCompactor type
 
 Let's start with the type that owns all three layers. `ContextCompactor` holds two configuration values — the path where transcripts are saved and the token threshold that triggers auto-compaction — and exposes methods for each layer:
 
@@ -59,7 +59,7 @@ The `keepRecent` and `minContentLength` constants control micro-compact's behavi
 
 ---
 
-### Micro-compact: the quiet layer
+## Micro-compact: the quiet layer
 
 The `microCompact` method scans the messages array for every `.toolResult` content block, identifies which ones are old enough to compress, and replaces their content with a placeholder. One thing to keep in mind here is that `Message.content` is a `let` property — we can't mutate a content block in place. Instead, we reconstruct entire `Message` values with new content arrays:
 
@@ -105,7 +105,7 @@ The method is intentionally synchronous — it's pure data transformation with n
 
 ---
 
-### Auto-compact: threshold-triggered summarization
+## Auto-compact: threshold-triggered summarization
 
 Layer 2 needs to answer a question before it can act: how many tokens are we using? The API doesn't tell us the context size mid-conversation, so we estimate:
 
@@ -181,7 +181,7 @@ let path = "\(transcriptDirectory)/transcript_\(timestamp)_\(unique).jsonl"
 
 ---
 
-### The compact tool and two-phase dispatch
+## The compact tool and two-phase dispatch
 
 Layer 3 gives the model direct control over compression. The `compact` tool definition includes an optional `focus` parameter that lets the model specify what the summary should preserve:
 
@@ -232,7 +232,7 @@ if name == "compact" {
 
 ---
 
-### Wiring into the agent loop
+## Wiring into the agent loop
 
 With all three layers built, let's connect them. The `applyCompaction` helper runs layers 1 and 2 in sequence:
 
@@ -295,7 +295,7 @@ With that in place, we now have an agent that manages its own memory. Three laye
 
 ---
 
-### Taking it for a spin
+## Taking it for a spin
 
 Let's build and run:
 
@@ -311,7 +311,7 @@ To see layer 3 in action, try: `Use the compact tool to compress this conversati
 
 ---
 
-### What we've built and where it breaks
+## What we've built and where it breaks
 
 We now have an agent that can work indefinitely. Micro-compact quietly trims old tool results every turn. Auto-compact summarizes the full conversation when the context gets large. The `compact` tool gives the model deliberate control. Transcripts on disk mean nothing is truly lost — just moved out of active context.
 

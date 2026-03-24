@@ -22,7 +22,7 @@ _The complete source code for this stage is available at the [`07-task-system`](
 
 ---
 
-### File-per-entity persistence
+## File-per-entity persistence
 
 The core idea is simple: each task is a standalone JSON file. The `.tasks/` directory is the database, and `FileManager` is the query engine. Here's what the directory looks like after the agent plans a multi-step feature:
 
@@ -40,7 +40,7 @@ The file-per-entity approach has a key advantage over a single `tasks.json` file
 
 ---
 
-### The AgentTask model
+## The AgentTask model
 
 Let's start with the data model. `TaskStatus` is a raw-value enum that mirrors the lifecycle the model sees in tool descriptions — `pending`, `in_progress`, `completed` — with a display marker for the list view:
 
@@ -79,7 +79,7 @@ The `fileprivate(set)` on `status`, `blockedBy`, and `blocks` means only code wi
 
 ---
 
-### TaskManager: CRUD and auto-incrementing IDs
+## TaskManager: CRUD and auto-incrementing IDs
 
 `TaskManager` owns the `.tasks/` directory and provides the CRUD operations that tool handlers call. The initializer creates the directory if needed and recovers the next available ID by scanning existing files:
 
@@ -121,7 +121,7 @@ The method returns pretty-printed JSON so the model sees exactly what was persis
 
 ---
 
-### Dependency resolution: cascading unblock
+## Dependency resolution: cascading unblock
 
 The interesting mechanism is what happens when a task completes. If task 1's `blocks` array contains `[2, 3]`, completing task 1 needs to remove `1` from both task 2's and task 3's `blockedBy` arrays. This is `removeCompletedDependency` — the cascading unblock:
 
@@ -183,7 +183,7 @@ The ordering matters: save the updated task _first_, then cascade. If the cascad
 
 ---
 
-### Wiring into the agent
+## Wiring into the agent
 
 With `TaskManager` ready, let's connect it. The agent creates the manager alongside its other dependencies, and the system prompt gains a line telling the model that task tools exist and survive compaction:
 
@@ -274,7 +274,7 @@ With that in place, we now have twelve tools and a persistent planning layer. Th
 
 ---
 
-### Taking it for a spin
+## Taking it for a spin
 
 Let's build and run:
 
@@ -299,7 +299,7 @@ For a longer session, try asking the agent to plan a real feature — something 
 
 ---
 
-### Durable state, same loop
+## Durable state, same loop
 
 We now have an agent with durable planning. Tasks persist as JSON files that survive compaction, restarts, and arbitrarily long sessions. The dependency graph — `blockedBy` upstream, `blocks` downstream — gives the model a way to express ordering and parallelism. Cascading unblock on completion means the model doesn't need to manually track which tasks become ready; it just marks work as done and the graph updates itself.
 

@@ -18,7 +18,7 @@ The thesis driving this project is simple: Claude Code's effectiveness comes fro
 
 In this guide, let's set up the project structure, make sure everything compiles and runs, and lay the groundwork for the agent we'll start building in the next stage.
 
-### Starting with Swift Package Manager
+## Starting with Swift Package Manager
 
 Let's create our project and initialize it as a Swift package:
 
@@ -33,7 +33,7 @@ This gives us a working starting point — SPM generates a `Sources/` directory,
 
 However, the default layout puts everything into a single executable target, which means our agent logic and our command-line entry point live in the same place. That's a problem for two reasons: we can't write unit tests against an executable target (Swift Testing needs a library to import), and we can't reuse any of our agent logic outside the CLI. Let's fix that by splitting into two targets.
 
-### The two-target layout
+## The two-target layout
 
 The architecture we want is straightforward — a `Core` library that holds all the real logic, and a thin `cli` executable that just wires things together and starts the REPL:
 
@@ -84,7 +84,7 @@ Notice `async throws` on `main()` — we don't need async yet, but every API cal
 
 One thing to keep in mind: `@main` and `main.swift` can't coexist in the same target. If you see a `main.swift` in the target, delete it — `@main` replaces it and will let us adopt `AsyncParsableCommand` from swift-argument-parser later without any restructuring.
 
-### The package manifest
+## The package manifest
 
 With our source files in place, let's replace SPM's generated `Package.swift` with a manifest that reflects our two-target architecture:
 
@@ -131,7 +131,7 @@ There's a deliberate dependency choice here worth discussing. We're pulling in A
 
 Also note `swift-tools-version: 6.2`. This gives us Swift's strict concurrency checking enabled by default — the compiler will catch data races at compile time rather than leaving them as runtime surprises. That strictness will pay for itself when we add background tasks and actors later in the series.
 
-### Adding tests from the start
+## Adding tests from the start
 
 Let's set up our test target before we forget:
 
@@ -155,7 +155,7 @@ We're using Swift Testing (the `@Test` macro and `#expect` assertions) rather th
 
 One test might seem trivial, but it proves something important: `Core` is importable as a library, the test target can reach it, and our whole build graph is wired up correctly.
 
-### Environment configuration
+## Environment configuration
 
 Our agent will need an Anthropic API key to function. Let's set up the convention now with an `.env.example` that documents what's needed, and a `.gitignore` to keep the real `.env`, `.build/`, and other artifacts out of version control:
 
@@ -167,7 +167,7 @@ MODEL_ID=claude-sonnet-4-6
 
 We'll read the API key from the process environment using `ProcessInfo.processInfo.environment["ANTHROPIC_API_KEY"]` when we build the API client in the next guide.
 
-### Taking it for a spin
+## Taking it for a spin
 
 Let's verify everything works. The first build will take a minute or two as SPM resolves AsyncHTTPClient and its SwiftNIO dependencies:
 
@@ -183,7 +183,7 @@ swift test
 
 If all three commands succeed, our foundation is solid. We have a two-target package where all logic lives in a testable library, an entry point ready for async work, and a dependency on the HTTP client we'll need for API calls. That's a lot of infrastructure for a few files, but none of it will need to change as we add capabilities over the next eight guides.
 
-### What we've built and where we're going
+## What we've built and where we're going
 
 We now have a Swift package with a clean separation between library and executable, strict concurrency enabled, and a test harness ready to go. It doesn't do anything interesting yet — but that's the point. Every stage in this series adds exactly one mechanism, and this stage's mechanism is the project structure itself.
 

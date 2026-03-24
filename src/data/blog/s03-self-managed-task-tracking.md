@@ -22,7 +22,7 @@ _The complete source code for this stage is available at the [`03-todo-write`](h
 
 ---
 
-### A todo tool the agent writes for itself
+## A todo tool the agent writes for itself
 
 The core idea is a `TodoManager` that stores a list of items, each with a status: `pending`, `in_progress`, or `completed`. The agent calls the `todo` tool to set the full list whenever it wants to update the plan. One key constraint: only a single item can be `in_progress` at a time. This forces sequential focus — the model can't mark three things as in-progress and half-finish all of them.
 
@@ -89,7 +89,7 @@ public final class TodoManager {
 
 ---
 
-### Wiring the tool into the agent
+## Wiring the tool into the agent
 
 Adding `todo` to the dispatch map follows exactly the same pattern as every other tool — one entry in the dictionary, one handler method. Here's the handler, which bridges between `JSONValue` inputs and our typed `TodoItem` model:
 
@@ -161,7 +161,7 @@ With that in place, the agent has a self-managed planning tool. A rendered todo 
 
 ---
 
-### The nag system: reminding the agent to plan
+## The nag system: reminding the agent to plan
 
 Having a todo tool is necessary but not sufficient. The model might simply not call it — especially as the conversation grows and the system prompt instruction to "use the todo tool" fades. We need a gentle mechanism that nudges the agent back toward planning when it drifts.
 
@@ -203,7 +203,7 @@ There's also a subtlety with `didUseTodo`: it's set to `true` whenever the model
 
 ---
 
-### Taking it for a spin
+## Taking it for a spin
 
 Let's build and run:
 
@@ -217,7 +217,7 @@ The nag only fires when there are open items — if the agent never calls `todo`
 
 ---
 
-### What we've built and where we're going
+## What we've built and where we're going
 
 We now have an agent that can track its own work. The todo tool gives the model a structured notepad — a place to write down the plan, mark items as in-progress, and check them off as they're completed. The nag system ensures the plan doesn't get abandoned as the conversation grows. Together, they're a lightweight counter-measure to the instruction-following decay that makes long agent sessions drift.
 

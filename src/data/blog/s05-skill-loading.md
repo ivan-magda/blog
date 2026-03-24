@@ -22,7 +22,7 @@ _The complete source code for this stage is available at the [`05-skill-loading`
 
 ---
 
-### What a skill looks like on disk
+## What a skill looks like on disk
 
 Each skill lives in its own subdirectory under `skills/`, with a single `SKILL.md` file. The file uses YAML frontmatter — a `name`, a `description` — followed by the full body of knowledge. Here's the example skill that ships with the project:
 
@@ -51,7 +51,7 @@ The frontmatter is the cheap part — the `description` feeds into the system pr
 
 ---
 
-### Two layers, two costs
+## Two layers, two costs
 
 The architecture breaks down into a clear division of labor. At init time, `SkillLoader` scans the `skills/` directory and parses every `SKILL.md` it finds. The parsed descriptions flow into `buildSystemPrompt`, which appends a short menu to the system prompt — something like:
 
@@ -67,7 +67,7 @@ Layer two is the `load_skill` tool. When the model calls `load_skill(name: "code
 
 ---
 
-### Scanning and parsing
+## Scanning and parsing
 
 Let's walk through `SkillLoader`. The type holds a dictionary of parsed skills, populated once at init time and never mutated afterward:
 
@@ -213,7 +213,7 @@ The `<skill>` tag wrapping is a small but deliberate choice — it gives the mod
 
 ---
 
-### Wiring into the agent
+## Wiring into the agent
 
 With `SkillLoader` ready, let's connect it to the agent. The `buildSystemPrompt` method gains a `skillDescriptions` parameter that conditionally appends the skill menu:
 
@@ -280,7 +280,7 @@ With that in place, we now have an agent that discovers knowledge at startup and
 
 ---
 
-### Taking it for a spin
+## Taking it for a spin
 
 Let's build and run:
 
@@ -296,7 +296,7 @@ To see the economics in action, try a session where the agent handles a task tha
 
 ---
 
-### The midpoint: everything clicks together
+## The midpoint: everything clicks together
 
 Let's take stock of where we are. Over five stages, we've built an agent that can run shell commands, read and write files, edit code, track its own work with a todo list, delegate subtasks to child agents, and now load specialized knowledge on demand. Seven tools, one loop. The agent loop itself — API call, check stop reason, process tools, append results — hasn't changed since the first guide. Every new capability has been a new entry in the dispatch dictionary, a new handler method, and sometimes a new injection point before or after tool processing.
 

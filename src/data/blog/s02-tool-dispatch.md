@@ -22,7 +22,7 @@ _The complete source code for this stage is available at the [`02-tool-dispatch`
 
 ---
 
-### From one tool to many
+## From one tool to many
 
 In the previous guide, our `executeTool` method had exactly one job:
 
@@ -37,7 +37,7 @@ This works perfectly for a single tool. But let's say we add `read_file`. Now we
 
 What we want is a separation: a data structure that maps tool names to handler functions, and a dispatch mechanism that just does a lookup. Adding a tool means adding one entry to the map — the routing code never changes.
 
-### The dispatch map
+## The dispatch map
 
 That's where dictionary-based dispatch comes in. Instead of a `switch` or a chain of `if` statements, we build a `[String: handler]` dictionary. The agent loop looks up the tool name, calls the matching handler, and moves on. Here's the core of `executeTool`:
 
@@ -61,7 +61,7 @@ func executeTool(name: String, input: JSONValue) async -> Result<String, ToolErr
 
 One alternative we considered was a protocol-based registry — a `Tool` protocol with conforming structs, registered into some kind of container. For four tools, that's more boilerplate than the tools themselves. The dictionary _is_ the registry. If we ever reach a point where protocol dispatch makes sense, the refactor is straightforward — but at 14 tools by the end of this series, the dictionary still holds up fine.
 
-### Keeping tools inside the sandbox
+## Keeping tools inside the sandbox
 
 Before we build the individual tool handlers, we need to solve a safety problem. When the model asks to read `/etc/passwd` or write to `../../../important_file`, we want to reject that at the tool level — not hope the model behaves. Every file tool needs path sandboxing: resolve the path, check that it stays inside our working directory, and reject anything that escapes.
 
@@ -92,7 +92,7 @@ private func resolveSafePath(_ relativePath: String) -> Result<String, ToolError
 
 That `hasPrefix("/")` guards against a `URL.appendingPathComponent` quirk: it always appends, even to an absolute path, so `/Users/foo/file.swift` becomes `/cwd/Users/foo/file.swift`.
 
-### Building the file tools
+## Building the file tools
 
 With path sandboxing in place, let's walk through each handler. First, `read_file` — it reads a file's contents with an optional line limit and a 50,000-character cap. That cap matters because every tool result goes back into the conversation, and a single massive file read could eat a significant chunk of the context window:
 
@@ -200,7 +200,7 @@ private func executeEditFile(_ input: JSONValue) async -> Result<String, ToolErr
 
 With all four handlers in place, our dispatch map is complete. The agent can now read, write, and edit files through dedicated tools — with path sandboxing on every operation — while still falling back to `bash` for everything else.
 
-### The loop didn't change
+## The loop didn't change
 
 Let's take a step back and look at what _didn't_ change. The agent loop in `run()` is identical to the previous guide:
 
@@ -227,7 +227,7 @@ while true {
 
 The only change is `Self.toolDefinitions` — four tool definitions instead of one. The loop still calls `executeTool(name:input:)`, which now does a dictionary lookup instead of a hardcoded check. Everything else — the `while true`, the `stopReason` guard, the message accumulation — is untouched. This is the pattern that holds through the rest of the series: the loop is the invariant, tools are the variable.
 
-### Taking it for a spin
+## Taking it for a spin
 
 Let's build and run:
 
@@ -237,7 +237,7 @@ swift build && swift run claude
 
 Try asking the agent to `read the file Package.swift` — it should use `read_file` instead of shelling out to `cat`. Then try `create a file called greeting.txt that says Hello, World!` and watch it use `write_file`. For something more interesting, try `create a file called math.swift with a function that adds two numbers, then edit it to add a docstring` — this exercises `write_file` followed by `edit_file` in a multi-step chain, all within a single prompt. The system prompt now tells the model to prefer `read_file`/`write_file`/`edit_file` over bash for file operations, so it should reach for the dedicated tools naturally.
 
-### What we've built and where we're going
+## What we've built and where we're going
 
 We now have a dispatch system that scales to any number of tools by adding entries to a dictionary — no changes to the loop, no changes to the routing logic. Each tool handler enforces its own constraints (path sandboxing, output limits, single-occurrence edits), which is safer and more reliable than hoping bash commands are well-formed. The dispatch dictionary is small enough to read at a glance and large enough to handle the 14 tools we'll have by the end of the series.
 

@@ -22,7 +22,7 @@ _The complete source code for this stage is available at the [`04-subagents`](ht
 
 ---
 
-### A fresh messages array as a stack frame
+## A fresh messages array as a stack frame
 
 The analogy that makes subagents click is a function call. When we call a function, it gets its own stack frame — local variables, local control flow — and returns a value. The caller doesn't see the function's internal state; it just gets the result. A subagent works the same way: it starts with `messages = [Message.user(prompt)]`, runs the agent loop with its own growing context, and returns the final assistant text. The parent receives that text as a normal tool result — one content block instead of dozens.
 
@@ -46,7 +46,7 @@ The parent calls `agentLoop` with its accumulated messages and writes the result
 
 ---
 
-### LoopConfig: same loop, different rules
+## LoopConfig: same loop, different rules
 
 Extracting the loop solves context isolation, but parent and child need to _behave_ differently too. The parent has access to all tools; the child shouldn't be able to spawn its own subagents (that's unbounded recursion) or update the parent's todo list (the `TodoManager` is shared state on the same `Agent` instance). The parent runs indefinitely; the child needs a safety limit. The parent nags about todos; the child shouldn't, since it can't call `todo` anyway.
 
@@ -84,7 +84,7 @@ The `label` field is a small touch that matters more than it looks. When a subag
 
 ---
 
-### Wiring the agent tool and guarding the dispatch
+## Wiring the agent tool and guarding the dispatch
 
 The `agent` tool handler is the simplest in the codebase. It extracts the prompt, calls `agentLoop` with a fresh single-message array and the `.subagent` config, and returns the text:
 
@@ -146,7 +146,7 @@ The `allowedTools` set is built once from `config.tools` at the top of `agentLoo
 
 ---
 
-### The assembled loop
+## The assembled loop
 
 With `LoopConfig` and `processToolUses` in place, let's look at the complete `agentLoop`. It's the same `while true` kernel from the previous guides — API call, check stop reason, process tools, append results — now parameterized by a config:
 
@@ -204,7 +204,7 @@ With that in place, we have an agent that can delegate. The parent dispatches a 
 
 ---
 
-### Taking it for a spin
+## Taking it for a spin
 
 Let's build and run:
 
@@ -218,7 +218,7 @@ For something more interesting, try: `Delegate a task to read all the Swift sour
 
 ---
 
-### What we've built and where we're going
+## What we've built and where we're going
 
 We now have an agent that delegates. The `agent` tool spawns a subagent with a fresh messages array, the child works independently using the same loop and the same filesystem, and only a text summary returns to the parent. Context stays clean, and `LoopConfig` controls the behavioral differences — tool access, iteration limits, nag behavior — through static presets rather than scattered conditionals.
 

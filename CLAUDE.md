@@ -66,7 +66,7 @@ modDatetime: 2026-03-10T14:30:00Z  # optional, used for sorting if set
 ---
 ```
 
-Post body headings must use `###` (h3) or smaller — the frontmatter `title` renders as h1.
+Post body headings must use `##` (h2) or smaller — the frontmatter `title` renders as h1.
 
 ## Current Content
 

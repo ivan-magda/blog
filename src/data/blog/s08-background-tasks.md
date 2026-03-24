@@ -22,7 +22,7 @@ _The complete source code for this stage is available at the [`08-background-tas
 
 ---
 
-### Why an actor — and only one
+## Why an actor — and only one
 
 Every other manager in our codebase — `TodoManager`, `TaskManager`, `SkillLoader`, `ContextCompactor` — is accessed exclusively from the agent loop's sequential flow. The loop calls a tool handler, the handler calls the manager, the manager returns, the loop continues. There's never a moment where two pieces of code touch the same state simultaneously.
 
@@ -72,7 +72,7 @@ Both are `Sendable` and cross the actor isolation boundary cleanly.
 
 ---
 
-### Job lifecycle: dispatch, execute, notify
+## Job lifecycle: dispatch, execute, notify
 
 Let's walk through what happens when the model calls `background_run`. The `run()` method creates a job record, spawns a `Task {}` to execute the command, and returns immediately with a confirmation string:
 
@@ -157,7 +157,7 @@ Because this runs inside the actor, the read-and-clear is serialized with respec
 
 ---
 
-### Notification injection: bridging background to model
+## Notification injection: bridging background to model
 
 The background manager accumulates results, but the model can't see them until they're injected into the messages array. That injection happens in `drainBackgroundNotifications`, which runs in the agent loop before each API call:
 
@@ -239,7 +239,7 @@ With that in place, our agent can hand off slow commands and keep working. Two n
 
 ---
 
-### The Linux SIGTERM saga
+## The Linux SIGTERM saga
 
 The `ShellExecutor` gained a timeout parameter for background commands (defaulting to 300 seconds). The timeout mechanism uses `DispatchSource.makeTimerSource()` — a GCD timer that fires once after the deadline and terminates the process. An earlier design considered `Task.sleep`, but there's a subtle problem: `try? await Task.sleep(for:)` swallows `CancellationError`. When the process finishes normally and the sleep task is cancelled, execution falls through past the sleep, sets a timeout flag, and kills a process that already exited. `DispatchSource` avoids this entirely — `timer.cancel()` is synchronous and guaranteed to prevent the handler from firing.
 
@@ -270,7 +270,7 @@ The original detection checked `process.terminationReason == .uncaughtSignal && 
 
 ---
 
-### Taking it for a spin
+## Taking it for a spin
 
 Let's build and run:
 
@@ -286,7 +286,7 @@ To see the check tool: `Start three background tasks: "sleep 2", "sleep 4", "sle
 
 ---
 
-### The capstone: 14 tools, one loop
+## The capstone: 14 tools, one loop
 
 We've reached the end of the series. Let's take stock of what we've built.
 

@@ -18,7 +18,7 @@ The entire point of a coding agent is to close that loop automatically. Give the
 
 _The complete source code for this stage is available at the [`01-agent-loop`](https://github.com/ivan-magda/swift-claude-code/tree/01-agent-loop/Sources) tag on GitHub. Code blocks below show key excerpts._
 
-### The problem: we are the middleware
+## The problem: we are the middleware
 
 Let's say we ask the model to create a file. Without an agent loop, the interaction looks like this: we send a prompt, the model responds with a shell command, we manually run the command, then paste the output back so the model can verify it worked. Every single tool use requires a human round-trip. For a task that involves ten commands, that's ten manual copy-paste cycles.
 
@@ -37,7 +37,7 @@ What we want instead is a loop that does this automatically:
 
 The user sends one prompt. The model calls tools as many times as it needs — reading files, running commands, checking results — and only stops when it's satisfied. One exit condition controls the entire flow.
 
-### Two loops, two jobs
+## Two loops, two jobs
 
 Our agent actually has two loops, each with a distinct purpose. The outer loop is the **REPL** — it reads user input, hands it to the agent, and waits for the next prompt. The inner loop is the **agent loop** — it calls the API, executes tools, and keeps going until the model decides it's done.
 
@@ -69,7 +69,7 @@ This loop lives forever. Each iteration reads one line of input, calls `agent.ru
 
 The critical detail: the `messages` array lives on the `Agent` instance, not inside `run()`. This means conversation history persists across REPL turns. The second prompt the user types has full context of everything the agent did for the first one. During development, we briefly moved `messages` to a local variable for "cleanliness" — and immediately broke multi-turn conversations. The REPL calls `run()` per input; if messages don't survive between calls, the agent has amnesia.
 
-### The agent loop: one exit condition
+## The agent loop: one exit condition
 
 The inner loop is the actual agent. Let's walk through the mechanism before seeing the full implementation.
 
@@ -167,7 +167,7 @@ public func run(query: String) async throws -> String {
 
 With that in place, we have a fully functional coding agent — and the entire mechanism fits in a single method. The branching point is one `guard` on `stopReason`. Everything else in this series layers on top of this loop — without changing it. Tools are the variable; the loop is the invariant.
 
-### Bash is all you need
+## Bash is all you need
 
 We only give the model one tool: `bash`. That might seem limiting, but think about what bash can do — read files, write files, search codebases, run compilers, execute tests, install packages, manage git. A shell command is a universal interface to the operating system. The model decides what commands to run; we just execute them and report back.
 
@@ -195,7 +195,7 @@ process.waitUntilExit()
 
 One thing we discovered during research that saved us from a nasty bug: pipe data _must_ be read before calling `waitUntilExit()`. Foundation's `Pipe` uses kernel buffers that are typically around 64 KB. If a command produces more output than that, the child process blocks on `write()` because the buffer is full, while the parent blocks on `waitUntilExit()` waiting for the child to exit. Neither side makes progress — a classic deadlock that would have been silent and hard to diagnose.
 
-### Message accumulation: the growing conversation
+## Message accumulation: the growing conversation
 
 One pattern worth understanding is how the `messages` array grows during a single `run()` call. Let's say the user asks "create a file called greeting.txt that says Hello World." Here's what `messages` looks like at each step:
 
@@ -210,7 +210,7 @@ Each API call sends the _entire_ array. The model sees the full history of what 
 
 The cost is obvious: this array grows without bound. For now that's fine, but eventually we'll hit the context window ceiling. We'll solve that in a later guide when we build context compaction.
 
-### Building the types
+## Building the types
 
 Since there's no first-party Anthropic SDK for Swift, we also need to build the supporting types that make this loop work. The API client is a thin wrapper around AsyncHTTPClient — encode a `Codable` request as JSON, send it with the right headers, decode the `Codable` response. The interesting type decision is how we model the API's polymorphic `content` blocks. Each block can be text, a tool use request, or a tool result, and Swift enums with associated values are a natural fit:
 
@@ -225,7 +225,7 @@ public enum ContentBlock: Sendable, Equatable {
 
 Tool inputs are arbitrary JSON, so we model JSON itself as a recursive enum (`JSONValue`) with cases for every JSON type. These supporting types are verbose to set up — about 200 lines of `Codable` conformances and API models — but they're plumbing we write once and never change. The agent loop above is the part that matters.
 
-### Taking it for a spin
+## Taking it for a spin
 
 Here's the agent in action — a single prompt triggers multiple tool calls, with the loop driving the entire interaction:
 
@@ -239,7 +239,7 @@ swift build && swift run claude
 
 Try asking it to `create a file called greeting.txt that says "Hello, World!"` and watch the agent call bash, verify the result, and respond. Then try `list all Swift files in this directory` or `what is the current git branch?` — single-tool-call tasks that return immediately. For something more interesting, try `create a directory called test_output and write 3 files in it` — watch how the model calls `bash` multiple times, once to create the directory, then once for each file, checking results along the way. We typed one prompt; the agent ran four or five commands. That's the loop doing its job.
 
-### What we've built and where we're going
+## What we've built and where we're going
 
 We now have a working coding agent — one loop, one tool, and an accumulating message history. The model decides what commands to run, our loop executes them and feeds results back, and a single `stopReason` check controls when to stop. This is the kernel that drives everything else in the series. Over the next seven guides, we'll add more tools, task tracking, subagents, context compaction, and parallel execution — but this `while true` loop won't change. We'll only add entries to the tool list and injection points around it.
 
