@@ -38,6 +38,14 @@ pnpm run sync         # Generate Astro TypeScript types
 - **Important**: `Main.astro`'s `pageDesc` prop is visible page text only — it does NOT set the meta description.
 - **Titles** — `Layout.astro` renders `<title>` from a `title` prop (defaults to `SITE.title`). Paginated pages should append " — Page N" for uniqueness using `page.currentPage`.
 - **Canonicals** — Self-referencing, handled automatically by `Layout.astro` via `Astro.url.pathname`.
+- **Page types** — `Layout.astro` accepts a `pageType` prop: `"website"` (homepage), `"article"` (blog posts), or `"webpage"` (default, everything else). This controls `og:type`, article meta tags, and JSON-LD schema type.
+- **JSON-LD** — Conditional by page type: `WebSite` + `SearchAction` on homepage, `BlogPosting` (with `mainEntityOfPage`, `publisher`, `keywords`) on posts, nothing on other pages. `BreadcrumbList` schema is rendered by the `Breadcrumb.astro` component.
+- **Article meta** — Blog posts get `article:published_time`, `article:author`, `article:tag`, `article:section`. PostDetails.astro passes `pageType="article"` and `tags` to Layout.
+- **Open Graph** — `og:type`, `og:site_name`, `og:locale`, `og:image:width/height` on all pages.
+- **Twitter** — Uses `name=` (not `property=`) per spec. `twitter:creator` reads from `SITE.twitterHandle`.
+- **OG image** — Default site OG is `public/og-image.png` (1200x630 minimal monospace design). Per-post dynamic OG images via Satori when `SITE.dynamicOgImage` is true.
+- **Favicons** — SVG primary (`favicon.svg`), PNG fallback (`favicon-32x32.png`), apple-touch-icon (`apple-touch-icon.png`).
+- **RSS** — `<language>en</language>` and `categories` (from post tags) per item. No `author` field (RSS 2.0 spec requires email format).
 - **llms.txt** — Static file in `public/llms.txt` for AI search engines. Update when adding new posts.
 - **Static files** — Dynamic generation via `src/pages/*.ts` (robots.txt, rss.xml, og.png); plain static files in `public/`.
 
