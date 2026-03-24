@@ -65,6 +65,8 @@ const layoutProps = {
   canonicalURL,
   ogImage,
   scrollSmooth: true,
+  pageType: "article" as const,
+  tags,
 };
 
 /* ========== Prev/Next Posts ========== */
@@ -224,6 +226,11 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
       span.ariaHidden = "true";
       span.innerText = "#";
       link.appendChild(span);
+      link.setAttribute(
+        "aria-label",
+        "Link to section: " +
+          heading.textContent.trim().replace(/#$/, "").trim()
+      );
       heading.appendChild(link);
     }
   }
