@@ -20,4 +20,5 @@ export const SITE = {
   dir: "ltr",
   lang: "en",
   timezone: "Asia/Seoul",
+  twitterHandle: "@magda_ivan",
 } as const;
