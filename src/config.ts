@@ -4,7 +4,7 @@ export const SITE = {
   profile: "https://github.com/ivan-magda",
   desc: "Writing about AI agents and software development.",
   title: "Ivan Magda",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "og-image.png",
   lightAndDarkMode: true,
   postPerIndex: 4,
   postPerPage: 4,
