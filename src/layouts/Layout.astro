@@ -19,6 +19,8 @@ type Props = {
   pageType?: "website" | "article" | "webpage";
   /** Post tags — used for article:tag and JSON-LD keywords */
   tags?: string[];
+  /** If true, adds noindex, follow robots meta tag */
+  noindex?: boolean;
 };
 
 const {
@@ -33,6 +35,7 @@ const {
   scrollSmooth = false,
   pageType = "webpage",
   tags = [],
+  noindex = false,
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.url);
@@ -111,6 +114,7 @@ const structuredData = buildStructuredData();
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Open Graph -->
