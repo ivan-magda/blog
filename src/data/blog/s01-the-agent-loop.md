@@ -208,7 +208,7 @@ One pattern worth understanding is how the `messages` array grows during a singl
 
 Each API call sends the _entire_ array. The model sees the full history of what it's done and what happened — which is how it knows to verify the file exists after creating it, and how it knows to stop once everything looks correct. This accumulation is what gives the agent memory within a single task.
 
-The cost is obvious: this array grows without bound. For now that's fine, but eventually we'll hit the context window ceiling. We'll solve that in a later guide when we build context compaction.
+The cost is obvious: this array grows without bound. For now that's fine, but eventually we'll hit the context window ceiling. We'll solve that in a later guide when we build [context compaction](/posts/s06-context-compaction/).
 
 ## Building the types
 
@@ -241,6 +241,6 @@ Try asking it to `create a file called greeting.txt that says "Hello, World!"` a
 
 ## What we've built and where we're going
 
-We now have a working coding agent — one loop, one tool, and an accumulating message history. The model decides what commands to run, our loop executes them and feeds results back, and a single `stopReason` check controls when to stop. This is the kernel that drives everything else in the series. Over the next seven guides, we'll add more tools, task tracking, subagents, context compaction, and parallel execution — but this `while true` loop won't change. We'll only add entries to the tool list and injection points around it.
+We now have a working coding agent — one loop, one tool, and an accumulating message history. The model decides what commands to run, our loop executes them and feeds results back, and a single `stopReason` check controls when to stop. This is the kernel that drives everything else in the series. Over the next seven guides, we'll add more [tools](/posts/s02-tool-dispatch/), [task tracking](/posts/s03-self-managed-task-tracking/), [subagents](/posts/s04-subagents/), [context compaction](/posts/s06-context-compaction/), and [parallel execution](/posts/s08-background-tasks/) — but this `while true` loop won't change. We'll only add entries to the tool list and injection points around it.
 
-In the next guide, we'll give our agent more than just `bash` — we'll add `read_file`, `write_file`, and `edit_file` tools, and build a dictionary-based dispatch system that scales to any number of tools without touching the loop. Thanks for reading!
+In the [next guide](/posts/s02-tool-dispatch/), we'll give our agent more than just `bash` — we'll add `read_file`, `write_file`, and `edit_file` tools, and build a dictionary-based dispatch system that scales to any number of tools without touching the loop. Thanks for reading!

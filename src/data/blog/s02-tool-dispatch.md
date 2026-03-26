@@ -16,7 +16,7 @@ Our agent can do a lot with just `bash`. It can read files with `cat`, write the
 
 The answer becomes clear when we watch the agent work. It reaches for `cat` to read a file, and the output silently truncates at some terminal buffer limit. It constructs a multi-line `sed` command to edit a source file, and one misplaced backslash corrupts the content. Every file operation goes through a shell command that the model has to construct from scratch, with no guardrails and no safety boundaries. Dedicated tools like `read_file` and `write_file` let us enforce constraints — path sandboxing, output limits, atomic writes — at the tool level rather than hoping the model's bash commands happen to be correct.
 
-In this guide, let's build a tool dispatch system that scales to any number of tools without changing the agent loop. We'll add three new tools — `read_file`, `write_file`, and `edit_file` — and replace the hardcoded bash handler with a dictionary-based dispatch map. The loop from the previous guide stays identical. Only the tool set changes.
+In this guide, let's build a tool dispatch system that scales to any number of tools without changing the agent loop. We'll add three new tools — `read_file`, `write_file`, and `edit_file` — and replace the hardcoded bash handler with a dictionary-based dispatch map. The loop from the [previous guide](/posts/s01-the-agent-loop/) stays identical. Only the tool set changes.
 
 _The complete source code for this stage is available at the [`02-tool-dispatch`](https://github.com/ivan-magda/swift-claude-code/tree/02-tool-dispatch/Sources) tag on GitHub. Code blocks below show key excerpts._
 
@@ -24,7 +24,7 @@ _The complete source code for this stage is available at the [`02-tool-dispatch`
 
 ## From one tool to many
 
-In the previous guide, our `executeTool` method had exactly one job:
+In the [previous guide](/posts/s01-the-agent-loop/), our `executeTool` method had exactly one job:
 
 ```swift
 guard name == "bash" else {
@@ -202,7 +202,7 @@ With all four handlers in place, our dispatch map is complete. The agent can now
 
 ## The loop didn't change
 
-Let's take a step back and look at what _didn't_ change. The agent loop in `run()` is identical to the previous guide:
+Let's take a step back and look at what _didn't_ change. The agent loop in `run()` is identical to the [previous guide](/posts/s01-the-agent-loop/):
 
 ```swift
 while true {
@@ -241,4 +241,4 @@ Try asking the agent to `read the file Package.swift` — it should use `read_fi
 
 We now have a dispatch system that scales to any number of tools by adding entries to a dictionary — no changes to the loop, no changes to the routing logic. Each tool handler enforces its own constraints (path sandboxing, output limits, single-occurrence edits), which is safer and more reliable than hoping bash commands are well-formed. The dispatch dictionary is small enough to read at a glance and large enough to handle the 14 tools we'll have by the end of the series.
 
-One dispatch dictionary works for now, but later we'll need different tool sets for different contexts — subagents shouldn't have access to every tool the main agent has. We'll solve that when we build subagents and introduce `LoopConfig` to control which tools are available at each recursion level. In the next guide, we'll give the agent a structured way to track its own work with a todo system, so it doesn't lose its plan halfway through a long task. Thanks for reading!
+One dispatch dictionary works for now, but later we'll need different tool sets for different contexts — subagents shouldn't have access to every tool the main agent has. We'll solve that when we build [subagents](/posts/s04-subagents/) and introduce `LoopConfig` to control which tools are available at each recursion level. In the [next guide](/posts/s03-self-managed-task-tracking/), we'll give the agent a structured way to track its own work with a todo system, so it doesn't lose its plan halfway through a long task. Thanks for reading!

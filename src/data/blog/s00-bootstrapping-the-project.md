@@ -129,7 +129,7 @@ let package = Package(
 
 There's a deliberate dependency choice here worth discussing. We're pulling in AsyncHTTPClient from the swift-server project rather than using Foundation's built-in `URLSession`. The reason is cross-platform reliability — `URLSession`'s async APIs weren't available on Linux until very recently and remain inconsistent between Apple's Foundation and the open-source swift-corelibs-foundation. AsyncHTTPClient is built on SwiftNIO, works identically on macOS and Linux, and handles async responses cleanly with Swift's concurrency model.
 
-Also note `swift-tools-version: 6.2`. This gives us Swift's strict concurrency checking enabled by default — the compiler will catch data races at compile time rather than leaving them as runtime surprises. That strictness will pay for itself when we add background tasks and actors later in the series.
+Also note `swift-tools-version: 6.2`. This gives us Swift's strict concurrency checking enabled by default — the compiler will catch data races at compile time rather than leaving them as runtime surprises. That strictness will pay for itself when we add [background tasks and actors](/posts/s08-background-tasks/) later in the series.
 
 ## Adding tests from the start
 
@@ -187,4 +187,4 @@ If all three commands succeed, our foundation is solid. We have a two-target pac
 
 We now have a Swift package with a clean separation between library and executable, strict concurrency enabled, and a test harness ready to go. It doesn't do anything interesting yet — but that's the point. Every stage in this series adds exactly one mechanism, and this stage's mechanism is the project structure itself.
 
-In the next guide, we'll bring this project to life by making our first API call to Claude and building the agent loop — the `while true` kernel that drives everything else. Thanks for reading!
+In the [next guide](/posts/s01-the-agent-loop/), we'll bring this project to life by making our first API call to Claude and building the agent loop — the `while true` kernel that drives everything else. Thanks for reading!
