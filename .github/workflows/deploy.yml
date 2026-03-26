@@ -29,3 +29,35 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-slim
+    steps:
+      - name: Submit URLs to IndexNow
+        run: |
+          SITEMAP=$(curl -s "https://ivanmagda.dev/sitemap-index.xml")
+          CHILD_URLS=$(echo "$SITEMAP" | grep -oP '(?<=<loc>)[^<]+')
+
+          ALL_URLS=""
+          for sm in $CHILD_URLS; do
+            URLS=$(curl -s "$sm" | grep -oP '(?<=<loc>)[^<]+')
+            ALL_URLS="$ALL_URLS $URLS"
+          done
+
+          URL_JSON=$(echo $ALL_URLS | tr ' ' '\n' | jq -R . | jq -s .)
+          COUNT=$(echo "$URL_JSON" | jq length)
+
+          BODY=$(jq -n \
+            --arg host "ivanmagda.dev" \
+            --arg key "0f14d764-3ef3-4a68-b4b4-ae1fb15a8de2" \
+            --arg keyLocation "https://ivanmagda.dev/0f14d764-3ef3-4a68-b4b4-ae1fb15a8de2.txt" \
+            --argjson urlList "$URL_JSON" \
+            '{host: $host, key: $key, keyLocation: $keyLocation, urlList: $urlList}')
+
+          echo "Submitting $COUNT URLs to IndexNow"
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "$BODY")
+          echo "IndexNow response: HTTP $RESPONSE"
