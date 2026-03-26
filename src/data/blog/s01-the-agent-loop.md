@@ -9,7 +9,7 @@ tags:
   - swift
   - coding-agents
   - swift-claude-code
-description: "The while-true kernel that drives everything — how a single stopReason check turns an API client into an autonomous agent."
+description: "The agent loop that drives everything — how a single stopReason check turns an API client into an autonomous agent."
 ---
 
 A language model can reason about code — it can plan how to fix a bug, suggest a refactoring, or design a feature. But it can't _touch_ the real world. It can't read files, run tests, or check whether its suggestion actually compiles. Without some kind of bridge, every interaction is a dead end: the model suggests something, we copy-paste it into a terminal, paste the result back, the model adjusts, and we do it all over again. We are the loop.
@@ -241,6 +241,6 @@ Try asking it to `create a file called greeting.txt that says "Hello, World!"` a
 
 ## What we've built and where we're going
 
-We now have a working coding agent — one loop, one tool, and an accumulating message history. The model decides what commands to run, our loop executes them and feeds results back, and a single `stopReason` check controls when to stop. This is the kernel that drives everything else in the series. Over the next seven guides, we'll add more [tools](/posts/s02-tool-dispatch/), [task tracking](/posts/s03-self-managed-task-tracking/), [subagents](/posts/s04-subagents/), [context compaction](/posts/s06-context-compaction/), and [parallel execution](/posts/s08-background-tasks/) — but this `while true` loop won't change. We'll only add entries to the tool list and injection points around it.
+We now have a working coding agent — one loop, one tool, and an accumulating message history. The model decides what commands to run, our loop executes them and feeds results back, and a single `stopReason` check controls when to stop. This is the kernel that drives everything else in the series. Over the next seven guides, we'll add more [tools](/posts/s02-tool-dispatch/), [task tracking](/posts/s03-self-managed-task-tracking/), [subagents](/posts/s04-subagents/), [context compaction](/posts/s06-context-compaction/), and [parallel execution](/posts/s08-background-tasks/) — but this agent loop won't change. We'll only add entries to the tool list and injection points around it.
 
 In the [next guide](/posts/s02-tool-dispatch/), we'll give our agent more than just `bash` — we'll add `read_file`, `write_file`, and `edit_file` tools, and build a dictionary-based dispatch system that scales to any number of tools without touching the loop. Thanks for reading!

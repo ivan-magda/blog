@@ -225,7 +225,7 @@ while true {
 }
 ```
 
-The only change is `Self.toolDefinitions` — four tool definitions instead of one. The loop still calls `executeTool(name:input:)`, which now does a dictionary lookup instead of a hardcoded check. Everything else — the `while true`, the `stopReason` guard, the message accumulation — is untouched. This is the pattern that holds through the rest of the series: the loop is the invariant, tools are the variable.
+The only change is `Self.toolDefinitions` — four tool definitions instead of one. The loop still calls `executeTool(name:input:)`, which now does a dictionary lookup instead of a hardcoded check. Everything else — the agent loop, the `stopReason` guard, the message accumulation — is untouched. This is the pattern that holds through the rest of the series: the loop is the invariant, tools are the variable.
 
 ## Taking it for a spin
 

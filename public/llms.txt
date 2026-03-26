@@ -11,7 +11,7 @@
 A 9-part series documenting a Swift reimplementation of a Claude Code-style CLI agent.
 
 - [Part 0: Bootstrapping the Project](https://ivanmagda.dev/posts/s00-bootstrapping-the-project/): Setting up a two-target SPM package, strict concurrency, and AsyncHTTPClient
-- [Part 1: The Agent Loop](https://ivanmagda.dev/posts/s01-the-agent-loop/): The while-true kernel — how a single stopReason check turns an API client into an autonomous agent
+- [Part 1: The Agent Loop](https://ivanmagda.dev/posts/s01-the-agent-loop/): The agent loop that drives everything — how a single stopReason check turns an API client into an autonomous agent
 - [Part 2: Tool Dispatch](https://ivanmagda.dev/posts/s02-tool-dispatch/): Dictionary-based tool dispatch, path sandboxing, and file tools
 - [Part 3: Self-Managed Task Tracking](https://ivanmagda.dev/posts/s03-self-managed-task-tracking/): A Codable todo system with validation constraints and nag reminders
 - [Part 4: Subagents](https://ivanmagda.dev/posts/s04-subagents/): Context isolation through recursive agent loops with restricted tool sets

@@ -187,4 +187,4 @@ If all three commands succeed, our foundation is solid. We have a two-target pac
 
 We now have a Swift package with a clean separation between library and executable, strict concurrency enabled, and a test harness ready to go. It doesn't do anything interesting yet — but that's the point. Every stage in this series adds exactly one mechanism, and this stage's mechanism is the project structure itself.
 
-In the [next guide](/posts/s01-the-agent-loop/), we'll bring this project to life by making our first API call to Claude and building the agent loop — the `while true` kernel that drives everything else. Thanks for reading!
+In the [next guide](/posts/s01-the-agent-loop/), we'll bring this project to life by making our first API call to Claude and building the agent loop — the kernel that drives everything else. Thanks for reading!
