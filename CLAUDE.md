@@ -30,7 +30,7 @@ pnpm run sync         # Generate Astro TypeScript types
 - **Prev/Next post links** — Modified in `PostDetails.astro` to follow chronological order (not default newest-first)
 - **Search** — Pagefind static search, indexed at build time
 - **OG images** — Auto-generated via Satori when `SITE.dynamicOgImage` is true
-- **Deployment** — `.github/workflows/deploy.yml` using `withastro/action@v6` + GitHub Pages
+- **Deployment** — `.github/workflows/deploy.yml` using `withastro/action@v6` + GitHub Pages. Custom domain via `public/CNAME`.
 
 ## SEO & Meta Tags
 
@@ -47,6 +47,9 @@ pnpm run sync         # Generate Astro TypeScript types
 - **Favicons** — SVG primary (`favicon.svg`), PNG fallback (`favicon-32x32.png`), apple-touch-icon (`apple-touch-icon.png`).
 - **RSS** — `<language>en</language>` and `categories` (from post tags) per item. No `author` field (RSS 2.0 spec requires email format).
 - **llms.txt** — Static file in `public/llms.txt` for AI search engines. Update when adding new posts.
+- **Noindex** — `Layout.astro` accepts a `noindex` boolean prop; renders `<meta name="robots" content="noindex, follow">` when true. Used on tag index and tag listing pages.
+- **Sitemap exclusions** — `astro.config.ts` sitemap filter excludes `/tags/` pages (noindexed, near-duplicate content) and optionally `/archives` (when `showArchives` is false).
+- **Cross-links** — Blog posts in the series link to each other via Markdown links on existing "next guide"/"previous guide" references and concept mentions.
 - **Static files** — Dynamic generation via `src/pages/*.ts` (robots.txt, rss.xml, og.png); plain static files in `public/`.
 
 ## Blog Post Frontmatter
