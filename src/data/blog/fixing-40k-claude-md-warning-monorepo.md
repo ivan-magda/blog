@@ -1,7 +1,7 @@
 ---
 title: "Fixing the 40k CLAUDE.md Warning in a Monorepo"
 author: "Ivan Magda"
-pubDatetime: 2026-04-14T09:00:00Z
+pubDatetime: 2026-04-13T22:30:00Z
 slug: "fixing-40k-claude-md-warning-monorepo"
 featured: false
 draft: false
