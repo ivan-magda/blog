@@ -12,7 +12,7 @@ tags:
 description: "How we restructured Claude Code's CLAUDE.md files in a monorepo to cut 73% of always-loaded context without losing a single fact."
 ---
 
-One afternoon Claude Code's status bar flashed a warning we'd been ignoring for weeks:
+One afternoon Claude Code's status bar flashed a warning we'd been ignoring for days:
 
 ```
 ⚠ Large CLAUDE.md will impact performance (42.5k chars > 40.0k) · /memory to edit
