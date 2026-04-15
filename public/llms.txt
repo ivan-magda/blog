@@ -23,6 +23,7 @@ A 9-part series documenting a Swift reimplementation of a Claude Code-style CLI 
 ## Standalone Posts
 
 - [Fixing the 40k CLAUDE.md Warning in a Monorepo](https://ivanmagda.dev/posts/fixing-40k-claude-md-warning-monorepo/): How we restructured Claude Code's CLAUDE.md files in a monorepo to cut 73% of always-loaded context without losing a single fact
+- [Five Things I Learned About Making AI Coding Agents Actually Work](https://ivanmagda.dev/posts/five-things-ai-coding-agents-actually-work/): The biggest gains in AI agent performance come from the system around the model, not the model itself
 
 ## Optional
 
