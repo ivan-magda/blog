@@ -2,7 +2,7 @@
 title: "Five Things I Learned About Making AI Coding Agents Actually Work"
 author: "Ivan Magda"
 pubDatetime: 2026-04-15T14:39:11Z
-modDatetime: 2026-04-16T22:21:00Z
+modDatetime: 2026-04-16T22:30:00Z
 slug: "five-things-ai-coding-agents-actually-work"
 featured: true
 draft: false
