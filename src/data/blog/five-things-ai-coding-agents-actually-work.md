@@ -2,6 +2,7 @@
 title: "Five Things I Learned About Making AI Coding Agents Actually Work"
 author: "Ivan Magda"
 pubDatetime: 2026-04-15T14:39:11Z
+modDatetime: 2026-04-16T22:21:00Z
 slug: "five-things-ai-coding-agents-actually-work"
 featured: true
 draft: false
@@ -47,7 +48,7 @@ Monorepo with three packages: `frontend/`, `backend/`, `shared/`.
 - For API changes, read `backend/CLAUDE.md` first
 ```
 
-Note how the root file acts as a router — it tells the agent _where_ to find detailed instructions rather than cramming everything into one place. [Anthropic's documentation](https://docs.anthropic.com/en/docs/claude-code/memory) supports this pattern through the `@path/to/import` syntax (up to 5 levels deep) and the `.claude/rules/` directory with path-specific activation. (For a detailed walkthrough of applying this pattern to a real monorepo, see [Fixing the 40k CLAUDE.md warning](/posts/fixing-40k-claude-md-warning-monorepo/).)
+Note how the root file acts as a router — it tells the agent _where_ to find detailed instructions rather than cramming everything into one place. [Anthropic's documentation](https://docs.anthropic.com/en/docs/claude-code/memory) supports this pattern through the `@path/to/import` syntax (up to 5 levels deep) and the `.claude/rules/` directory with path-specific activation. (For a detailed walkthrough of applying this pattern to a real monorepo, see [Fixing the 40k CLAUDE.md warning](/posts/fixing-40k-claude-md-warning-monorepo/). The process is packaged as the [Instruction Health skills](https://github.com/ivan-magda/instruction-health-skills) for any AGENTS.md-aware tool.)
 
 One thing to keep in mind here is that the same pattern appears across every major tool. Cursor recommends under 500 lines per rule file with glob-based activation. Windsurf enforces a hard 6,000-character limit. GitHub Copilot caps code review instructions at 4,000 characters. The industry has converged on the same insight: instruction files are prompts, and prompts work best when they're focused.
 

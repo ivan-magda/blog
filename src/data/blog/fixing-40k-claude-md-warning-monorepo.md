@@ -2,6 +2,7 @@
 title: "Fixing the 40k CLAUDE.md Warning in a Monorepo"
 author: "Ivan Magda"
 pubDatetime: 2026-04-13T22:30:00Z
+modDatetime: 2026-04-16T22:21:00Z
 slug: "fixing-40k-claude-md-warning-monorepo"
 featured: false
 draft: false
@@ -101,6 +102,8 @@ After execution, we verified with a code review and then implemented several fea
 
 With the frontend validated, we applied the same approach to the root `CLAUDE.md` (29.6k / 384 lines) and `cli/CLAUDE.md` (20.4k / 336 lines). Same flow: plan, review, execute, verify. This pass also cleaned up auto-memory — Claude Code's auto-memory lives at `~/.claude/projects/<hash>/memory/` and loads the first 200 lines of `MEMORY.md` at startup. Ours had grown to 175 lines with a couple of stale entries. Small cleanup, but it reinforced the distinction: auto-memory is for patterns Claude _learns_; reference data we want to _control_ belongs in committed CLAUDE.md or `.claude/rules/` files.
 
+Since publishing this post, we've packaged the process into a pair of reusable skills: [`instruction-cleanup`](https://github.com/ivan-magda/instruction-health-skills) runs the three-phase audit → plan → implement flow on a bloated file, and [`instruction-guardian`](https://github.com/ivan-magda/instruction-health-skills) runs a six-step checklist before any edit to keep files from re-bloating. They're designed to work with Claude Code, Cursor, Windsurf, Copilot, and other tools that support the Agent Skills / AGENTS.md format.
+
 ---
 
 ## Results
@@ -123,4 +126,4 @@ Anyone who's built iOS apps will recognize this pattern. A `UIViewController` st
 
 The key insight is a reframe: **CLAUDE.md is not documentation. It's a prompt budget.** Every line competes with every other line for the agent's attention, and the research shows that competition degrades adherence uniformly — not just for the lines at the bottom. Treat CLAUDE.md the way we'd treat a system prompt: short, specific, and loaded only with what matters on _every_ task.
 
-If your own CLAUDE.md is approaching the 40k warning — or even the softer 200-line guidance — the process is straightforward: research the best practices, build a migration plan before touching files, use pitch-style references instead of `@`-imports, review thoroughly, and verify nothing got lost. Budget a couple of hours. It compounds — every session after the restructure runs leaner. And if the file grows back to 200 lines in six months, that's a sign the process worked and it's time for another pass. Thanks for reading!
+If your own CLAUDE.md is approaching the 40k warning — or even the softer 200-line guidance — the process is straightforward: research the best practices, build a migration plan before touching files, use pitch-style references instead of `@`-imports, review thoroughly, and verify nothing got lost. Budget a couple of hours. It compounds — every session after the restructure runs leaner. The [Instruction Health skills](https://github.com/ivan-magda/instruction-health-skills) automate both halves of this: cleanup for the first pass, guardian for every edit after. And if the file still grows back in six months, that's a sign the guardian isn't gating edits, and it's time for another cleanup pass. Thanks for reading!
