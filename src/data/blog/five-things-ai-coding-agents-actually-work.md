@@ -2,13 +2,14 @@
 title: "Five Things I Learned About Making AI Coding Agents Actually Work"
 author: "Ivan Magda"
 pubDatetime: 2026-04-15T14:39:11Z
-modDatetime: 2026-04-16T22:30:00Z
+modDatetime: 2026-04-19T09:37:34Z
 slug: "five-things-ai-coding-agents-actually-work"
 featured: true
 draft: false
 tags:
   - ai-agents
   - claude-code
+  - context-engineering
 description: "The biggest gains in AI agent performance come from the system around the model, not the model itself."
 ---
 

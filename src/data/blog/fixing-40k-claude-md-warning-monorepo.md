@@ -2,7 +2,7 @@
 title: "Fixing the 40k CLAUDE.md Warning in a Monorepo"
 author: "Ivan Magda"
 pubDatetime: 2026-04-13T22:30:00Z
-modDatetime: 2026-04-16T22:21:00Z
+modDatetime: 2026-04-19T09:37:34Z
 slug: "fixing-40k-claude-md-warning-monorepo"
 featured: false
 draft: false
@@ -10,6 +10,7 @@ tags:
   - claude-code
   - ai-agents
   - developer-tools
+  - context-engineering
 description: "How we restructured Claude Code's CLAUDE.md files in a monorepo to cut 73% of always-loaded context without losing a single fact."
 ---
 
