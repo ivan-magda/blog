@@ -4,7 +4,7 @@ author: "Ivan Magda"
 pubDatetime: 2026-04-19T09:00:00Z
 slug: "trust-is-the-wrong-question-for-ai-coding-agents"
 featured: true
-draft: false
+draft: true
 tags:
   - ai-agents
   - claude-code
