@@ -11,14 +11,14 @@ tags:
   - koog
   - swift
   - architecture
-description: "After nine posts building a Claude Code-style agent by hand in Swift, I opened up JetBrains' Koog framework and realized how much of what I'd hand-rolled was already someone else's problem. Here's what the framework gave me for free, and what it changed about how I think about agents."
+description: "After nine posts building a Claude Code-style agent by hand in Swift, I opened up JetBrains Koog framework and realized how much of what I'd hand-rolled was already someone else's problem. Here's what the framework gave me for free, and what it changed about how I think about agents."
 ---
 
 Earlier this year I wrapped up a nine-part series that rebuilds Claude Code in Swift, from scratch, stage by stage. By the end of the series we had a real coding agent: an agent loop, file tools, shell execution, task tracking, context compaction, background processes. All of it written by hand, all of it working.
 
 The natural sequel question is what I'd do differently if I were starting over. Not on a different day with the same stack. On a different stack entirely.
 
-So I opened up [Koog](https://github.com/JetBrains/koog), JetBrains' open-source framework for building agents on the JVM, and spent some time reading it the way we read a codebase written by someone smarter than us. The thing I expected to find was a competing architecture. What I actually found was a set of problems I hadn't realized I was solving badly, dressed in names I didn't have.
+So I opened up [Koog](https://github.com/JetBrains/koog), JetBrains open-source framework for building agents on the JVM, and spent some time reading it the way we read a codebase written by someone smarter than us. The thing I expected to find was a competing architecture. What I actually found was a set of problems I hadn't realized I was solving badly, dressed in names I didn't have.
 
 This post is the first in a new series about what that experience looked like. Not a framework tour. A set of gaps I didn't know I had, and what a well-designed framework does about them.
 
