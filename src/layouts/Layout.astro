@@ -7,6 +7,7 @@ import "@/styles/global.css";
 
 type Props = {
   title?: string;
+  ogTitle?: string;
   author?: string;
   profile?: string;
   description?: string;
@@ -25,6 +26,7 @@ type Props = {
 
 const {
   title = SITE.title,
+  ogTitle,
   author = SITE.author,
   profile = SITE.profile,
   description = SITE.desc,
@@ -38,6 +40,7 @@ const {
   noindex = false,
 } = Astro.props;
 
+const socialTitle = ogTitle ?? title;
 const socialImageURL = new URL(ogImage, Astro.url);
 const isArticle = pageType === "article";
 const ogType = isArticle ? "article" : "website";
@@ -119,7 +122,7 @@ const structuredData = buildStructuredData();
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={socialTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={socialImageURL} />
@@ -159,7 +162,7 @@ const structuredData = buildStructuredData();
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonicalURL} />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={socialTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageURL} />
     <meta name="twitter:creator" content={SITE.twitterHandle} />

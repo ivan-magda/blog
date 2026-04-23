@@ -1,8 +1,10 @@
 ---
-title: "I Built a Coding Agent From Scratch in Swift. What I Missed Until I Read Koog."
+title: "I Built a Coding Agent From Scratch in Swift. Here's What I Missed Until I Read Koog."
+ogTitle: "I Built a Coding Agent From Scratch in Swift. What I Missed Until I Read Koog."
+ogImageVersion: "2"
 author: "Ivan Magda"
 pubDatetime: 2026-04-22T03:00:00Z
-modDatetime: 2026-04-23T09:41:56Z
+modDatetime: 2026-04-23T10:19:27Z
 slug: "koog-s01-foundation"
 featured: true
 draft: false

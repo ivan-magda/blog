@@ -24,9 +24,11 @@ const { post, posts } = Astro.props;
 
 const {
   title,
+  ogTitle,
   author,
   description,
   ogImage: initOgImage,
+  ogImageVersion,
   canonicalURL,
   pubDatetime,
   modDatetime,
@@ -51,6 +53,12 @@ if (!ogImageUrl && SITE.dynamicOgImage) {
   ogImageUrl = `${getPath(post.id, post.filePath)}/index.png`;
 }
 
+// Append cache-bust query so social platforms re-fetch after regeneration
+if (ogImageUrl && ogImageVersion) {
+  const separator = ogImageUrl.includes("?") ? "&" : "?";
+  ogImageUrl = `${ogImageUrl}${separator}v=${encodeURIComponent(ogImageVersion)}`;
+}
+
 // Resolve OG image URL (or fallback to SITE.ogImage / default `og.png`)
 const ogImage = ogImageUrl
   ? new URL(ogImageUrl, Astro.url.origin).href
@@ -58,6 +66,7 @@ const ogImage = ogImageUrl
 
 const layoutProps = {
   title: `${title} | ${SITE.title}`,
+  ogTitle,
   author,
   description,
   pubDatetime,
