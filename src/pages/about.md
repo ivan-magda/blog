@@ -3,7 +3,7 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-Hi, I'm Ivan — a mobile developer writing about AI Engineering and software development.
+Hi, I'm Ivan — a mobile developer writing about AI Engineering and Software Development.
 
 I work across iOS, Android, and KMM, and I'm interested in how AI is changing the way we build software.
 

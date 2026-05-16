@@ -2,7 +2,7 @@ export const SITE = {
   website: "https://ivanmagda.dev/",
   author: "Ivan Magda",
   profile: "https://github.com/ivan-magda",
-  desc: "Writing about AI Engineering and software development.",
+  desc: "Writing about AI Engineering and Software Development.",
   title: "Ivan Magda",
   ogImage: "og-image.png",
   lightAndDarkMode: true,
