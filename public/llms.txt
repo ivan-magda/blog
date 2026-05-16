@@ -1,6 +1,6 @@
 # Ivan Magda
 
-> Personal blog about AI agents and software development by Ivan Magda.
+> Personal blog about AI Engineering and software development by Ivan Magda.
 
 ## About
 
