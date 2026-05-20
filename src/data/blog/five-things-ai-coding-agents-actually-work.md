@@ -2,7 +2,7 @@
 title: "Five Things I Learned About Making AI Coding Agents Actually Work"
 author: "Ivan Magda"
 pubDatetime: 2026-04-15T14:39:11Z
-modDatetime: 2026-04-19T09:37:34Z
+modDatetime: 2026-05-20T10:15:00Z
 slug: "five-things-ai-coding-agents-actually-work"
 featured: true
 draft: false
@@ -13,19 +13,19 @@ tags:
 description: "The biggest gains in AI agent performance come from the system around the model, not the model itself."
 ---
 
-Let's say we've been using an AI coding agent for a few weeks. The first sessions felt magical — we described a feature, the agent built it, and everything worked. But over time, something shifted. The agent started ignoring our project conventions. It began reading files it had already seen. Sessions that used to produce clean code now ended with us manually fixing half the output.
+Let's say we've been using an AI coding agent for a few weeks. The first sessions felt magical — we described a feature, the agent built it, and everything worked. But over time, something shifted. The agent started ignoring our project conventions. It re-read files it had already seen. Sessions that used to produce clean code now ended with us manually fixing half the output.
 
-The instinct is to blame the model. But the research points somewhere else entirely. [A study by Meta and Harvard](https://arxiv.org/abs/2512.10398) found that Claude Sonnet with well-designed scaffolding outperformed Claude Opus under identical conditions on a standardized benchmark. The model wasn't the bottleneck — the system around it was.
+The instinct is to blame the model. The research points somewhere else. [A study by Meta and Harvard](https://arxiv.org/abs/2512.10398) found that Claude Sonnet with well-designed scaffolding outperformed Claude Opus on a standardized benchmark under identical conditions. The model wasn't the bottleneck — the system around it was.
 
 That system — the instruction files, the project structure, the session management, the way we formulate tasks — is what the industry calls _scaffolding_. In this post, let's walk through five lessons about scaffolding that changed how our agents perform, each backed by research and official documentation.
 
 ## Keep instruction files compact
 
-Every AI coding tool has some version of a project instruction file — CLAUDE.md for Claude Code, `.cursor/rules/` for Cursor, `.windsurfrules` for Windsurf. These files are loaded at the very beginning of the agent's context window, which means the model reads them with maximum attention.
+Every AI coding tool has some version of a project instruction file — CLAUDE.md for Claude Code, `.cursor/rules/` for Cursor, `.windsurfrules` for Windsurf. These files load at the very beginning of the agent's context window, which means the model reads them with maximum attention.
 
-However, there's a trap here. As we work with an agent and it keeps making the same mistakes, the natural reaction is to add more rules. One more convention. One more "IMPORTANT: never do X." Before long, the file balloons into a wall of text — and paradoxically, the agent starts ignoring _more_ instructions, not fewer.
+But there's a trap. As the agent keeps making the same mistakes, the natural reaction is to add more rules. One more convention. One more "IMPORTANT: never do X." Before long, the file balloons into a wall of text — and paradoxically, the agent starts ignoring _more_ instructions, not fewer.
 
-The reason traces to a well-documented phenomenon in transformer models called the ["lost in the middle" problem](https://arxiv.org/abs/2307.03172). Research from Stanford and UC Berkeley showed that LLMs attend strongly to the beginning and end of their context window, with accuracy dropping over 30% for information stuck in the middle. As a session progresses and tool outputs accumulate, those carefully written instructions get pushed into exactly that dead zone.
+This traces to a well-documented phenomenon in transformer models called the ["lost in the middle" problem](https://arxiv.org/abs/2307.03172). Research from Stanford and UC Berkeley showed that LLMs attend strongly to the beginning and end of their context window, with accuracy dropping over 30% for information stuck in the middle. As a session progresses and tool outputs accumulate, those carefully written instructions get pushed into exactly that dead zone.
 
 [Anthropic's official guidance](https://code.claude.com/docs/en/best-practices) is direct: target under 200 lines per CLAUDE.md file, and Claude Code will actively warn when the file exceeds 40,000 characters. The recommended content is surprisingly narrow — bash commands the agent can't guess, code style rules that differ from defaults, testing instructions, and key architectural decisions. Everything else should live in separate files that the agent reads on demand.
 
@@ -49,9 +49,9 @@ Monorepo with three packages: `frontend/`, `backend/`, `shared/`.
 - For API changes, read `backend/CLAUDE.md` first
 ```
 
-Note how the root file acts as a router — it tells the agent _where_ to find detailed instructions rather than cramming everything into one place. [Anthropic's documentation](https://docs.anthropic.com/en/docs/claude-code/memory) supports this pattern through the `@path/to/import` syntax (up to 5 levels deep) and the `.claude/rules/` directory with path-specific activation For a detailed walkthrough of applying this pattern to a real monorepo, see [Fixing the 40k CLAUDE.md warning](/posts/fixing-40k-claude-md-warning-monorepo/). The process is packaged as the [Instruction Health skills](https://github.com/ivan-magda/instruction-health-skills) for any AGENTS.md-aware tool.
+Note how the root file acts as a router — it tells the agent _where_ to find detailed instructions rather than cramming everything into one place. [Anthropic's documentation](https://docs.anthropic.com/en/docs/claude-code/memory) supports this pattern through the `@path/to/import` syntax (up to 5 levels deep) and the `.claude/rules/` directory with path-specific activation. For a detailed walkthrough of applying this pattern to a real monorepo, see [Fixing the 40k CLAUDE.md warning](/posts/fixing-40k-claude-md-warning-monorepo/). The process is packaged as the [Instruction Health skills](https://github.com/ivan-magda/instruction-health-skills) for any AGENTS.md-aware tool.
 
-One thing to keep in mind here is that the same pattern appears across every major tool. Cursor recommends under 500 lines per rule file with glob-based activation. Windsurf enforces a hard 6,000-character limit. GitHub Copilot caps code review instructions at 4,000 characters. The industry has converged on the same insight: instruction files are prompts, and prompts work best when they're focused.
+The same pattern appears across every major tool. Cursor recommends under 500 lines per rule file with glob-based activation. Windsurf enforces a hard 6,000-character limit. GitHub Copilot caps code review instructions at 4,000 characters. The industry has converged on the same insight: instruction files are prompts, and prompts work best when they're focused.
 
 ## Structure the project so the agent can navigate it
 
@@ -107,13 +107,13 @@ There's a strong intuition that longer sessions are better — the agent "alread
 
 [Anthropic's own documentation](https://code.claude.com/docs/en/best-practices) is refreshingly blunt about this. Their best practices page states that "a clean session with a better prompt almost always outperforms a long session with accumulated corrections." There's no penalty for starting fresh — the agent reads CLAUDE.md at the beginning of every conversation, so it's always oriented.
 
-Claude Code does have a compaction mechanism (triggered manually with `/compact` or automatically at ~75–95% capacity) that summarizes the conversation and replaces the full history. However, compaction has real limits. Summaries inherently lose information — full tool outputs, detailed reasoning traces, and nuanced context get compressed or dropped. And critically, when auto-compaction triggers, the model is already operating at degraded capacity, so it produces lower-quality summaries. [One GitHub issue](https://github.com/anthropics/claude-code/issues/34685) documented Claude Opus with a 1M context window where, at just 48% usage, the model itself recommended starting fresh.
+Claude Code does have a compaction mechanism (triggered manually with `/compact` or automatically at ~75–95% capacity) that summarizes the conversation and replaces the full history. But compaction has real limits. Summaries inherently lose information — full tool outputs, detailed reasoning traces, and nuanced context get compressed or dropped. Worse, when auto-compaction triggers, the model is already operating at degraded capacity, so it produces lower-quality summaries. [One GitHub issue](https://github.com/anthropics/claude-code/issues/34685) documented Claude Opus with a 1M context window where, at just 48% usage, the model itself recommended starting fresh.
 
-If you want to learn more about how to build your own context compaction mechanism, I covered that in detail in [a previous post](/posts/s06-context-compaction/).
+I dug into building your own context compaction mechanism in [a previous post](/posts/s06-context-compaction/).
 
-The practical approach that works well is structuring work into focused sprints — each session targeting a specific deliverable. Anthropic recommends an [Explore → Plan → Implement → Commit](https://code.claude.com/docs/en/best-practices) workflow where the research phase and implementation phase happen in separate sessions. The research session builds a plan file; the implementation session starts clean and executes it.
+What works well is structuring work into focused sprints — each session targeting a specific deliverable. Anthropic recommends an [Explore → Plan → Implement → Commit](https://code.claude.com/docs/en/best-practices) workflow where the research phase and implementation phase happen in separate sessions. The research session builds a plan file; the implementation session starts clean and executes it.
 
-For the CLAUDE.md restructuring work I did recently on a monorepo, this meant running one session to audit the existing files and draft a restructuring plan, then a fresh session to execute the frontend refactor, and another fresh session for the root and CLI pass. Each session was focused, fast, and produced clean results — roughly 92k characters of always-loaded context reduced to ~25k across the whole project.
+For the CLAUDE.md restructuring work I did recently on a monorepo, this meant one session to audit the existing files and draft a restructuring plan, then a fresh session to execute the frontend refactor, and another fresh session for the root and CLI pass. Each session was focused, fast, and produced clean results — roughly 92k characters of always-loaded context reduced to ~25k across the whole project.
 
 ## Give the agent a way to verify its own work
 
@@ -121,7 +121,7 @@ For the CLAUDE.md restructuring work I did recently on a monorepo, this meant ru
 
 The research on self-verification is clear: external verification dramatically outperforms self-assessment. LLMs will confidently approve their own broken code. As one practitioner put it: "That's why AI is so good at coding but mediocre at writing — there's no easy way to validate creative work. But code I can compile, lint, execute, verify the output."
 
-The difference between a well-formulated and a poorly-formulated task is almost entirely about whether the agent can check its own work. Consider the difference: "fix the login bug" gives the agent no way to know when it's done. "Users report that login fails after session timeout — check the auth flow in `src/auth/`, reproduce the issue with a failing test, then fix it and make sure all tests pass" gives the agent a concrete verification loop.
+The difference between a well-formulated and a poorly-formulated task is almost entirely about whether the agent can check its own work. Compare: "fix the login bug" gives the agent no way to know when it's done. "Users report that login fails after session timeout — check the auth flow in `src/auth/`, reproduce the issue with a failing test, then fix it and make sure all tests pass" gives the agent a concrete verification loop.
 
 We can encode this pattern directly into CLAUDE.md so it applies to every session:
 
@@ -138,13 +138,13 @@ With that in place, the agent has a built-in feedback loop for every change it m
 
 ## When the agent fails, check the scaffolding first
 
-When an agent produces bad output, our first instinct is usually "the model is dumb." But almost every time, the problem is in the scaffolding — and that's actually good news, because scaffolding is something we can change.
+When an agent produces bad output, our first instinct is usually "the model is dumb." Almost every time, the problem is in the scaffolding — and that's actually good news, because scaffolding is something we can change.
 
-The empirical evidence for this is now substantial. [SWE-Agent](https://arxiv.org/abs/2405.15793) (Yang et al., 2024) showed that interface design alone — the commands available to the agent, the format of outputs — jumped performance from 3.8% to 12.5% on a standard benchmark. Claude 3.7's performance on the same benchmark increased from 62.3% to 70.2% with better scaffolding. GPT-4o improved from 23% to 33.2% by swapping one scaffold for another. The base model stayed the same; only the system around it changed.
+The evidence here is substantial. [SWE-Agent](https://arxiv.org/abs/2405.15793) (Yang et al., 2024) showed that interface design alone — the commands available to the agent, the format of outputs — lifted performance from 3.8% to 12.5% on a standard benchmark. Claude 3.7's score on the same benchmark rose from 62.3% to 70.2% with better scaffolding. GPT-4o improved from 23% to 33.2% by swapping one scaffold for another. The base model stayed the same; only the system around it changed.
 
-When an agent starts producing poor results, a systematic diagnostic approach works far better than prompt tweaking. Check context first — is the session too long? Is the model missing key information, or is it drowning in irrelevant tool outputs? Next, check tools — are commands returning errors or unexpected data that the model is misinterpreting? Then check instructions — are prompts ambiguous, conflicting, or buried in a wall of other rules? Then check architecture — is too much crammed into a single context window? Only after all of these check out should we conclude the model itself isn't capable enough.
+When an agent starts producing poor results, a systematic diagnostic approach works far better than prompt tweaking. Check context first — is the session too long? Is the model missing key information, or is it drowning in irrelevant tool outputs? Then tools — are commands returning errors or unexpected data the model is misinterpreting? Then instructions — are prompts ambiguous, conflicting, or buried in a wall of other rules? Then architecture — is too much crammed into a single context window? Only after all of these check out should we conclude the model itself isn't capable enough.
 
-One thing to keep in mind here is the compound reliability problem. A 10-step agent process where each step succeeds 99% of the time still fails roughly one in ten complete runs. At 95% per step, end-to-end success drops to about 60%. This means improving _any single component's_ reliability — cleaner context, better tools, clearer instructions — has outsized impact on the whole system.
+There's also a compound reliability problem worth keeping in mind. A 10-step agent process where each step succeeds 99% of the time still fails roughly one in ten complete runs. At 95% per step, end-to-end success drops to about 60%. So improving _any single component's_ reliability — cleaner context, better tools, clearer instructions — has outsized impact on the whole system.
 
 The mental model shift that helped me most was this: when the agent ignores a convention, the question isn't "why is it ignoring me?" — it's "is this instruction visible in the current context, or has it been pushed into the dead zone?" When the agent reads files it doesn't need, the question isn't "why is it wasting tokens?" — it's "does my project structure give it a clear map to the right files?" When the agent produces broken code without catching it, the question isn't "why can't it code?" — it's "did I give it a way to verify its work?"
 
@@ -152,6 +152,6 @@ The mental model shift that helped me most was this: when the agent ignores a co
 
 These five lessons share a common thread. We're not passive users who type prompts and wait for results — we're part of the system. Our CLAUDE.md, our project structure, our decision to start a new session, our way of formulating tasks — all of these are components of the scaffolding that surrounds the model. The developers who get the most from AI coding agents aren't the ones with the best prompting tricks. They're the ones who design the best systems around the model.
 
-If you're finding that your AI coding agent is getting worse over time, the fix probably isn't a better model. It's a shorter instruction file, a cleaner project structure, a fresh session, and a test command that the agent can run on its own. The scaffolding is where the leverage lives.
+If your AI coding agent is getting worse over time, the fix probably isn't a better model. It's a shorter instruction file, a cleaner project structure, a fresh session, and a test command that the agent can run on its own. The scaffolding is where the leverage lives.
 
 Thanks for reading!
