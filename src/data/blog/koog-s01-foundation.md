@@ -6,7 +6,7 @@ author: "Ivan Magda"
 pubDatetime: 2026-04-22T03:00:00Z
 modDatetime: 2026-04-23T10:19:27Z
 slug: "koog-s01-foundation"
-featured: true
+featured: false
 draft: false
 tags:
   - ai-agents
