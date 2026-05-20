@@ -2,6 +2,7 @@
 title: "Building a Coding Agent in Swift, Part 0: Bootstrapping the Project"
 author: "Ivan Magda"
 pubDatetime: 2026-03-10T10:00:00Z
+modDatetime: 2026-05-20T10:20:00Z
 slug: "s00-bootstrapping-the-project"
 featured: true
 draft: false
@@ -82,7 +83,7 @@ enum SwiftClaudeCode {
 
 Notice `async throws` on `main()` — we don't need async yet, but every API call we'll make starting in the next guide will be asynchronous, so we're declaring the entry point as async from day one.
 
-One thing to keep in mind: `@main` and `main.swift` can't coexist in the same target. If you see a `main.swift` in the target, delete it — `@main` replaces it and will let us adopt `AsyncParsableCommand` from swift-argument-parser later without any restructuring.
+One thing to keep in mind: `@main` and `main.swift` can't coexist in the same target. If there's a `main.swift` in the target, delete it — `@main` replaces it and will let us adopt `AsyncParsableCommand` from swift-argument-parser later without any restructuring.
 
 ## The package manifest
 
@@ -127,7 +128,7 @@ let package = Package(
 )
 ```
 
-There's a deliberate dependency choice here worth discussing. We're pulling in AsyncHTTPClient from the swift-server project rather than using Foundation's built-in `URLSession`. The reason is cross-platform reliability — `URLSession`'s async APIs weren't available on Linux until very recently and remain inconsistent between Apple's Foundation and the open-source swift-corelibs-foundation. AsyncHTTPClient is built on SwiftNIO, works identically on macOS and Linux, and handles async responses cleanly with Swift's concurrency model.
+There's a deliberate dependency choice here. We're pulling in AsyncHTTPClient from the swift-server project rather than Foundation's built-in `URLSession`. The reason is cross-platform reliability — `URLSession`'s async APIs weren't available on Linux until very recently and remain inconsistent between Apple's Foundation and the open-source swift-corelibs-foundation. AsyncHTTPClient is built on SwiftNIO, works identically on macOS and Linux, and handles async responses cleanly with Swift's concurrency model.
 
 Also note `swift-tools-version: 6.2`. This gives us Swift's strict concurrency checking enabled by default — the compiler will catch data races at compile time rather than leaving them as runtime surprises. That strictness will pay for itself when we add [background tasks and actors](/posts/s08-background-tasks/) later in the series.
 
