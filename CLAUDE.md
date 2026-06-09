@@ -22,6 +22,8 @@ pnpm run sync         # Generate Astro TypeScript types
 - **`Main.astro`'s `pageDesc` prop is visible page text only** — it does NOT set the `<meta name="description">`. Pass an explicit `description` prop to `Layout.astro` for that.
 - **Twitter meta uses `name=`, not `property=`** per spec. Don't "fix" it.
 - **Update `public/llms.txt` when adding new posts** — used by AI search engines.
+- **Post URL = frontmatter `slug`, not filename** — Astro's glob loader uses `slug` as the entry id (`getPath`). Renaming a `.md` doesn't change its URL; edit `slug` plus any cross-links and `llms.txt`.
+- **`hideFromFeed: true`** hides a post from every human surface (home, `/posts`, RSS, tags, archives, Pagefind search) while keeping it built, indexed, and in the sitemap. Gate is `postFilter.ts`; archives and the `data-pagefind-body` in `PostDetails.astro` are filtered separately — touch all three or the hide leaks.
 - **Custom domain via `public/CNAME`** — don't remove during build/deploy work.
 
 ## Pointers
