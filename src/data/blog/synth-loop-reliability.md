@@ -2,9 +2,10 @@
 title: "Reliability Patterns in the Agent Loop: Dispatch, Drift, and Durable Bookkeeping"
 author: "Ivan Magda"
 pubDatetime: 2026-06-03T09:00:00Z
-slug: "synth-loop-reliability"
+slug: "loop-reliability"
 featured: false
 draft: false
+hideFromFeed: true
 tags:
   - ai-agents
   - context-engineering
@@ -52,4 +53,4 @@ The agent loop, tool dispatch, and task tracking each address a distinct reliabi
 
 Any two without the third leaves a gap. A loop with dispatch but no task tracking can execute indefinitely without converging. A loop with task tracking but no dispatch guards can loop on hallucinated tool calls. Dispatch with task tracking but no loop reliability leaves the API protocol fragile.
 
-Anthropic's [context engineering guidance](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) frames the core challenge as managing "what information the model has available at each step," not only what the model can do. Task tracking is context management for the task plan, the same way micro-compaction is context management for tool results. Both keep the model's working context focused on what matters this turn. The loop is where they converge, the one place where protocol correctness, tool execution scope, and task plan state all have to stay coherent at once. Designing them independently and composing at the loop boundary keeps the kernel steady as capabilities grow. The same composability holds when skill loading and compaction put the context budget under pressure: [The Context Window Is a Budget](/posts/synth-context-budget-skill-compaction/) traces how those budget constraints interact with each layer.
+Anthropic's [context engineering guidance](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) frames the core challenge as managing "what information the model has available at each step," not only what the model can do. Task tracking is context management for the task plan, the same way micro-compaction is context management for tool results. Both keep the model's working context focused on what matters this turn. The loop is where they converge, the one place where protocol correctness, tool execution scope, and task plan state all have to stay coherent at once. Designing them independently and composing at the loop boundary keeps the kernel steady as capabilities grow. The same composability holds when skill loading and compaction put the context budget under pressure: [The Context Window Is a Budget](/posts/context-budget-skill-compaction/) traces how those budget constraints interact with each layer.

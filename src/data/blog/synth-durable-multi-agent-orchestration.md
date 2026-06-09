@@ -2,9 +2,10 @@
 title: "Durable Multi-Agent Work: Subagents, Task DAGs, and Background Execution"
 author: "Ivan Magda"
 pubDatetime: 2026-06-03T11:00:00Z
-slug: "synth-durable-multi-agent-orchestration"
+slug: "durable-multi-agent-orchestration"
 featured: false
 draft: false
+hideFromFeed: true
 tags:
   - ai-agents
   - context-engineering
@@ -54,4 +55,4 @@ Research on parallelizing multi-agent work ([arxiv:2507.08944](https://arxiv.org
 
 The main agent orchestrates this by scanning `task_list` for every ready task (empty `blockedBy`), delegating each to a subagent or a background job for the slow parts, then handling completions in whatever order they finish. This is the planner pattern: the main agent holds the plan structure and manages delegation while subagents run execution in isolated contexts. The cascade reveals the next branch as soon as one completes, so the main agent never tracks readiness by hand.
 
-Together, subagent isolation, the task DAG, and background execution produce orchestration that holds across long spans of time: a plan survives compaction, subagent work lands in durable storage, slow jobs run outside the context window, and completion cascades through the graph. No single mechanism produces this property alone. Composed around the task DAG as the shared coordination surface, they form a complete orchestration layer. The reliability properties that keep this layer working turn by turn, namely guarded tool dispatch, drift detection, and convergence signaling, are examined in [Reliability Patterns in the Agent Loop](/posts/synth-loop-reliability/).
+Together, subagent isolation, the task DAG, and background execution produce orchestration that holds across long spans of time: a plan survives compaction, subagent work lands in durable storage, slow jobs run outside the context window, and completion cascades through the graph. No single mechanism produces this property alone. Composed around the task DAG as the shared coordination surface, they form a complete orchestration layer. The reliability properties that keep this layer working turn by turn, namely guarded tool dispatch, drift detection, and convergence signaling, are examined in [Reliability Patterns in the Agent Loop](/posts/loop-reliability/).

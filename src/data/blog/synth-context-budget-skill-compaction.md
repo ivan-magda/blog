@@ -2,9 +2,10 @@
 title: "The Context Window Is a Budget: Skill Loading, Compaction, and the Economics of Agent Memory"
 author: "Ivan Magda"
 pubDatetime: 2026-06-03T10:00:00Z
-slug: "synth-context-budget-skill-compaction"
+slug: "context-budget-skill-compaction"
 featured: false
 draft: false
+hideFromFeed: true
 tags:
   - ai-agents
   - context-engineering
@@ -55,4 +56,4 @@ Holding skill loading and compaction together produces three design rules that n
 
 **Rule 3. Use the task system for constraint persistence.** Anything in a skill body that the model must not forget across a compaction boundary, such as a required output format, a hard constraint, or a checklist item, belongs in a task description or a written file rather than the messages array. Filesystem state persists where context does not.
 
-These rules come from treating the context window as a budget with explicit inflow and outflow management. Skill loading alone won't produce them, and neither will compaction alone. Designed together, they keep the agent's memory coherent across sessions of any length. The same budget discipline carries over to background execution and multi-agent work, where managing concurrent inflows and durable state across subagents takes the same joint design approach described in [Durable Multi-Agent Work: Subagents, Task DAGs, and Background Execution](/posts/synth-durable-multi-agent-orchestration/).
+These rules come from treating the context window as a budget with explicit inflow and outflow management. Skill loading alone won't produce them, and neither will compaction alone. Designed together, they keep the agent's memory coherent across sessions of any length. The same budget discipline carries over to background execution and multi-agent work, where managing concurrent inflows and durable state across subagents takes the same joint design approach described in [Durable Multi-Agent Work: Subagents, Task DAGs, and Background Execution](/posts/durable-multi-agent-orchestration/).

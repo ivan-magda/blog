@@ -35,6 +35,7 @@ const {
   timezone,
   tags,
   hideEditPost,
+  hideFromFeed,
 } = post.data;
 
 const { Content } = await render(post);
@@ -101,7 +102,7 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
   <main
     id="main-content"
     class:list={["app-layout pb-12", { "mt-8": !SITE.showBackButton }]}
-    data-pagefind-body
+    data-pagefind-body={hideFromFeed ? undefined : true}
   >
     <h1
       transition:name={slugifyStr(title.replaceAll(".", "-"))}
