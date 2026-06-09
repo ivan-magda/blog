@@ -1,0 +1,9 @@
+# Cloudflare Pages security headers (applied to every route).
+# Note: x-content-type-options and referrer-policy are currently set in the
+# Cloudflare dashboard, so they are intentionally not duplicated here.
+/*
+  # Enforce HTTPS for 1 year, including subdomains. No `preload` yet —
+  # preloading is hard to reverse, so opt in only once this is proven stable.
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  # Disallow framing this site anywhere (anti-clickjacking).
+  X-Frame-Options: DENY
