@@ -26,14 +26,19 @@ Let's build up both contracts and see why neither one pays off without the other
 The App Intents framework is how the platform learns what our app can do ([App Intents and Apple Intelligence](https://developer.apple.com/documentation/appintents/apple-intelligence-and-siri-ai)). We describe content with entity schemas and actions with intent schemas — structures Siri understands deeply because they've been trained on for years. Entity schemas pull double duty: by conforming our entities to `IndexedEntity` and indexing them, we contribute our content to the Spotlight semantic index, which is what lets the system surface information from our app with attribution back to it ([Spotlight search tool](https://developer.apple.com/documentation/corespotlight/spotlight-search-tool)). In code, that's mostly conformance and a macro:
 
 ```swift
-// @AppEntity ties this type to a system-defined schema Siri already knows;
-// IndexedEntity lands it in the Spotlight semantic index.
-@AppEntity
+// @AppEntity ties this type to a system schema Siri already understands;
+// IndexedEntity lands it in the Spotlight semantic index, with attribution to us.
+@AppEntity(schema: .messages.message)
 struct MessageEntity: IndexedEntity {
-    let id: MessageID
-    let sender: ContactEntity
-    let text: String
-    ...
+    let id: String
+
+    @Property(title: "Sender")
+    var sender: ContactEntity
+    var text: String
+
+    var displayRepresentation: DisplayRepresentation {
+        DisplayRepresentation(title: "\(sender.name)", subtitle: "\(text)")
+    }
 }
 ```
 
@@ -43,14 +48,31 @@ Note how little we're inventing here. The schema is system-defined, so Siri's un
 
 "Who's coming?" is a question. "Text Richard" is an action, and the moment the user says "send this photo" or "the second message," the system has to resolve a reference to whatever is on screen right now. The data contract can't do that — it knows our entities exist, but not that the second row in the visible list is one of them.
 
-That's the gap the View Annotations API fills ([Platforms State of the Union, WWDC26](https://developer.apple.com/videos/play/wwdc2026/102)). A new view modifier associates each view with its entity, so the entity can flow into our app's intents and become actionable. The shape is roughly:
+That's the gap the View Annotations API fills ([Platforms State of the Union, WWDC26](https://developer.apple.com/videos/play/wwdc2026/102)). We annotate the visible view with the entity it represents, so that entity can flow into our app's intents:
 
 ```swift
 MessageRow(message)
-    .appEntity(message.entity)   // bind this visible row to its MessageEntity
+    .userActivity("com.origami.ViewingMessage", element: message.entity) { msg, activity in
+        activity.appEntityIdentifier = EntityIdentifier(for: msg)
+    }
 ```
 
-With that one binding in place, "the second message" resolves to a real entity the system can act on. This is the contract that turns reasoning into action — it ties the visible UI to the same entity graph the schemas described.
+With that binding in place, "the second message" resolves to a real `MessageEntity` the system can act on. The action itself is just an intent on a system schema, so "text Richard" maps to a `sendMessage` the model already understands:
+
+```swift
+@AppIntent(schema: .messages.sendMessage)
+struct SendMessageIntent: AppIntent {
+    @Parameter var recipient: ContactEntity
+    @Parameter var content: String
+
+    func perform() async throws -> some IntentResult {
+        try await messenger.send(content, to: recipient)
+        return .result()
+    }
+}
+```
+
+Together they turn reasoning into action: the annotation ties the visible UI to the same entity graph the schemas described, and the intent gives Siri a verb to run against it.
 
 ## Why neither half pays off alone
 

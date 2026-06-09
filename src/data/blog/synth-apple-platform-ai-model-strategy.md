@@ -25,17 +25,23 @@ In this post, let's walk through the three paths, then pin down the single quest
 
 The [Foundation Models framework](https://developer.apple.com/documentation/foundationmodels) is a native Swift API to the same on-device model that powers Apple Intelligence. This year it picked up multimodal prompts with image input, an integrated Vision toolset for OCR and barcode reading, and the ability to call server models. Any provider can ship a Swift package that conforms to the language model protocol, so we can drop Claude, Gemini, or an open-source model into the same `LanguageModelSession` we already use ([What's new in the Foundation Models framework, WWDC26](https://developer.apple.com/videos/play/wwdc2026/241); [Bring an LLM provider to the Foundation Models framework](https://developer.apple.com/videos/play/wwdc2026/339)).
 
-That swap is the part worth internalizing. Reaching for a different model is a parameter on the session, not a rewrite:
+That swap is the part worth internalizing. The session API stays fixed; the model behind it is the part that moves. We always confirm the model is available first, then talk to it through a `LanguageModelSession`:
 
 ```swift
-// One session API; the model behind it is a choice, not an architecture.
-let session = LanguageModelSession(model: onDeviceModel) { ... }
+// Confirm the on-device model is usable, and plan a fallback if it isn't.
+guard case .available = SystemLanguageModel.default.availability else {
+    return showFallbackUI()
+}
 
-// Need more horsepower for one task? Same prompts, same tools, bigger model.
-let session = LanguageModelSession(model: cloudModel) { ... }
+// The instructions, the prompt, and any guided-generation output stay identical
+// no matter which model ends up answering.
+let session = LanguageModelSession(
+    instructions: "Summarize the person's private note in two sentences."
+)
+let summary = try await session.respond(to: note)
 ```
 
-Note how the prompts, tools, and guided-generation types wrapped around the session stay put. Only the model behind it moves.
+The model behind that session is the swappable part: `SystemLanguageModel.default` on device, `PrivateCloudComputeLanguageModel()` for the frontier model on Private Cloud Compute, or a third-party package that conforms to the language model protocol. Same call site, different backing model — chosen per session, or even per turn with [Dynamic Profiles](/posts/dynamic-profiles-xcode-agents/).
 
 When the on-device model is too small for a task, the framework routes to Private Cloud Compute: a frontier-class Apple model that runs server-side without storing or exposing user data. If our app has fewer than two million first-time App Store downloads, we get it with no cloud API cost ([Build with the new Apple Foundation Model on Private Cloud Compute, WWDC26](https://developer.apple.com/videos/play/wwdc2026/319)), which removes the usual reason a small team never even tries a large model.
 

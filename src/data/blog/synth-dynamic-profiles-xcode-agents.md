@@ -26,20 +26,31 @@ An agent is a small set of swappable parts — some instructions, a few tools, a
 A Dynamic Profile is a declarative unit we attach to a `LanguageModelSession`. Instead of pinning a session to one model, one tool set, and one instruction block, we write a body that resolves to a single profile per turn and switch profiles as the app's state changes ([Composing dynamic sessions with instructions and profiles](https://developer.apple.com/documentation/foundationmodels/composing-dynamic-sessions-with-instructions-and-profiles)):
 
 ```swift
-// The body resolves to exactly one profile per model turn.
-var body: some DynamicProfile {
-    switch state {
-    case .brainstorming:
-        Profile { ... }.model(cloudModel).temperature(0.9)
-    case .reasoningHard:
-        Profile { ... }.reasoningLevel(.deep)
-    case .quickLookup:
-        Profile { ... }   // on-device, to save server calls
+struct OrigamiProfile: LanguageModelSession.DynamicProfile {
+    var pccModel = PrivateCloudComputeLanguageModel()
+    var state: AppState
+
+    // The builder enforces exactly one active profile per model turn.
+    var body: some LanguageModelSession.DynamicProfile {
+        switch state {
+        case .brainstorming:
+            Profile { BrainstormInstructions() }
+                .model(pccModel)
+                .temperature(0.9)
+        case .tutorial:
+            Profile { TutorialInstructions() }
+                .model(pccModel)
+                .reasoningLevel(.deep)
+        case .explainTerm:
+            Profile { JargonInstructions() }   // on-device model, to save server calls
+        }
     }
 }
+
+let session = LanguageModelSession(profile: OrigamiProfile(state: appState))
 ```
 
-Every profile shares one continuous transcript, so swapping the model mid-session keeps the context intact. Apple's own framing gave the game away: three profiles "look a bit like three AI agents," and that's the intent — profiles are the unit we build agents and skills out of ([Build agentic app experiences with the Foundation Models framework, WWDC26](https://developer.apple.com/videos/play/wwdc2026/242)).
+The body re-evaluates before each request, and every profile shares one continuous transcript — so switching the model mid-session keeps the context intact (a profile can even thin the history it sends with a `historyTransform` before a small on-device model sees it). Apple's own framing gave the game away: three profiles "look a bit like three AI agents," and that's the intent — profiles are the unit we build agents and skills out of ([Build agentic app experiences with the Foundation Models framework, WWDC26](https://developer.apple.com/videos/play/wwdc2026/242)).
 
 ## Inside Xcode: plugins, skills, and ACP
 

@@ -27,10 +27,16 @@ Toolbars are the neat case, because they used to be the brittle one. Rather than
 
 ```swift
 .toolbar {
-    ToolbarItem { ShareButton() }
-        .visibilityPriority(.high)   // last to disappear as space shrinks
+    // Highest priority: stays visible longest as the window narrows.
+    ToolbarItem(placement: .primaryAction) { ShareButton() }
+        .visibilityPriority(.high)
 
-    ToolbarItem { ArchiveButton() }  // drops into the overflow menu first
+    // Lower-priority actions collapse into the overflow menu first.
+    ToolbarItem { ArchiveButton() }
+    ToolbarItem { DeleteButton() }
+
+    // Pinned to the trailing edge no matter how the bar reflows.
+    ToolbarItem(placement: .topBarPinnedTrailing) { AccountButton() }
 }
 ```
 

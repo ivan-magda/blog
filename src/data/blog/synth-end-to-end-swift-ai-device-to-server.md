@@ -28,17 +28,30 @@ On their own, each piece is incremental. The framework going open source is inte
 The framework's session model is built around a language model protocol — any provider can ship a Swift package that conforms to it, and one `LanguageModelSession` drives on-device models, Private Cloud Compute, and third-party server models alike ([Bring an LLM provider to the Foundation Models framework, WWDC26](https://developer.apple.com/videos/play/wwdc2026/339)). Once that framework is open source and runs server-side, this stops being a client-side convenience. The generable type we defined for an on-device feature, the tool we wrote, the prompt we tuned — let's say they live in a shared package, something like this:
 
 ```swift
-// Defined once, in a package both the app and the server import.
+// In a package that both the app target and the Swift server target import.
 @Generable
 struct Summary {
-    let title: String
-    let bullets: [String]
+    @Guide(description: "A one-line title for the note")
+    var title: String
+    var bullets: [String]
 }
 
-struct FetchNotes: Tool { ... }
+struct FetchNotes: Tool {
+    let description = "Fetch the person's notes in a date range"
+
+    @Generable
+    struct Arguments {
+        @Guide(description: "ISO-8601 start date") var from: String
+        @Guide(description: "ISO-8601 end date") var to: String
+    }
+
+    func call(arguments: Arguments) async throws -> String {
+        try await notesStore.fetch(from: arguments.from, to: arguments.to)
+    }
+}
 ```
 
-That type and that tool compile and run unchanged in a Swift service. The line between "what the app does" and "what the backend does" is no longer a language boundary we pay to cross.
+That `@Generable` type and that `Tool` compile and run unchanged in a Swift service — the device target hands them to `SystemLanguageModel.default`, the server target hands the very same types to a larger model. The line between "what the app does" and "what the backend does" is no longer a language boundary we pay to cross.
 
 Swift earns the move because it already runs in most places we'd deploy. The tooling for [server-side Swift](https://www.swift.org/documentation/server/) is mature, and the language reaches Linux, Windows, Android, and the web through SDKs on Swift.org — including a [Swift SDK for WebAssembly](https://www.swift.org/documentation/articles/wasm-getting-started.html) and [C++ interoperability](https://www.swift.org/documentation/cxx-interop/) that folds Swift into systems we already have without a rewrite. The State of the Union pointed at teams already living this: Flighty sharing airport-tracking code between app and backend, GoodNotes reusing over a hundred thousand lines through Swift for WebAssembly to reach the web and Android, Frameo bridging Swift and Java. They proved we can carry one Swift codebase across the stack; open-sourcing Foundation Models extends that proof to the AI layer.
 
