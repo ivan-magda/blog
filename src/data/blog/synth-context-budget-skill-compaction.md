@@ -37,7 +37,7 @@ Research on budget-aware context management formalizes exactly this intuition. T
 
 ## What compaction destroys — and what survives
 
-The [Contextual Memory Virtualisation paper (arxiv:2602.22402)](https://arxiv.org/abs/2602.22402) documents the concrete cost of lossy compaction: "autocompaction reduced 132k tokens of accumulated message state to 2.3k — a 98% reduction — discarding the nuanced understanding that took an entire session to build." For an agent that loaded a skill body mid-session, that skill's full content is almost certainly in the 98%.
+The [Contextual Memory Virtualisation paper (arxiv:2602.22402)](https://arxiv.org/abs/2602.22402) proposes DAG-based, structurally lossless trimming as an alternative to lossy summarization, reporting token reductions averaging 20% and reaching 86% on sessions with heavy overhead. The contrast it draws is the relevant one here: lossy autocompaction can collapse an entire session's accumulated state into a short summary, and for an agent that loaded a skill body mid-session, that skill's full content is exactly the kind of detail such a summary discards.
 
 What the LLM-generated summary *does* preserve is task state: what was accomplished, current file paths, key decisions. What it loses is fine-grained procedural knowledge — the exact checklist in a code-review skill, the nuanced edge-case handling in a deployment workflow guide. After auto-compaction fires, the model's behavior will subtly regress toward its base training distribution for that domain, away from the skill-injected specifics.
 

@@ -20,6 +20,14 @@ A 9-part series documenting a Swift reimplementation of a Claude Code-style CLI 
 - [Part 7: Task System](https://ivanmagda.dev/posts/s07-task-system/): A file-based task DAG with dependency resolution
 - [Part 8: Background Tasks](https://ivanmagda.dev/posts/s08-background-tasks/): Swift actors for background execution with notification injection
 
+## Synthesis: Agent Architecture Patterns
+
+Cross-cutting essays that connect multiple parts of the Swift coding-agent series into single design arguments.
+
+- [Reliability Patterns in the Agent Loop](https://ivanmagda.dev/posts/synth-loop-reliability/): How the agent loop, tool dispatch, and task tracking share one reliability problem that only appears when you hold them together
+- [The Context Window Is a Budget](https://ivanmagda.dev/posts/synth-context-budget-skill-compaction/): Treating the context window as a finite budget changes how you design skill loading and compaction together
+- [Durable Multi-Agent Work](https://ivanmagda.dev/posts/synth-durable-multi-agent-orchestration/): How subagent isolation, a file-persisted task DAG, and background execution compose into orchestration that stays coherent across time
+
 ## Blog Series: Reading Koog
 
 A series reflecting on JetBrains' Koog framework after hand-rolling a Claude Code clone in Swift.
