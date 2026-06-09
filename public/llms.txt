@@ -20,7 +20,7 @@ A 9-part series documenting a Swift reimplementation of a Claude Code-style CLI 
 - [Part 7: Task System](https://ivanmagda.dev/posts/s07-task-system/): A file-based task DAG with dependency resolution
 - [Part 8: Background Tasks](https://ivanmagda.dev/posts/s08-background-tasks/): Swift actors for background execution with notification injection
 
-## Synthesis: Agent Architecture Patterns
+## Agent Architecture Patterns
 
 Cross-cutting essays that connect multiple parts of the Swift coding-agent series into single design arguments.
 
@@ -34,7 +34,7 @@ A series reflecting on JetBrains' Koog framework after hand-rolling a Claude Cod
 
 - [Part 1: What I Missed Until I Read Koog](https://ivanmagda.dev/posts/koog-s01-foundation/): After nine posts building a Claude Code-style agent by hand in Swift, the foundation a framework like Koog gives you for free
 
-## Synthesis: Apple Platforms after WWDC 2026
+## Apple Platforms after WWDC 2026
 
 Cross-cutting essays that connect announcements from the WWDC 2026 Platforms State of the Union into single design arguments.
 
