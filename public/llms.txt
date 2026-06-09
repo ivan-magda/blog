@@ -34,6 +34,16 @@ A series reflecting on JetBrains' Koog framework after hand-rolling a Claude Cod
 
 - [Part 1: What I Missed Until I Read Koog](https://ivanmagda.dev/posts/koog-s01-foundation/): After nine posts building a Claude Code-style agent by hand in Swift, the foundation a framework like Koog gives you for free
 
+## Synthesis: Apple Platforms after WWDC 2026
+
+Cross-cutting essays that connect announcements from the WWDC 2026 Platforms State of the Union into single design arguments.
+
+- [Three Ways to Run a Model on Apple Platforms](https://ivanmagda.dev/posts/apple-platform-ai-model-strategy/): Foundation Models, Private Cloud Compute, and Core AI are a privacy/control/cost decision, not a capability ladder
+- [The Agent Abstraction, Top to Bottom](https://ivanmagda.dev/posts/dynamic-profiles-xcode-agents/): Dynamic Profiles in your app and plugins in Xcode are the same agent abstraction applied on both sides of the IDE
+- [End-to-End Swift AI](https://ivanmagda.dev/posts/end-to-end-swift-ai-device-to-server/): Open-sourcing the Foundation Models framework collapses the app/backend AI split into one Swift API from device to server
+- [Designing for a Range, Not a Device](https://ivanmagda.dev/posts/designing-for-a-range-adaptive-apps/): Adaptivity became the default — resizability, Liquid Glass, priority toolbars — plus a coding-agent skill to retrofit the rest
+- [Becoming Part of the System](https://ivanmagda.dev/posts/app-intents-on-screen-awareness/): App Intents schemas and the View Annotations API are two contracts — discoverability and actionability — you need both
+
 ## Standalone Posts
 
 - [Fixing the 40k CLAUDE.md Warning in a Monorepo](https://ivanmagda.dev/posts/fixing-40k-claude-md-warning-monorepo/): How we restructured Claude Code's CLAUDE.md files in a monorepo to cut 73% of always-loaded context without losing a single fact
