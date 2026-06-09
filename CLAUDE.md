@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Personal blog: Astro v5 + AstroPaper v5.5.1 theme, deployed to GitHub Pages at https://ivanmagda.dev. Package manager: pnpm.
+Personal blog: Astro v5 + AstroPaper v5.5.1 theme, deployed to Cloudflare Pages at https://ivanmagda.dev. Package manager: pnpm.
 
 ## Commands
 
@@ -24,7 +24,7 @@ pnpm run sync         # Generate Astro TypeScript types
 - **Update `public/llms.txt` when adding new posts** — used by AI search engines.
 - **Post URL = frontmatter `slug`, not filename** — Astro's glob loader uses `slug` as the entry id (`getPath`). Renaming a `.md` doesn't change its URL; edit `slug` plus any cross-links and `llms.txt`.
 - **`hideFromFeed: true`** hides a post from every human surface (home, `/posts`, RSS, tags, archives, Pagefind search) while keeping it built, indexed, and in the sitemap. Gate is `postFilter.ts`; archives and the `data-pagefind-body` in `PostDetails.astro` are filtered separately — touch all three or the hide leaks.
-- **Custom domain via `public/CNAME`** — don't remove during build/deploy work.
+- **Custom domain + `www`→apex 301 live in Cloudflare** (Pages custom domain + a Redirect Rule), not in the repo — there is no `CNAME` file.
 
 ## Pointers
 
@@ -32,6 +32,6 @@ pnpm run sync         # Generate Astro TypeScript types
 - SEO / meta tags / JSON-LD / OG / RSS / sitemap details → `docs/seo.md`
 - Site-wide config (URL, author, title, dynamicOgImage, showArchives) → `src/config.ts`
 - Social and share link arrays → `src/constants.ts`
-- Deploy workflow → `.github/workflows/deploy.yml` (uses `withastro/action@v6`)
+- Deploy workflow → `.github/workflows/deploy.yml` (Cloudflare Pages via `cloudflare/wrangler-action`, Direct Upload)
 
 Post body headings must use `##` or smaller — the frontmatter `title` renders as h1.
