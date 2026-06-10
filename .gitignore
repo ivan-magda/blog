@@ -26,6 +26,12 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+# air agentic dev environment
+.air/
+
+# internal skill (references private workspace path; not for sharing)
+.agents/skills/publishing-wwdc-sessions/
+
 # pagefind
 
 public/pagefind
