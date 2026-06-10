@@ -17,6 +17,22 @@ available at fetch time, so the digest is written first and enriched afterward.
 `src/data/blog/`, `public/llms.txt`, `src/assets/`, or any SEO file — those are for
 *published* posts only.
 
+## Model policy — the digest must be Opus
+
+Fetching, scraping, and file scaffolding (Phase A steps 1–5, Phase B steps 1–2) are
+mechanical and fine on any model — run the whole skill on Sonnet if you like.
+**`digest.md` is the one high-judgment synthesis step and MUST be produced on Opus.**
+
+- If you (the orchestrator) are **not** running on Opus, **spawn a subagent with the
+  Opus model** to do it (Agent/Task tool, `model: opus`). Give it the session dir; it
+  reads `transcript.md`, `meta.md`, `code.md` (plus `screenshots/` in Phase B) and
+  writes/updates `digest.md`.
+- If you are **already on Opus**, write/update the digest directly.
+- **Never** create or update the digest on a smaller model.
+
+This applies to BOTH the initial write (Phase A step 6) and the screenshot enrichment
+(Phase B step 3).
+
 ## Phase A — Fetch & build the entry
 
 Trigger: a `developer.apple.com/videos/play/wwdcYYYY/NNN` URL.
@@ -43,10 +59,11 @@ Trigger: a `developer.apple.com/videos/play/wwdcYYYY/NNN` URL.
 5. **Write `notes.md`** — a stub for the user's own analysis (blog angles, open
    questions, code to reproduce). Keep separate from `transcript.md` so drafts pull
    from the user's words, not Apple's.
-6. **Write `digest.md`** — comprehensive single-file synthesis: frontmatter listing
-   sources, TL;DR, sections following the chapters, all code blocks, an Open Questions
-   section, and blog angles. Leave `[shot: HH.MM.SS]` references out until Phase B (or
-   add them only if screenshots already exist).
+6. **Write `digest.md` (Opus only — see Model policy)** — comprehensive single-file
+   synthesis: frontmatter listing sources, TL;DR, sections following the chapters, all
+   code blocks, an Open Questions section, and blog angles. Leave `[shot: HH.MM.SS]`
+   references out until Phase B (or add them only if screenshots already exist). If you
+   are not on Opus, spawn an Opus subagent to read steps 1–5's files and write this.
 7. **Update `workspace/wwdc26/README.md`** — add the session's tracker row.
 
 If the target folder already exists, confirm before overwriting.
@@ -66,12 +83,14 @@ slide captures and dropped them in).
    transcript and Code tab do NOT capture: diagram structure, on-screen API values,
    demo token counts/durations, the CLI surface, and any code visible on a slide that
    is missing from `code.md`.
-3. **Fold back into `digest.md`** — add `[shot: HH.MM.SS]` references at the relevant
-   points (the `HH.MM.SS` is the time in the screenshot's filename, used as a stable
-   handle to the file — it is NOT the video timecode). Add genuinely new facts, and
-   **flag discrepancies** where a slide contradicts the transcript/Code tab. Add any
-   slide-only code to `code.md` with a `// from screenshots/…` note. Update the README
-   row if its screenshot/digest columns change.
+3. **Fold back into `digest.md` (Opus only — see Model policy)** — add
+   `[shot: HH.MM.SS]` references at the relevant points (the `HH.MM.SS` is the time in
+   the screenshot's filename, used as a stable handle to the file — it is NOT the video
+   timecode). Add genuinely new facts, and **flag discrepancies** where a slide
+   contradicts the transcript/Code tab. Add any slide-only code to `code.md` with a
+   `// from screenshots/…` note. Update the README row if its screenshot/digest columns
+   change. If you are not on Opus, spawn an Opus subagent that reads the screenshots and
+   rewrites the affected digest sections.
 
 ## Quick reference
 
@@ -80,12 +99,14 @@ slide captures and dropped them in).
 | Transcript | `mcp__sosumi__fetchAppleVideoTranscript` (path `/videos/play/wwdcYYYY/NNN`) |
 | Summary + Code tabs | Playwright `browser_navigate` + `browser_evaluate` on `.supplement.summary` / `.supplement.sample-code pre` |
 | Compress slides | `.agents/skills/processing-wwdc-session/compress-screenshots.sh <session-dir>/screenshots` (pngquant + ImageMagick, ≤200 KB, PNG kept) |
+| Write/update digest | **Opus only** — if orchestrator isn't on Opus, spawn an Opus subagent (Agent/Task `model: opus`) |
 | Tracker | `workspace/wwdc26/README.md` |
 
 Per-session files: `transcript.md`, `meta.md`, `code.md`, `notes.md`, `digest.md`, `screenshots/`.
 
 ## Common mistakes
 
+- **Producing or updating the digest on a smaller model** — the digest is the deliverable and the only real synthesis step; it must be Opus. Steps 1–5 (and screenshot compression) can be any model. If you're on Sonnet, spawn an Opus subagent for the digest — don't write it yourself.
 - **Skipping screenshot compression** — raw Retina captures are ~2.5 MB each. Always run the script; preserve PNG.
 - **Renaming screenshots** — the `[shot: HH.MM.SS]` handle is the filename's time. Renaming breaks every reference. Keep the originals.
 - **Not updating the digest after reading screenshots** — Phase B exists to enrich the digest; reading the images without folding new facts (and discrepancies) back in defeats the point.
