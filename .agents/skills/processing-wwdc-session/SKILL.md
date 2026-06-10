@@ -92,12 +92,47 @@ slide captures and dropped them in).
    change. If you are not on Opus, spawn an Opus subagent that reads the screenshots and
    rewrites the affected digest sections.
 
+## Bulk mode — many sessions at once (parallel subagents)
+
+When a whole catalog is dropped (dozens of URLs), do NOT run Phase A serially per
+session. Split the work so the one shared resource (the Playwright browser) never
+races and the 20–60 KB transcripts stay OUT of the orchestrator's context:
+
+1. **Build a manifest first.** Parse the link list into `{num, title, url, folder}`
+   (clean, stopword-stripped slugs) and create all folders. Always dispatch using the
+   manifest's folder names — hand-typed slugs drift from the created dirs and make the
+   `browser_evaluate` `filename` write fail with ENOENT.
+2. **One fetcher subagent at a time** (serial, OWNS the browser): for each session
+   `browser_navigate` + ONE `browser_evaluate` that saves Summary/Code to
+   `<folder>/_supplement.json` via the `filename` argument (keeps the payload out of
+   your context). Batches of ~16. **Never run two fetchers at once** — the single
+   browser instance will race and cross-contaminate pages.
+3. **Parallel synthesis subagents (Opus — see Model policy)** — one per session, waves
+   of ~8. Each fetches its OWN sosumi transcript, reads `_supplement.json`, and writes
+   all five files. They use sosumi + file tools ONLY (no browser), so a synthesis wave
+   can run concurrently with the NEXT fetcher batch running in the background.
+4. **Normalize after each fetch batch.** `browser_evaluate` saves its result
+   double-JSON-encoded (a JSON string wrapping the object) — decode twice
+   (`json.loads(json.loads(...))`) once so synthesis reads clean JSON.
+5. **Sync trackers from disk, don't hand-maintain.** A script that scans folders
+   (digest present? supplement summary/code non-empty?) idempotently regenerates the
+   README table and the link-list ✅ markers — survives context summarization.
+6. **Labs / keynotes have no transcript.** Group labs and some keynotes return
+   "Transcript not found" from sosumi and have no Summary/Code tab — write the stub
+   (`_No transcript available._`, minimal meta/digest, Transcript `n/a`).
+
+Give each synthesis subagent a one-line dispatch pointing at a shared instruction file
+plus `NUM/TITLE/URL/FOLDER`, so prompts stay tiny and consistent across the fleet.
+Overlap rule: synthesis (sosumi) + the next fetcher (browser) may run concurrently;
+two browser users may not.
+
 ## Quick reference
 
 | Need | Tool |
 |------|------|
 | Transcript | `mcp__sosumi__fetchAppleVideoTranscript` (path `/videos/play/wwdcYYYY/NNN`) |
 | Summary + Code tabs | Playwright `browser_navigate` + `browser_evaluate` on `.supplement.summary` / `.supplement.sample-code pre` |
+| Bulk fetch | ONE serial fetcher subagent (browser) → `_supplement.json` via `filename`; synthesis in parallel Opus subagents (sosumi only) |
 | Compress slides | `.agents/skills/processing-wwdc-session/compress-screenshots.sh <session-dir>/screenshots` (pngquant + ImageMagick, ≤200 KB, PNG kept) |
 | Write/update digest | **Opus only** — if orchestrator isn't on Opus, spawn an Opus subagent (Agent/Task `model: opus`) |
 | Tracker | `workspace/wwdc26/README.md` |
@@ -114,6 +149,9 @@ Per-session files: `transcript.md`, `meta.md`, `code.md`, `notes.md`, `digest.md
 - **Touching shippable files** — `workspace/` is gitignored scratch. No `llms.txt`, `src/data/blog/`, or `src/assets/` edits when processing a session.
 - **Trusting WebFetch for the Summary/Code tabs** — they are JS-rendered; use Playwright.
 - **Leaving `// Copy Code` placeholder text** in `code.md` from the `pre` extraction.
+- **(Bulk) Running two browser fetchers at once** — the Playwright instance is shared and single; concurrent navigations race. Exactly one fetcher; parallelize only the sosumi synthesis.
+- **(Bulk) Hand-typing folder slugs per dispatch** — they drift from the created dirs and the `filename` write fails (ENOENT), silently dropping that supplement. Always read folders from the manifest.
+- **(Bulk) Forgetting the double-encode** — `browser_evaluate`'s saved `_supplement.json` is a JSON string wrapping the object; parse twice or synthesis sees a string, not `{summary, code}`.
 
 ## Verification
 
