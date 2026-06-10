@@ -30,6 +30,9 @@ pnpm-debug.log*
 
 public/pagefind
 
+# workspace
+workspace/
+
 # context files
 BLOG-SETUP-CONTEXT.md
 
