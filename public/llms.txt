@@ -44,6 +44,14 @@ Cross-cutting essays that connect announcements from the WWDC 2026 Platforms Sta
 - [Designing for a Range, Not a Device](https://ivanmagda.dev/posts/designing-for-a-range-adaptive-apps/): Adaptivity became the default — resizability, Liquid Glass, priority toolbars — plus a coding-agent skill to retrofit the rest
 - [Becoming Part of the System](https://ivanmagda.dev/posts/app-intents-on-screen-awareness/): App Intents schemas and the View Annotations API are two contracts — discoverability and actionability — you need both
 
+## WWDC26: Foundation Models Framework
+
+A three-post cluster on the WWDC26 Foundation Models announcements: an overview hub and two deep dives.
+
+- [Foundation Models, Year Two: From On-Device API to General LLM Runtime](https://ivanmagda.dev/posts/wwdc26-foundation-models-year-two/): The framework became Swift's general LLM client — a rebuilt on-device model with vision, Private Cloud Compute, an any-model abstraction layer, agent primitives, and new tooling
+- [A Server LLM With No API Keys: Private Cloud Compute in the Foundation Models Framework](https://ivanmagda.dev/posts/foundation-models-private-cloud-compute/): PrivateCloudComputeLanguageModel gives apps a 32K-context server model with reasoning and no cloud API cost — and makes the per-user daily quota a UI design problem
+- [An Agent Framework Hiding Inside a Session: Dynamic Profiles in Foundation Models](https://ivanmagda.dev/posts/foundation-models-dynamic-profiles/): Dynamic Profiles turn a single LanguageModelSession into a declarative agent runtime — per-phase models, history transforms, lifecycle hooks, and two orchestration patterns
+
 ## Standalone Posts
 
 - [Fixing the 40k CLAUDE.md Warning in a Monorepo](https://ivanmagda.dev/posts/fixing-40k-claude-md-warning-monorepo/): How we restructured Claude Code's CLAUDE.md files in a monorepo to cut 73% of always-loaded context without losing a single fact
