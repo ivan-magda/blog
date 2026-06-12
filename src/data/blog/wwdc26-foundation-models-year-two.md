@@ -1,7 +1,7 @@
 ---
 title: "Foundation Models, Year Two: From On-Device API to General LLM Runtime"
 author: "Ivan Magda"
-pubDatetime: 2026-06-13T09:00:00Z
+pubDatetime: 2026-06-12T14:03:22Z
 slug: "wwdc26-foundation-models-year-two"
 featured: true
 draft: false
