@@ -337,12 +337,12 @@ That's also the lens for the four words Apple puts on its decision slide: privac
 
 If you've followed the [coding-agent series](/posts/s01-the-agent-loop/) on this blog, most of this post probably triggered déjà vu. That's the part I find most interesting: Apple sat down to design agent primitives for a Swift session API and landed on the same shapes we built by hand over nine posts:
 
-| Foundation Models primitive                 | What we hand-rolled in the series                                                |
-| ------------------------------------------- | -------------------------------------------------------------------------------- |
-| `.required` tool mode + a final-answer tool | The agent loop's single `stopReason` exit ([Part 1](/posts/s01-the-agent-loop/)) |
-| Phone-a-friend child sessions               | Subagents ([Part 4](/posts/s04-subagents/))                                      |
-| `Skills` in the utilities package           | Skill loading ([Part 5](/posts/s05-skill-loading/))                              |
-| Summarize-and-drop in `onResponse`          | Context compaction ([Part 6](/posts/s06-context-compaction/))                    |
+| Foundation Models primitive                 | What we hand-rolled in the series                             |
+| ------------------------------------------- | ------------------------------------------------------------- |
+| `.required` tool mode + a final-answer tool | The agent loop ([Part 1](/posts/s01-the-agent-loop/))         |
+| Phone-a-friend child sessions               | Subagents ([Part 4](/posts/s04-subagents/))                   |
+| `Skills` in the utilities package           | Skill loading ([Part 5](/posts/s05-skill-loading/))           |
+| Summarize-and-drop in `onResponse`          | Context compaction ([Part 6](/posts/s06-context-compaction/)) |
 
 Anyone who builds agents long enough runs into the same problems: exit conditions, context isolation, knowledge injection, compaction, observability and the solution space is small.
 
