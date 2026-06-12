@@ -1,7 +1,7 @@
 ---
 title: "A Server LLM With No API Keys: Private Cloud Compute in the Foundation Models Framework"
 author: "Ivan Magda"
-pubDatetime: 2026-06-18T09:00:00Z
+pubDatetime: 2026-06-12T14:17:48Z
 slug: "foundation-models-private-cloud-compute"
 featured: false
 draft: false
