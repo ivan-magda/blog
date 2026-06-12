@@ -17,7 +17,7 @@ description: "Discoverability and actionability are two separate contracts. App 
 
 Two requests to Siri, back to back: "who's coming to origami night?", then "text Richard, can you make one of the pizzas vegetarian?" The first is a question about our content. The second is an action on something that's on screen. They feel like one feature, but they ride on two completely separate contracts — and WWDC 2026 shipped the second one.
 
-The first is a *data contract*: schemas and a semantic index that tell the system what our content and actions are. The second is an *on-screen contract*: the new View Annotations API that tells the system what the user is looking at right now and maps it back to those same entities. Either one alone leaves a gap. Together they're what Apple means when it talks about an app becoming "part of the intelligent fabric of the system."
+The first is a _data contract_: schemas and a semantic index that tell the system what our content and actions are. The second is an _on-screen contract_: the new View Annotations API that tells the system what the user is looking at right now and maps it back to those same entities. Either one alone leaves a gap. Together they're what Apple means when it talks about an app becoming "part of the intelligent fabric of the system."
 
 Let's build up both contracts and see why neither one pays off without the other.
 
@@ -42,7 +42,7 @@ struct MessageEntity: IndexedEntity {
 }
 ```
 
-Note how little we're inventing here. The schema is system-defined, so Siri's understanding of it keeps improving across new languages and dialects without us touching this code ([Making actions and content discoverable by Apple Intelligence](https://developer.apple.com/documentation/appintents/making-actions-and-content-discoverable-by-apple-intelligence)). Index these entities at launch, and Siri can already answer "who's coming to origami night?" from our data. That's the data contract working: discovery and reasoning over what our content *is*.
+Note how little we're inventing here. The schema is system-defined, so Siri's understanding of it keeps improving across new languages and dialects without us touching this code ([Making actions and content discoverable by Apple Intelligence](https://developer.apple.com/documentation/appintents/making-actions-and-content-discoverable-by-apple-intelligence)). Index these entities at launch, and Siri can already answer "who's coming to origami night?" from our data. That's the data contract working: discovery and reasoning over what our content _is_.
 
 ## The on-screen contract: what the user is looking at
 
