@@ -92,6 +92,67 @@ slide captures and dropped them in).
    change. If you are not on Opus, spawn an Opus subagent that reads the screenshots and
    rewrites the affected digest sections.
 
+## Group labs — transcribe from the SD video audio
+
+Group labs (the `8xxx` series) ship **no sosumi transcript and no Summary/Code tab**, but
+the session page *does* publish a downloadable recording. Generate the transcript locally
+from the video audio, then run the normal Opus digest step. This **replaces** the old
+"write a `_No transcript available.` stub" for any lab whose video has posted.
+
+Tooling (already installed): `whisper-cli` (Homebrew), model
+`/Users/jetbrains/Developer/whisper.cpp/models/ggml-large-v3.bin`, VAD model
+`/Users/jetbrains/Developer/whisper.cpp/models/for-tests-silero-v6.2.0-ggml.bin`,
+`ffmpeg`, `curl`. Helper scripts in `workspace/wwdc26/_tools/`: `process_lab.sh`
+(chains the whole media pipeline), `whisper_to_transcript.py`, `check_transcript.py`.
+
+Per lab:
+
+1. **Get the SD URL.** WebFetch the session page (`/videos/play/wwdc2026/NNNN/`) and read
+   the **SD Video** link from Resources — it is in **static HTML**, so WebFetch works and
+   you can probe many labs **in parallel** (no Playwright needed). The CDN URL carries a
+   per-session UUID, so you must fetch it per lab; you cannot construct it. "Available
+   soon" / "Live …" pages have **no** download link yet — skip and revisit later.
+2. **Download + extract.** `curl -sL` the SD mp4 (~240 MB), then
+   `ffmpeg -vn -ar 16000 -ac 1 -c:a pcm_s16le` → 16 kHz mono WAV.
+3. **Transcribe — VAD + `-mc 0` are MANDATORY, not optional:**
+   ```
+   whisper-cli -m <large-v3> -f NNNN.wav -l en \
+     --vad --vad-model <silero> -mc 0 -et 2.8 -oj -of NNNN -t 8
+   ```
+   Plain large-v3 (no VAD, default context) **falls into a repetition hallucination loop**
+   on lab audio — in testing it emitted one phrase for 47 of 63 minutes (75 % of the
+   session), and the output looks fine segment-by-segment. VAD skips the non-speech that
+   triggers the loop; `-mc 0` stops the decoder conditioning on its own repeats. VAD is
+   also faster (skips silence).
+4. **GATE: check for loops.** `python3 _tools/check_transcript.py NNNN.json` exits 1 if any
+   phrase runs ≥8 consecutive segments or is ≥15 % of all segments. **Never build a digest
+   off a transcript that fails the gate.** On failure, re-run whisper / inspect the audio —
+   do not proceed.
+5. **Convert to Zoom-style transcript.** `python3 _tools/whisper_to_transcript.py NNNN.json
+   <dir>/transcript.md --title "<Lab Title>" --session NNNN --source <url> --fetched <date>`
+   — merges whisper's choppy segments into sentence-level numbered cues
+   (`N` / `HH:MM:SS --> HH:MM:SS` / text). large-v3 does **not** diarize: do **not** invent
+   speaker labels; capture the panel roster from the intro instead. Frontmatter records
+   `via: whisper.cpp ggml-large-v3` + `transcription: machine-generated, no speaker
+   diarization`.
+6. **Delete the mp4 + wav** (~240/116 MB each; scratch).
+7. **meta.md + digest.md (Opus — see Model policy).** Same as Phase A steps 4–6, but the
+   digest must capture a live Q&A: **panel roster**, **every question→answer exchange**,
+   and an **"unconventional facts & takeaways"** section for the off-the-cuff details that
+   only surface in Q&A (corrected misconceptions, hard numbers, candid limitations).
+   `code.md` stays `n/a` — labs show no code.
+8. **README row:** Transcript = **🎙️** (machine transcript), Digest = ✅.
+
+`process_lab.sh NUM SLUG "TITLE" SD_URL` does steps 2–6 (download → extract → whisper →
+gate → convert → cleanup) and exits non-zero if the gate fails.
+
+**Scaling many labs.** whisper saturates the GPU, so run it **serial** — one lab at a time
+(loop `process_lab.sh` over the lab list in a background batch). Parallelize only the cheap
+parts: probe SD URLs with parallel WebFetch up front, and dispatch the **Opus digest
+subagents in waves** (each reads its own `transcript.md`, writes meta+digest) while the next
+whisper runs. **Never run two whisper processes at once.** A lab is ~6–9 min of whisper
+(faster with VAD) + ~1 min download.
+
 ## Bulk mode — many sessions at once (parallel subagents)
 
 When a whole catalog is dropped (dozens of URLs), do NOT run Phase A serially per
@@ -117,9 +178,11 @@ races and the 20–60 KB transcripts stay OUT of the orchestrator's context:
 5. **Sync trackers from disk, don't hand-maintain.** A script that scans folders
    (digest present? supplement summary/code non-empty?) idempotently regenerates the
    README table and the link-list ✅ markers — survives context summarization.
-6. **Labs / keynotes have no transcript.** Group labs and some keynotes return
-   "Transcript not found" from sosumi and have no Summary/Code tab — write the stub
-   (`_No transcript available._`, minimal meta/digest, Transcript `n/a`).
+6. **Labs / keynotes have no sosumi transcript.** Group labs return "Transcript not found"
+   from sosumi and have no Summary/Code tab — if the lab's video has posted, transcribe it
+   from the SD audio (see **Group labs — transcribe from the SD video audio** above), not a
+   `_No transcript available._` stub. Only stub a lab whose video is still "Available soon."
+   Some keynotes genuinely have no transcript — stub those.
 
 Give each synthesis subagent a one-line dispatch pointing at a shared instruction file
 plus `NUM/TITLE/URL/FOLDER`, so prompts stay tiny and consistent across the fleet.
@@ -134,6 +197,9 @@ two browser users may not.
 | Summary + Code tabs | Playwright `browser_navigate` + `browser_evaluate` on `.supplement.summary` / `.supplement.sample-code pre` |
 | Bulk fetch | ONE serial fetcher subagent (browser) → `_supplement.json` via `filename`; synthesis in parallel Opus subagents (sosumi only) |
 | Compress slides | `.agents/skills/processing-wwdc-session/compress-screenshots.sh <session-dir>/screenshots` (pngquant + ImageMagick, ≤200 KB, PNG kept) |
+| Group-lab transcript | WebFetch SD URL → `_tools/process_lab.sh NUM SLUG "TITLE" URL` (curl + ffmpeg + whisper-cli **VAD + -mc 0** + gate + convert). whisper serial; never two at once |
+| Loop check (gate) | `_tools/check_transcript.py NNNN.json` — exit 1 = hallucination loop, do NOT digest it |
+| Stream-only session (Keynote) | no SD/HD mp4, only an HLS `.m3u8` (read `<video>`/`<source>` src via Playwright). `_tools/process_stream.sh NUM SLUG "TITLE" M3U8 AUDIO_FMT` — yt-dlp grabs the audio-only rendition (`audio-stereo-aac-128-English`, NOT the audio-description track), then same ffmpeg→whisper→gate→convert. `yt-dlp -F <m3u8>` lists renditions |
 | Write/update digest | **Opus only** — if orchestrator isn't on Opus, spawn an Opus subagent (Agent/Task `model: opus`) |
 | Tracker | `workspace/wwdc26/README.md` |
 
@@ -147,7 +213,10 @@ Per-session files: `transcript.md`, `meta.md`, `code.md`, `notes.md`, `digest.md
 - **Not updating the digest after reading screenshots** — Phase B exists to enrich the digest; reading the images without folding new facts (and discrepancies) back in defeats the point.
 - **Treating `[shot:]` as a video timecode** — it is the screenshot filename's clock time, just a file handle.
 - **Touching shippable files** — `workspace/` is gitignored scratch. No `llms.txt`, `src/data/blog/`, or `src/assets/` edits when processing a session.
-- **Trusting WebFetch for the Summary/Code tabs** — they are JS-rendered; use Playwright.
+- **Trusting WebFetch for the Summary/Code tabs** — they are JS-rendered; use Playwright. (The **download/SD links are static HTML**, so WebFetch is fine for those.)
+- **(Group lab) Transcribing without VAD + `-mc 0`** — plain large-v3 hallucination-loops on lab audio (one phrase for most of the session) and looks fine per-segment. Always pass `--vad --vad-model <silero> -mc 0`, then run the `check_transcript.py` gate before any digest.
+- **(Group lab) Inventing speaker labels** — large-v3 has no diarization. Keep cues unattributed; capture the panel roster from the intro.
+- **(Group lab) Running two whisper processes at once** — whisper saturates the GPU; concurrency just contends. Serial whisper; parallelize SD-URL probes and Opus digests only.
 - **Leaving `// Copy Code` placeholder text** in `code.md` from the `pre` extraction.
 - **(Bulk) Running two browser fetchers at once** — the Playwright instance is shared and single; concurrent navigations race. Exactly one fetcher; parallelize only the sosumi synthesis.
 - **(Bulk) Hand-typing folder slugs per dispatch** — they drift from the created dirs and the `filename` write fails (ENOENT), silently dropping that supplement. Always read folders from the manifest.
