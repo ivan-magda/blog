@@ -39,6 +39,9 @@ public/pagefind
 # workspace
 workspace/
 
+# social distribution drafts
+social/
+
 # context files
 BLOG-SETUP-CONTEXT.md
 
