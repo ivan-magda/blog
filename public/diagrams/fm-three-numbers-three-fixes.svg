@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" width="720" height="300" role="img" aria-labelledby="t d">
+  <title id="t">Three numbers, three fixes</title>
+  <desc id="d">Time to First Token points at the input prompt, Tokens per Second is a baseline to benchmark for regressions, and Total Duration is a perception problem solved by streaming partial results.</desc>
+  <style>
+    svg { --fg:#2c2825; --ac:#b85c38; --mut:#ede9e3; --bd:#ddd8d0; }
+    @media (prefers-color-scheme: dark) { svg { --fg:#e4dfd7; --ac:#e09040; --mut:#2a2e3d; --bd:#3d4155; } }
+    text { fill: var(--fg); font-family: -apple-system, "SF Pro Text", system-ui, "Helvetica Neue", Arial, sans-serif; }
+    .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+    .title { font-size: 16px; font-weight: 600; }
+    .sub { fill: var(--fg); opacity: .55; font-size: 12.5px; }
+    .rule { stroke: var(--bd); stroke-width: 1; opacity: .7; }
+    .metric { fill: none; stroke: var(--bd); stroke-width: 1; }
+    .fixcard { fill: var(--mut); stroke: var(--bd); stroke-width: 1; }
+    .name { font-size: 12px; opacity: .65; }
+    .val { fill: var(--ac); font-size: 23px; font-weight: 700; }
+    .fix { font-size: 12px; fill: var(--fg); opacity: .9; }
+    .conn { stroke: var(--fg); stroke-width: 1.5; opacity: .3; fill: none; }
+    .mhn { fill: var(--fg); opacity: .4; }
+  </style>
+  <defs>
+    <marker id="tnN" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="mhn"/></marker>
+  </defs>
+
+  <text x="32" y="40" class="title">Three numbers, three fixes</text>
+  <text x="32" y="60" class="sub">Each metric the instrument reports points at a different lever.</text>
+  <line class="rule" x1="32" y1="74" x2="688" y2="74"/>
+
+  <!-- column 1 -->
+  <rect class="metric" x="40" y="92" width="200" height="62" rx="14"/>
+  <text x="140" y="116" class="name" text-anchor="middle">Time to First Token</text>
+  <text x="140" y="142" class="val" text-anchor="middle">0.36 s</text>
+  <path class="conn" d="M140 160 L140 180" marker-end="url(#tnN)"/>
+  <rect class="fixcard" x="40" y="188" width="200" height="98" rx="14"/>
+  <text x="58" y="212" class="fix"><tspan x="58" dy="0">Shorten the input. A</tspan><tspan x="58" dy="17">smaller prompt processes</tspan><tspan x="58" dy="17">faster; drop the</tspan><tspan x="58" dy="17"><tspan class="mono">@Generable</tspan> schema on</tspan><tspan x="58" dy="17">follow-up calls.</tspan></text>
+
+  <!-- column 2 -->
+  <rect class="metric" x="260" y="92" width="200" height="62" rx="14"/>
+  <text x="360" y="116" class="name" text-anchor="middle">Tokens / Second</text>
+  <text x="360" y="142" class="val" text-anchor="middle">110.36</text>
+  <path class="conn" d="M360 160 L360 180" marker-end="url(#tnN)"/>
+  <rect class="fixcard" x="260" y="188" width="200" height="98" rx="14"/>
+  <text x="278" y="212" class="fix"><tspan x="278" dy="0">A baseline, not a target.</tspan><tspan x="278" dy="17">Benchmark across prompts</tspan><tspan x="278" dy="17">and models so a slowdown</tspan><tspan x="278" dy="17">shows up as a clear</tspan><tspan x="278" dy="17">regression.</tspan></text>
+
+  <!-- column 3 -->
+  <rect class="metric" x="480" y="92" width="200" height="62" rx="14"/>
+  <text x="580" y="116" class="name" text-anchor="middle">Total Duration</text>
+  <text x="580" y="142" class="val" text-anchor="middle">1.72 s</text>
+  <path class="conn" d="M580 160 L580 180" marker-end="url(#tnN)"/>
+  <rect class="fixcard" x="480" y="188" width="200" height="98" rx="14"/>
+  <text x="498" y="212" class="fix"><tspan x="498" dy="0">Perception, not raw</tspan><tspan x="498" dy="17">speed. Stream partial</tspan><tspan x="498" dy="17">results so the wait feels</tspan><tspan x="498" dy="17">shorter even when the</tspan><tspan x="498" dy="17">total is unchanged.</tspan></text>
+</svg>

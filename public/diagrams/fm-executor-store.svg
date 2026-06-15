@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 322" width="720" height="322" role="img" aria-labelledby="t d">
+  <title id="t">The executor store</title>
+  <desc id="d">A session keeps one executor store keyed by each model's Hashable Configuration. Two models with an equal configuration resolve to the same executor; a model with a different configuration gets its own.</desc>
+  <style>
+    svg { --fg:#2c2825; --ac:#b85c38; --mut:#ede9e3; --bd:#ddd8d0; }
+    @media (prefers-color-scheme: dark) { svg { --fg:#e4dfd7; --ac:#e09040; --mut:#2a2e3d; --bd:#3d4155; } }
+    text { fill: var(--fg); font-family: -apple-system, "SF Pro Text", system-ui, "Helvetica Neue", Arial, sans-serif; }
+    .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+    .title { font-size: 16px; font-weight: 600; }
+    .sub { fill: var(--fg); opacity: .55; font-size: 12.5px; }
+    .rule { stroke: var(--bd); stroke-width: 1; opacity: .7; }
+    .card { fill: var(--mut); stroke: var(--bd); stroke-width: 1; }
+    .h { font-size: 13.5px; font-weight: 600; }
+    .s { fill: var(--fg); opacity: .6; font-size: 11.5px; }
+    .pill { fill: none; stroke: var(--ac); stroke-width: 1.1; }
+    .pillt { fill: var(--ac); font-size: 10.5px; font-weight: 600; }
+    .conn { stroke: var(--fg); stroke-width: 1.5; fill: none; opacity: .3; }
+    .connAc { stroke: var(--ac); stroke-width: 1.8; fill: none; }
+    .acT { fill: var(--ac); }
+    .cap { fill: var(--fg); opacity: .5; font-size: 11px; }
+    .mhn { fill: var(--fg); opacity: .4; }
+    .mha { fill: var(--ac); }
+  </style>
+  <defs>
+    <marker id="esN" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="mhn"/></marker>
+    <marker id="esA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="mha"/></marker>
+  </defs>
+
+  <text x="32" y="40" class="title">The executor store</text>
+  <text x="32" y="60" class="sub">One store per session, keyed by a Hashable Configuration.</text>
+  <line class="rule" x1="32" y1="74" x2="688" y2="74"/>
+
+  <!-- model cards -->
+  <g>
+    <rect class="card" x="32" y="96" width="232" height="56" rx="14"/>
+    <text x="48" y="122" class="h mono">MyLanguageModel</text>
+    <text x="48" y="140" class="s mono">acme · llama-27</text>
+    <rect class="pill" x="180" y="110" width="70" height="20" rx="10"/>
+    <text x="215" y="124" class="pillt" text-anchor="middle">Config A</text>
+  </g>
+  <g>
+    <rect class="card" x="32" y="164" width="232" height="56" rx="14"/>
+    <text x="48" y="190" class="h mono">MyLanguageModel</text>
+    <text x="48" y="208" class="s mono">acme · llama-27</text>
+    <rect class="pill" x="180" y="178" width="70" height="20" rx="10"/>
+    <text x="215" y="192" class="pillt" text-anchor="middle">Config A</text>
+  </g>
+  <g>
+    <rect class="card" x="32" y="232" width="232" height="56" rx="14"/>
+    <text x="48" y="258" class="h mono">MyLanguageModel</text>
+    <text x="48" y="276" class="s mono">acme · mini-3</text>
+    <rect class="pill" x="180" y="246" width="70" height="20" rx="10"/>
+    <text x="215" y="260" class="pillt" text-anchor="middle">Config B</text>
+  </g>
+
+  <!-- executor cards -->
+  <g>
+    <rect class="card" x="456" y="104" width="232" height="64" rx="14"/>
+    <text x="472" y="130" class="h">Executor 1</text>
+    <text x="472" y="150" class="s">keeps the KV cache and connection</text>
+  </g>
+  <g>
+    <rect class="card" x="456" y="216" width="232" height="64" rx="14"/>
+    <text x="472" y="242" class="h">Executor 2</text>
+    <text x="472" y="262" class="s">its own cache and connection</text>
+  </g>
+
+  <!-- connectors -->
+  <path class="connAc" d="M264 124 C 360 124, 360 130, 456 132" marker-end="url(#esA)"/>
+  <path class="connAc" d="M264 192 C 360 192, 360 146, 456 144" marker-end="url(#esA)"/>
+  <path class="conn" d="M264 260 C 360 260, 360 246, 456 248" marker-end="url(#esN)"/>
+
+  <text x="362" y="108" class="acT" font-size="11" font-weight="600" text-anchor="middle">same config, reused</text>
+  <text x="360" y="306" class="cap" text-anchor="middle">A different Configuration builds its own executor. The hash lookup is the whole trick.</text>
+</svg>

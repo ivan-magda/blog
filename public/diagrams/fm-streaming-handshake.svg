@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 206" width="720" height="206" role="img" aria-labelledby="t d">
+  <title id="t">The streaming handshake</title>
+  <desc id="d">The executor sends events on the generation channel in order: metadata first, then usage with prompt token counts before generating, then one text delta per token.</desc>
+  <style>
+    svg { --fg:#2c2825; --ac:#b85c38; --mut:#ede9e3; --bd:#ddd8d0; --bg:#faf8f5; }
+    @media (prefers-color-scheme: dark) { svg { --fg:#e4dfd7; --ac:#e09040; --mut:#2a2e3d; --bd:#3d4155; --bg:#1b1e28; } }
+    text { fill: var(--fg); font-family: -apple-system, "SF Pro Text", system-ui, "Helvetica Neue", Arial, sans-serif; }
+    .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+    .title { font-size: 16px; font-weight: 600; }
+    .sub { fill: var(--fg); opacity: .55; font-size: 12.5px; }
+    .rule { stroke: var(--bd); stroke-width: 1; opacity: .7; }
+    .h { font-size: 13px; font-weight: 600; }
+    .s { fill: var(--fg); opacity: .6; font-size: 11px; }
+    .axis { stroke: var(--fg); stroke-width: 1.5; opacity: .3; fill: none; }
+    .dot { fill: var(--ac); }
+    .dott { fill: var(--bg); font-size: 12px; font-weight: 700; }
+    .tick { stroke: var(--ac); stroke-width: 2; opacity: .55; }
+    .mhn { fill: var(--fg); opacity: .4; }
+  </style>
+  <defs>
+    <marker id="shN" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="mhn"/></marker>
+  </defs>
+
+  <text x="32" y="40" class="title">The streaming handshake</text>
+  <text x="32" y="60" class="sub">Channel events, front-loaded so the app is never blind.</text>
+  <line class="rule" x1="32" y1="74" x2="688" y2="74"/>
+
+  <line class="axis" x1="48" y1="132" x2="676" y2="132" marker-end="url(#shN)"/>
+
+  <circle class="dot" cx="120" cy="132" r="14"/>
+  <text x="120" y="137" class="dott" text-anchor="middle">1</text>
+  <text x="120" y="106" class="h" text-anchor="middle">Metadata</text>
+  <text x="120" y="164" class="s mono" text-anchor="middle">modelID · requestID</text>
+
+  <circle class="dot" cx="330" cy="132" r="14"/>
+  <text x="330" y="137" class="dott" text-anchor="middle">2</text>
+  <text x="330" y="106" class="h" text-anchor="middle">Usage</text>
+  <text x="330" y="164" class="s" text-anchor="middle">prompt tokens, before generating</text>
+
+  <circle class="dot" cx="520" cy="132" r="14"/>
+  <text x="520" y="137" class="dott" text-anchor="middle">3</text>
+  <text x="520" y="106" class="h" text-anchor="middle">Text deltas</text>
+  <text x="548" y="164" class="s">one per token</text>
+
+  <line class="tick" x1="556" y1="124" x2="556" y2="140"/>
+  <line class="tick" x1="576" y1="124" x2="576" y2="140"/>
+  <line class="tick" x1="596" y1="124" x2="596" y2="140"/>
+  <line class="tick" x1="616" y1="124" x2="616" y2="140"/>
+  <line class="tick" x1="636" y1="124" x2="636" y2="140"/>
+</svg>

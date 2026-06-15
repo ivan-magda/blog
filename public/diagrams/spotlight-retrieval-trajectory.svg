@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 472" width="720" height="472" role="img" aria-labelledby="t d">
+  <title id="t">The retrieval trajectory</title>
+  <desc id="d">From one prompt, the model writes a search query, invokes SpotlightSearchTool, Spotlight runs the query against the index, the model reads the result summary, then writes the response. The model decides when to search and writes the query itself.</desc>
+  <style>
+    svg { --fg:#2c2825; --ac:#b85c38; --mut:#ede9e3; --bd:#ddd8d0; --bg:#faf8f5; }
+    @media (prefers-color-scheme: dark) { svg { --fg:#e4dfd7; --ac:#e09040; --mut:#2a2e3d; --bd:#3d4155; --bg:#1b1e28; } }
+    text { fill: var(--fg); font-family: -apple-system, "SF Pro Text", system-ui, "Helvetica Neue", Arial, sans-serif; }
+    .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+    .title { font-size: 16px; font-weight: 600; }
+    .sub { fill: var(--fg); opacity: .55; font-size: 12.5px; }
+    .rule { stroke: var(--bd); stroke-width: 1; opacity: .7; }
+    .card { fill: var(--mut); stroke: var(--bd); stroke-width: 1; }
+    .h { font-size: 13px; }
+    .dot { fill: var(--ac); }
+    .dott { fill: var(--bg); font-size: 11px; font-weight: 700; }
+    .opendot { fill: none; stroke: var(--fg); stroke-width: 1.4; opacity: .45; }
+    .rail { stroke: var(--fg); stroke-width: 1.5; opacity: .28; fill: none; }
+    .pill { fill: none; stroke-width: 1; }
+    .pillAc { stroke: var(--ac); }
+    .pillN { stroke: var(--fg); opacity: .35; }
+    .pilltAc { fill: var(--ac); font-size: 10px; font-weight: 600; }
+    .pilltN { fill: var(--fg); opacity: .6; font-size: 10px; font-weight: 600; }
+    .aside { fill: var(--mut); stroke: var(--bd); stroke-width: 1; }
+    .asideH { font-size: 12px; font-weight: 600; fill: var(--ac); }
+    .asideB { font-size: 12px; fill: var(--fg); opacity: .85; }
+  </style>
+
+  <text x="32" y="40" class="title">The retrieval trajectory</text>
+  <text x="32" y="60" class="sub">One prompt, and the five steps the model runs.</text>
+  <line class="rule" x1="32" y1="74" x2="688" y2="74"/>
+
+  <!-- rail -->
+  <path class="rail" d="M60 132 L60 410"/>
+
+  <!-- N0 prompt -->
+  <rect class="card" x="32" y="92" width="404" height="46" rx="14"/>
+  <circle class="opendot" cx="60" cy="115" r="9"/>
+  <text x="86" y="120" class="h mono">&#8220;What hikes have I gone on?&#8221;</text>
+  <rect class="pill pillN" x="372" y="105" width="52" height="20" rx="10"/>
+  <text x="398" y="119" class="pilltN" text-anchor="middle">You</text>
+
+  <!-- N1 -->
+  <rect class="card" x="32" y="156" width="404" height="46" rx="14"/>
+  <circle class="dot" cx="60" cy="179" r="13"/>
+  <text x="60" y="183" class="dott" text-anchor="middle">1</text>
+  <text x="86" y="184" class="h">the model writes a search query</text>
+  <rect class="pill pillAc" x="368" y="169" width="56" height="20" rx="10"/>
+  <text x="396" y="183" class="pilltAc" text-anchor="middle">Model</text>
+
+  <!-- N2 -->
+  <rect class="card" x="32" y="220" width="404" height="46" rx="14"/>
+  <circle class="dot" cx="60" cy="243" r="13"/>
+  <text x="60" y="247" class="dott" text-anchor="middle">2</text>
+  <text x="86" y="248" class="h">it invokes <tspan class="mono">SpotlightSearchTool</tspan></text>
+  <rect class="pill pillAc" x="368" y="233" width="56" height="20" rx="10"/>
+  <text x="396" y="247" class="pilltAc" text-anchor="middle">Model</text>
+
+  <!-- N3 Spotlight -->
+  <rect class="card" x="32" y="284" width="404" height="46" rx="14"/>
+  <circle class="dot" cx="60" cy="307" r="13"/>
+  <text x="60" y="311" class="dott" text-anchor="middle">3</text>
+  <text x="86" y="312" class="h">Spotlight runs the query on the index</text>
+  <rect class="pill pillN" x="350" y="297" width="74" height="20" rx="10"/>
+  <text x="387" y="311" class="pilltN" text-anchor="middle">Spotlight</text>
+
+  <!-- N4 -->
+  <rect class="card" x="32" y="348" width="404" height="46" rx="14"/>
+  <circle class="dot" cx="60" cy="371" r="13"/>
+  <text x="60" y="375" class="dott" text-anchor="middle">4</text>
+  <text x="86" y="376" class="h">the model reads the result summary</text>
+  <rect class="pill pillAc" x="368" y="361" width="56" height="20" rx="10"/>
+  <text x="396" y="375" class="pilltAc" text-anchor="middle">Model</text>
+
+  <!-- N5 -->
+  <rect class="card" x="32" y="412" width="404" height="46" rx="14"/>
+  <circle class="dot" cx="60" cy="435" r="13"/>
+  <text x="60" y="439" class="dott" text-anchor="middle">5</text>
+  <text x="86" y="440" class="h">the model writes the response</text>
+  <rect class="pill pillAc" x="368" y="425" width="56" height="20" rx="10"/>
+  <text x="396" y="439" class="pilltAc" text-anchor="middle">Model</text>
+
+  <!-- aside -->
+  <rect class="aside" x="468" y="156" width="220" height="174" rx="14"/>
+  <text x="488" y="184" class="asideH">Division of labor</text>
+  <text x="488" y="210" class="asideB"><tspan x="488" dy="0">The model decides when</tspan><tspan x="488" dy="19">to search and writes the</tspan><tspan x="488" dy="19">query itself. We never</tspan><tspan x="488" dy="19">pass it a query string or</tspan><tspan x="488" dy="19">call a search API.</tspan></text>
+</svg>
