@@ -31,6 +31,9 @@ const { toc } = Astro.props;
 
   @media (min-width: 1280px) {
     .toc-rail {
+      --toc-ease: cubic-bezier(0.2, 0, 0, 1);
+      --toc-ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+
       display: block;
       position: fixed;
       top: 50%;
@@ -45,9 +48,8 @@ const { toc } = Astro.props;
       width: 1.5rem;
       padding-block: 0.5rem;
       padding-inline: 0.75rem;
-      transition: width 200ms ease;
-      /* Asymmetric hover intent: slow to close, instant to open (see below). */
-      transition-delay: 200ms;
+      /* Keep layout changes instant so ticks never jump after the fade. */
+      transition: width 0ms linear;
     }
 
     .toc-rail ol {
@@ -77,6 +79,7 @@ const { toc } = Astro.props;
       text-decoration: none;
       color: var(--foreground);
       opacity: 0.85;
+      transition: opacity 260ms var(--toc-ease-in-out);
     }
 
     .toc-tick {
@@ -89,8 +92,9 @@ const { toc } = Astro.props;
       /* Border tone reads against the background; accent on active. */
       background: var(--border);
       transition:
-        width 150ms ease,
-        background-color 150ms ease;
+        width 300ms var(--toc-ease),
+        background-color 280ms var(--toc-ease-in-out),
+        opacity 280ms var(--toc-ease-in-out);
     }
     .toc-rail .depth-3 .toc-tick {
       width: 8px;
@@ -115,8 +119,9 @@ const { toc } = Astro.props;
          layout. */
       font-synthesis: none;
       transition:
-        opacity 200ms ease,
-        max-width 200ms ease;
+        opacity 220ms var(--toc-ease-in-out),
+        max-width 0ms linear;
+      will-change: opacity;
     }
     .toc-rail .depth-3 .toc-label {
       padding-inline-start: 0.5rem;
@@ -131,8 +136,7 @@ const { toc } = Astro.props;
       border: 1px solid var(--border);
       border-radius: 0.5rem;
       box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
-      /* Open instantly; the close delay lives on the base rule. */
-      transition-delay: 0ms;
+      transition: width 0ms linear 0ms;
     }
     .toc-rail:hover .toc-label,
     .toc-rail:focus-within .toc-label {
@@ -140,6 +144,9 @@ const { toc } = Astro.props;
       max-width: 11rem;
       /* Wrap full headings instead of truncating with an ellipsis. */
       white-space: normal;
+      transition:
+        opacity 240ms var(--toc-ease-in-out) 60ms,
+        max-width 0ms linear 0ms;
     }
     .toc-rail:hover a,
     .toc-rail:focus-within a {
@@ -154,11 +161,15 @@ const { toc } = Astro.props;
       background: none;
       border: none;
       box-shadow: none;
+      transition: width 0ms linear 0ms;
     }
     .toc-rail[data-dismissed]:hover .toc-label,
     .toc-rail[data-dismissed]:focus-within .toc-label {
       opacity: 0;
       max-width: 0;
+      transition:
+        opacity 160ms var(--toc-ease-in-out),
+        max-width 0ms linear 0ms;
     }
 
     /* Active section (scroll-spy): two channels — accent tick + bold label. */
