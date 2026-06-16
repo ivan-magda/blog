@@ -1,0 +1,302 @@
+---
+type TocHeading = { depth: number; slug: string; text: string };
+
+interface Props {
+  toc: TocHeading[];
+}
+
+const { toc } = Astro.props;
+---
+
+<nav class="toc-rail" aria-label="On this page" data-pagefind-ignore>
+  <ol role="list">
+    {
+      toc.map(h => (
+        <li class:list={[`depth-${h.depth}`]}>
+          <a href={`#${h.slug}`} title={h.text}>
+            <span class="toc-tick" aria-hidden="true" />
+            <span class="toc-label">{h.text}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  /* Hidden by default; only revealed at xl and up. */
+  .toc-rail {
+    display: none;
+  }
+
+  @media (min-width: 1280px) {
+    .toc-rail {
+      display: block;
+      position: fixed;
+      top: 50%;
+      /* Anchor near the right viewport edge so the rail sits in the gutter
+         and the panel expands leftward within it (not over body text). */
+      right: clamp(1rem, calc((100vw - 48rem) / 2 - 14rem), 4rem);
+      transform: translateY(-50%);
+      z-index: 50;
+      max-height: 80vh;
+      overflow: hidden;
+      /* Collapsed width plus horizontal padding as an invisible hover buffer. */
+      width: 1.5rem;
+      padding-block: 0.5rem;
+      padding-inline: 0.75rem;
+      transition: width 200ms ease;
+      /* Asymmetric hover intent: slow to close, instant to open (see below). */
+      transition-delay: 200ms;
+    }
+
+    .toc-rail ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .toc-rail li {
+      margin: 0;
+      padding: 0;
+    }
+
+    .toc-rail a {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.625rem;
+      text-decoration: none;
+      color: var(--foreground);
+      opacity: 0.85;
+    }
+
+    .toc-tick {
+      flex: none;
+      /* Nudge the tick down so it lines up with the first text line when
+         labels wrap to multiple lines. */
+      margin-top: 0.5rem;
+      width: 12px;
+      height: 2px;
+      border-radius: 1px;
+      /* Border tone reads against the background; accent on active. */
+      background: var(--border);
+      transition:
+        width 150ms ease,
+        background-color 150ms ease;
+    }
+    .toc-rail .depth-3 .toc-tick {
+      width: 8px;
+      opacity: 0.6;
+    }
+
+    .toc-label {
+      opacity: 0;
+      max-width: 0;
+      /* Collapsed: nowrap so max-width can animate to 0 cleanly.
+         Expanded rules switch to normal wrapping (see below). */
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 0.8125rem;
+      line-height: 1.3;
+      color: var(--foreground);
+      transition:
+        opacity 200ms ease,
+        max-width 200ms ease;
+    }
+    .toc-rail .depth-3 .toc-label {
+      padding-inline-start: 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    /* Expanded state: hover or keyboard focus reveals the labelled panel. */
+    .toc-rail:hover,
+    .toc-rail:focus-within {
+      width: 14rem;
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
+      /* Open instantly; the close delay lives on the base rule. */
+      transition-delay: 0ms;
+    }
+    .toc-rail:hover .toc-label,
+    .toc-rail:focus-within .toc-label {
+      opacity: 1;
+      max-width: 11rem;
+      /* Wrap full headings instead of truncating with an ellipsis. */
+      white-space: normal;
+    }
+    .toc-rail:hover a,
+    .toc-rail:focus-within a {
+      opacity: 1;
+    }
+
+    /* Escape-dismiss: overrides the hover/focus expansion (higher specificity).
+       Uses an attribute (not [hidden]) so the rail stays in layout + AT tree. */
+    .toc-rail[data-dismissed]:hover,
+    .toc-rail[data-dismissed]:focus-within {
+      width: 1.5rem;
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+    .toc-rail[data-dismissed]:hover .toc-label,
+    .toc-rail[data-dismissed]:focus-within .toc-label {
+      opacity: 0;
+      max-width: 0;
+    }
+
+    /* Active section (scroll-spy): two channels — accent tick + bold label. */
+    .toc-rail a[aria-current="true"] .toc-tick {
+      width: 18px;
+      background: var(--accent);
+    }
+    .toc-rail a[aria-current="true"] .toc-label {
+      color: var(--accent);
+      font-weight: 700;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toc-rail,
+    .toc-rail .toc-tick,
+    .toc-rail .toc-label {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script is:inline data-astro-rerun>
+  (function () {
+    const rail = document.querySelector("nav.toc-rail");
+    if (!rail) return;
+
+    const article = document.getElementById("article");
+
+    // --- Teardown that abort() alone cannot do (disconnect observers, remove sentinel). ---
+    function cleanup() {
+      window.__tocObserver?.disconnect();
+      window.__tocObserver = null;
+      window.__tocSentinelObserver?.disconnect();
+      window.__tocSentinelObserver = null;
+      document.querySelector("#article > [data-toc-sentinel]")?.remove();
+    }
+
+    // Tear down any prior run (listeners) and run cleanup via the abort handler.
+    window.__tocAbort?.abort();
+    cleanup();
+
+    const controller = new AbortController();
+    const { signal } = controller;
+    window.__tocAbort = controller;
+    signal.addEventListener("abort", cleanup, { once: true });
+
+    const links = Array.from(rail.querySelectorAll("a"));
+    const linkBySlug = new Map();
+    const targets = [];
+    for (const link of links) {
+      const slug = decodeURIComponent(
+        (link.getAttribute("href") || "").slice(1)
+      );
+      const heading = document.getElementById(slug);
+      if (!heading) continue;
+      linkBySlug.set(heading, link);
+      targets.push(heading);
+    }
+
+    function setActive(link) {
+      for (const l of links) l.removeAttribute("aria-current");
+      if (link) link.setAttribute("aria-current", "true");
+    }
+
+    // --- Main scroll-spy observer: top-third detection band. ---
+    const io = new IntersectionObserver(
+      () => {
+        // Among headings currently in the band, pick the topmost (smallest
+        // non-negative top). Recompute from live geometry for stability.
+        let best = null;
+        let bestTop = Infinity;
+        for (const heading of targets) {
+          const rect = heading.getBoundingClientRect();
+          const bandTop = window.innerHeight * 0.1;
+          const bandBottom = window.innerHeight * 0.3;
+          if (rect.top >= bandTop && rect.top <= bandBottom) {
+            if (rect.top < bestTop) {
+              bestTop = rect.top;
+              best = heading;
+            }
+          }
+        }
+        if (best) setActive(linkBySlug.get(best));
+      },
+      { rootMargin: "-10% 0px -70% 0px", threshold: 0 }
+    );
+    for (const heading of targets) io.observe(heading);
+    window.__tocObserver = io;
+
+    // --- Bottom sentinel: a SEPARATE full-viewport observer so the last/short
+    // section can activate even when the article end sits low in the viewport. ---
+    if (article && targets.length) {
+      const sentinel = document.createElement("div");
+      sentinel.setAttribute("data-toc-sentinel", "");
+      sentinel.setAttribute("aria-hidden", "true");
+      article.appendChild(sentinel);
+
+      const lastLink = linkBySlug.get(targets[targets.length - 1]);
+      const sentinelObserver = new IntersectionObserver(
+        entries => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) setActive(lastLink);
+          }
+        },
+        { rootMargin: "0px", threshold: 0 }
+      );
+      sentinelObserver.observe(sentinel);
+      window.__tocSentinelObserver = sentinelObserver;
+    }
+
+    // --- Deep-link on load: activate the matching link immediately. ---
+    if (location.hash) {
+      const slug = decodeURIComponent(location.hash.slice(1));
+      const heading = document.getElementById(slug);
+      if (heading && linkBySlug.has(heading)) {
+        setActive(linkBySlug.get(heading));
+      }
+    }
+
+    // --- Escape-dismiss (covers the hover path too — WCAG 1.4.13). ---
+    document.addEventListener(
+      "keydown",
+      e => {
+        if (e.key === "Escape") {
+          rail.setAttribute("data-dismissed", "");
+          if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+          }
+        }
+      },
+      { signal }
+    );
+    // Clear on mouseleave (hover path) AND focusin (keyboard path).
+    rail.addEventListener(
+      "mouseleave",
+      () => rail.removeAttribute("data-dismissed"),
+      { signal }
+    );
+    rail.addEventListener(
+      "focusin",
+      () => rail.removeAttribute("data-dismissed"),
+      { signal }
+    );
+
+    // --- View Transitions: tear down before leaving any page (incl. no-ToC). ---
+    document.addEventListener(
+      "astro:before-swap",
+      () => window.__tocAbort?.abort(),
+      { signal }
+    );
+  })();
+</script>

@@ -9,6 +9,7 @@ import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -38,7 +39,11 @@ const {
   hideFromFeed,
 } = post.data;
 
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+
+// On-page TOC: h2/h3 only; render the rail when there's enough structure.
+const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
+const showToc = toc.length >= 3;
 
 let ogImageUrl: string | undefined;
 
@@ -127,6 +132,8 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
     >
       <Content />
     </article>
+
+    {showToc && <TableOfContents toc={toc} />}
 
     <hr class="my-8 border-dashed" />
 
