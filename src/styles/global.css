@@ -68,3 +68,13 @@ html[data-theme="dark"] {
 :target {
   scroll-margin-block: 1rem;
 }
+
+/* Kill smooth scroll for reduced-motion users. Must win unconditionally:
+   it neutralizes both the base `html { scroll-behavior: smooth }` rule and
+   the `.scroll-smooth` utility class Layout adds on posts (where TOC nav
+   relies on native anchor jumps). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}

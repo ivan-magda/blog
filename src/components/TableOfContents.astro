@@ -1,0 +1,325 @@
+---
+type TocHeading = { depth: number; slug: string; text: string };
+
+interface Props {
+  toc: TocHeading[];
+}
+
+const { toc } = Astro.props;
+---
+
+<nav class="toc-rail" aria-label="On this page" data-pagefind-ignore>
+  <ol role="list">
+    {
+      toc.map(h => (
+        <li class:list={[`depth-${h.depth}`]}>
+          <a href={`#${h.slug}`} title={h.text}>
+            <span class="toc-tick" aria-hidden="true" />
+            <span class="toc-label">{h.text}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  /* Hidden by default; only revealed at xl and up. */
+  .toc-rail {
+    display: none;
+  }
+
+  @media (min-width: 1280px) {
+    .toc-rail {
+      --toc-ease: cubic-bezier(0.2, 0, 0, 1);
+      --toc-ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+
+      display: block;
+      position: fixed;
+      top: 50%;
+      /* Anchor near the right viewport edge so the rail sits in the gutter
+         and the panel expands leftward within it (not over body text). */
+      right: clamp(1rem, calc((100vw - 48rem) / 2 - 14rem), 4rem);
+      transform: translateY(-50%);
+      z-index: 50;
+      max-height: 80vh;
+      overflow: hidden;
+      /* Collapsed width plus horizontal padding as an invisible hover buffer. */
+      width: 1.5rem;
+      padding-block: 0.5rem;
+      padding-inline: 0.75rem;
+      /* Keep layout changes instant so ticks never jump after the fade. */
+      transition: width 0ms linear;
+    }
+
+    .toc-rail ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .toc-rail li {
+      margin: 0;
+      padding: 0;
+    }
+
+    .toc-rail a {
+      /* Grid (not flex) with a FIXED tick column sized to the active tick
+         width. The active state grows the tick 12px -> 18px; under flex that
+         stole 6px from the label and rewrapped it to an extra line, reflowing
+         the whole panel as you scrolled. Reserving 18px always keeps the label
+         column width constant, so toggling active never changes wrapping. */
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      align-items: start;
+      column-gap: 0.625rem;
+      text-decoration: none;
+      color: var(--foreground);
+      opacity: 0.85;
+      transition: opacity 260ms var(--toc-ease-in-out);
+    }
+
+    .toc-tick {
+      /* Nudge the tick down so it lines up with the first text line when
+         labels wrap to multiple lines. */
+      margin-top: 0.5rem;
+      width: 12px;
+      height: 2px;
+      border-radius: 1px;
+      /* Border tone reads against the background; accent on active. */
+      background: var(--border);
+      transition:
+        width 300ms var(--toc-ease),
+        background-color 280ms var(--toc-ease-in-out),
+        opacity 280ms var(--toc-ease-in-out);
+    }
+    .toc-rail .depth-3 .toc-tick {
+      width: 8px;
+      opacity: 0.6;
+    }
+
+    .toc-label {
+      opacity: 0;
+      max-width: 0;
+      /* Collapsed: nowrap so max-width can animate to 0 cleanly.
+         Expanded rules switch to normal wrapping (see below). */
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 0.8125rem;
+      line-height: 1.3;
+      color: var(--foreground);
+      /* Never synthesize faux-bold. The active state sets font-weight 700; if
+         that face has not downloaded yet the browser would smear the 400 face
+         wider, adding a wrap line and reflowing the whole panel as you scroll.
+         With synthesis off the label keeps its 400 metrics until the real
+         (equal-width monospace) 700 swaps in, so toggling active never shifts
+         layout. */
+      font-synthesis: none;
+      transition:
+        opacity 220ms var(--toc-ease-in-out),
+        max-width 0ms linear;
+      will-change: opacity;
+    }
+    .toc-rail .depth-3 .toc-label {
+      padding-inline-start: 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    /* Expanded state: hover or keyboard focus reveals the labelled panel. */
+    .toc-rail:hover,
+    .toc-rail:focus-within {
+      width: 14rem;
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
+      transition: width 0ms linear 0ms;
+    }
+    .toc-rail:hover .toc-label,
+    .toc-rail:focus-within .toc-label {
+      opacity: 1;
+      max-width: 11rem;
+      /* Wrap full headings instead of truncating with an ellipsis. */
+      white-space: normal;
+      transition:
+        opacity 240ms var(--toc-ease-in-out) 60ms,
+        max-width 0ms linear 0ms;
+    }
+    .toc-rail:hover a,
+    .toc-rail:focus-within a {
+      opacity: 1;
+    }
+
+    /* Escape-dismiss: overrides the hover/focus expansion (higher specificity).
+       Uses an attribute (not [hidden]) so the rail stays in layout + AT tree. */
+    .toc-rail[data-dismissed]:hover,
+    .toc-rail[data-dismissed]:focus-within {
+      width: 1.5rem;
+      background: none;
+      border: none;
+      box-shadow: none;
+      transition: width 0ms linear 0ms;
+    }
+    .toc-rail[data-dismissed]:hover .toc-label,
+    .toc-rail[data-dismissed]:focus-within .toc-label {
+      opacity: 0;
+      max-width: 0;
+      transition:
+        opacity 160ms var(--toc-ease-in-out),
+        max-width 0ms linear 0ms;
+    }
+
+    /* Active section (scroll-spy): two channels — accent tick + bold label. */
+    .toc-rail a[aria-current="true"] .toc-tick {
+      width: 18px;
+      background: var(--accent);
+    }
+    .toc-rail a[aria-current="true"] .toc-label {
+      color: var(--accent);
+      font-weight: 700;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toc-rail,
+    .toc-rail .toc-tick,
+    .toc-rail .toc-label {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script is:inline data-astro-rerun>
+  (function () {
+    const rail = document.querySelector("nav.toc-rail");
+    if (!rail) return;
+
+    // Tear down the prior run's listeners/observers (View Transitions re-run
+    // this script; the AbortController is stashed on window to reach it).
+    window.__tocAbort?.abort();
+    const controller = new AbortController();
+    const { signal } = controller;
+    window.__tocAbort = controller;
+
+    // Pair each rail link with its heading, preserving document order.
+    const links = Array.from(rail.querySelectorAll("a"));
+    const targets = [];
+    const linkOf = [];
+    for (const link of links) {
+      const slug = decodeURIComponent(
+        (link.getAttribute("href") || "").slice(1)
+      );
+      const heading = document.getElementById(slug);
+      if (!heading) continue;
+      targets.push(heading);
+      linkOf.push(link);
+    }
+    if (!targets.length) return;
+
+    // Eagerly fetch the bold weight the active label uses, so it swaps to real
+    // (equal-width) bold promptly instead of only after the first activation.
+    // Paired with `font-synthesis: none` in CSS, the label never reflows: it
+    // stays at 400 metrics until this real 700 face is ready.
+    if (document.fonts && document.fonts.load) {
+      const family = getComputedStyle(rail).fontFamily;
+      if (family) document.fonts.load("700 1rem " + family).catch(() => {});
+    }
+
+    let currentIndex = -1;
+    function setActive(index) {
+      if (index === currentIndex) return; // idempotent: skip redundant DOM writes
+      currentIndex = index;
+      for (const l of links) l.removeAttribute("aria-current");
+      if (linkOf[index]) linkOf[index].setAttribute("aria-current", "true");
+    }
+
+    // Active section = the LAST heading whose top has scrolled above a reference
+    // line near the top of the viewport. This has no dead zones: it is derived
+    // purely from current geometry, so it is always correct and self-corrects on
+    // scroll-up and on reflow (lazy images, font swaps). Before any heading
+    // crosses the line we show the first; at page bottom we pin the last so a
+    // short final section still activates.
+    const LINE_RATIO = 0.25;
+    function computeActiveIndex() {
+      const doc = document.documentElement;
+      if (window.scrollY + window.innerHeight >= doc.scrollHeight - 2) {
+        return targets.length - 1;
+      }
+      const line = window.innerHeight * LINE_RATIO;
+      let index = 0;
+      for (let i = 0; i < targets.length; i++) {
+        if (targets[i].getBoundingClientRect().top <= line) index = i;
+        else break; // targets are in document order; the rest are lower still
+      }
+      return index;
+    }
+
+    // rAF-throttle so scroll/resize do one batched geometry read per frame.
+    let scheduled = false;
+    function schedule() {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        setActive(computeActiveIndex());
+      });
+    }
+
+    window.addEventListener("scroll", schedule, { passive: true, signal });
+    window.addEventListener("resize", schedule, { passive: true, signal });
+
+    // Recompute when the article reflows (lazy-loaded images grow the page and
+    // shift heading positions without firing a scroll event).
+    const article = document.getElementById("article");
+    if (article && "ResizeObserver" in window) {
+      const ro = new ResizeObserver(schedule);
+      ro.observe(article);
+      signal.addEventListener("abort", () => ro.disconnect(), { once: true });
+    }
+    window.addEventListener("hashchange", schedule, { signal });
+
+    // Initial state: deep link wins, otherwise derive from current scroll.
+    if (location.hash) {
+      const slug = decodeURIComponent(location.hash.slice(1));
+      const i = targets.findIndex(h => h.id === slug);
+      setActive(i >= 0 ? i : computeActiveIndex());
+    } else {
+      setActive(computeActiveIndex());
+    }
+
+    // --- Escape-dismiss (covers the hover path too — WCAG 1.4.13). ---
+    document.addEventListener(
+      "keydown",
+      e => {
+        if (e.key === "Escape") {
+          rail.setAttribute("data-dismissed", "");
+          if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+          }
+        }
+      },
+      { signal }
+    );
+    // Clear on mouseleave (hover path) AND focusin (keyboard path).
+    rail.addEventListener(
+      "mouseleave",
+      () => rail.removeAttribute("data-dismissed"),
+      { signal }
+    );
+    rail.addEventListener(
+      "focusin",
+      () => rail.removeAttribute("data-dismissed"),
+      { signal }
+    );
+
+    // --- View Transitions: tear down before leaving any page (incl. no-ToC). ---
+    document.addEventListener(
+      "astro:before-swap",
+      () => window.__tocAbort?.abort(),
+      { signal }
+    );
+  })();
+</script>
