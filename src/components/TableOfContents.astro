@@ -65,16 +65,21 @@ const { toc } = Astro.props;
     }
 
     .toc-rail a {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.625rem;
+      /* Grid (not flex) with a FIXED tick column sized to the active tick
+         width. The active state grows the tick 12px -> 18px; under flex that
+         stole 6px from the label and rewrapped it to an extra line, reflowing
+         the whole panel as you scrolled. Reserving 18px always keeps the label
+         column width constant, so toggling active never changes wrapping. */
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      align-items: start;
+      column-gap: 0.625rem;
       text-decoration: none;
       color: var(--foreground);
       opacity: 0.85;
     }
 
     .toc-tick {
-      flex: none;
       /* Nudge the tick down so it lines up with the first text line when
          labels wrap to multiple lines. */
       margin-top: 0.5rem;
@@ -102,6 +107,13 @@ const { toc } = Astro.props;
       font-size: 0.8125rem;
       line-height: 1.3;
       color: var(--foreground);
+      /* Never synthesize faux-bold. The active state sets font-weight 700; if
+         that face has not downloaded yet the browser would smear the 400 face
+         wider, adding a wrap line and reflowing the whole panel as you scroll.
+         With synthesis off the label keeps its 400 metrics until the real
+         (equal-width monospace) 700 swaps in, so toggling active never shifts
+         layout. */
+      font-synthesis: none;
       transition:
         opacity 200ms ease,
         max-width 200ms ease;
@@ -195,6 +207,15 @@ const { toc } = Astro.props;
       linkOf.push(link);
     }
     if (!targets.length) return;
+
+    // Eagerly fetch the bold weight the active label uses, so it swaps to real
+    // (equal-width) bold promptly instead of only after the first activation.
+    // Paired with `font-synthesis: none` in CSS, the label never reflows: it
+    // stays at 400 metrics until this real 700 face is ready.
+    if (document.fonts && document.fonts.load) {
+      const family = getComputedStyle(rail).fontFamily;
+      if (family) document.fonts.load("700 1rem " + family).catch(() => {});
+    }
 
     let currentIndex = -1;
     function setActive(index) {
