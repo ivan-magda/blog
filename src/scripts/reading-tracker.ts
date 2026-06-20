@@ -8,16 +8,6 @@
 // Scoped to blog posts (requires #article). Re-inits on Astro View Transitions:
 // init() on astro:page-load, teardown() on astro:before-swap.
 
-export {}; // module scope, required for `declare global`
-
-declare global {
-  interface Window {
-    umami?: { track: (name: string, data?: Record<string, unknown>) => void };
-    __readingTrackerEvents?: Array<{ name: string; data?: unknown; t: number }>;
-    __readingTrackerState?: () => unknown;
-  }
-}
-
 type Milestone = 25 | 50 | 75 | 100;
 const MILESTONES: Milestone[] = [25, 50, 75, 100];
 
