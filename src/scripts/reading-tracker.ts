@@ -154,12 +154,25 @@ function sampleVelocity() {
   }
   state.lastY = y;
   state.lastT = now;
+
+  // Bottom-of-document fallback: if the sentinel at top:100% doesn't intersect
+  // (short screen / layout edge case), ensure scroll-100 still fires.
+  if (
+    !state.scrollFired.has(100) &&
+    window.scrollY + window.innerHeight >=
+      document.documentElement.scrollHeight - 2
+  ) {
+    state.scrollFired.add(100);
+    emit("scroll-100");
+    maybeFireRead(100);
+  }
 }
 
 function maybeFireRead(pct: Milestone) {
   if (!state || state.readFired.has(pct)) return;
   if (!state.scrollFired.has(pct)) return; // must have reached this depth first
   const budget = (state.totalChars / 4) * READ_QUARTER_FRACTION;
+  if (budget <= 0) return;
   if (state.quarterReadChars[pct] >= budget) {
     state.readFired.add(pct);
     emit(`read-${pct}`);
@@ -199,7 +212,7 @@ export function init() {
   const article = document.getElementById("article");
   if (!article) return; // only run on blog post pages
 
-  const totalChars = (article.innerText || "").length;
+  const totalChars = (article.textContent || "").length;
   const articleHeight = article.scrollHeight || 1;
 
   state = {

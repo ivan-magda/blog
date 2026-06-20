@@ -26,6 +26,8 @@ Standard pageview chart, filtered by `path`. Already free.
 ## Tuning the read gate
 `DEFAULT_READ_CHARS_PER_SEC` in the tracker defaults to 60 (Habr/Yandex дочтение cutoff). If read-% ≈ scroll-% everywhere, lower it; if read-% is implausibly low, raise it.
 
+Note that read-% is a coarse heuristic, not a calibrated per-section measurement. The velocity gate estimates chars/sec from `charsPerPixel = totalChars / articleHeight` applied to window scroll deltas, so scrolling through page chrome below the article (tags, share links, prev/next, footer) is attributed to the final quarter. Treat read-% as a relative read-vs-skim signal rather than an exact reading fraction.
+
 ## Exclude your own visits
 In your browser console (once), run `localStorage.setItem("umami.disabled", "1")`. Umami honours this flag natively and stops sending any events from that browser, keeping a low-traffic blog's funnels clean. Undo with `localStorage.removeItem("umami.disabled")`.
 
