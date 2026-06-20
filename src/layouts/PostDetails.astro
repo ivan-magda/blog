@@ -309,3 +309,10 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );
 </script>
+
+<script>
+  import { init, teardown } from "../scripts/reading-tracker";
+
+  document.addEventListener("astro:page-load", init);
+  document.addEventListener("astro:before-swap", teardown);
+</script>
