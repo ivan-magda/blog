@@ -35,5 +35,6 @@ pnpm run sync         # Generate Astro TypeScript types
 - Site-wide config (URL, author, title, dynamicOgImage, showArchives) → `src/config.ts`
 - Social and share link arrays → `src/constants.ts`
 - Deploy workflow → `.github/workflows/deploy.yml` (Cloudflare Pages via `cloudflare/wrangler-action`, Direct Upload)
+- Reading-analytics events + Umami dashboard recipe → `docs/blog-analytics-umami-recipe.md`
 
 Post body headings must use `##` or smaller — the frontmatter `title` renders as h1.
