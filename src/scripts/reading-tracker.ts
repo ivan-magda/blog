@@ -117,7 +117,44 @@ function onIntersect(entries: IntersectionObserverEntry[]) {
   }
 }
 
-// ---- read milestones (velocity gate) — completed in Task 3 ----
+// ---- read milestones (velocity gate) ----
+
+function currentQuarter(s: TrackerState): Milestone | null {
+  const top = s.article.getBoundingClientRect().top + window.scrollY;
+  const frac = (window.scrollY + window.innerHeight - top) / s.articleHeight;
+  if (frac <= 0) return null;
+  if (frac <= 0.25) return 25;
+  if (frac <= 0.5) return 50;
+  if (frac <= 0.75) return 75;
+  return 100;
+}
+
+function onScroll() {
+  if (!state || state.rafScheduled) return;
+  state.rafScheduled = true;
+  requestAnimationFrame(sampleVelocity);
+}
+
+function sampleVelocity() {
+  if (!state) return;
+  state.rafScheduled = false;
+  const now = performance.now();
+  const y = window.scrollY;
+  const dt = (now - state.lastT) / 1000; // seconds
+  if (dt > 0) {
+    const chars = Math.abs(y - state.lastY) * state.charsPerPixel;
+    const velocity = chars / dt; // characters per second
+    if (velocity <= state.readCps) {
+      const q = currentQuarter(state);
+      if (q) {
+        state.quarterReadChars[q] += chars;
+        maybeFireRead(q);
+      }
+    }
+  }
+  state.lastY = y;
+  state.lastT = now;
+}
 
 function maybeFireRead(pct: Milestone) {
   if (!state || state.readFired.has(pct)) return;
@@ -195,6 +232,7 @@ export function init() {
   });
   ro.observe(article);
 
+  window.addEventListener("scroll", onScroll, { passive: true });
   document.addEventListener("visibilitychange", onVisibilityChange);
   window.addEventListener("pagehide", flush);
 
@@ -224,6 +262,7 @@ export function teardown() {
     ro.disconnect();
     ro = null;
   }
+  window.removeEventListener("scroll", onScroll);
   window.removeEventListener("pagehide", flush);
   document.removeEventListener("visibilitychange", onVisibilityChange);
   if (state && !state.sent) flush(); // don't lose data on soft navigation
