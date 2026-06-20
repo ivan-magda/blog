@@ -81,6 +81,54 @@ function emit(name: string, data?: Record<string, number>) {
   }
 }
 
+// ---- scroll milestones ----
+
+function buildSentinels(article: HTMLElement): HTMLElement[] {
+  if (getComputedStyle(article).position === "static") {
+    article.style.position = "relative";
+  }
+  const frag = document.createDocumentFragment();
+  const sentinels: HTMLElement[] = [];
+  for (const pct of MILESTONES) {
+    const s = document.createElement("div");
+    s.dataset.readingMilestone = String(pct);
+    // top:% is relative to the article's height, so sentinels auto-reposition
+    // when lazy images/embeds change the height — no manual repositioning needed.
+    s.style.cssText = `position:absolute;left:0;width:1px;height:1px;top:${pct}%;pointer-events:none;`;
+    sentinels.push(s);
+    frag.appendChild(s);
+  }
+  article.appendChild(frag);
+  return sentinels;
+}
+
+function onIntersect(entries: IntersectionObserverEntry[]) {
+  if (!state) return;
+  for (const e of entries) {
+    if (!e.isIntersecting) continue;
+    const pct = Number(
+      (e.target as HTMLElement).dataset.readingMilestone
+    ) as Milestone;
+    if (state.scrollFired.has(pct)) continue;
+    state.scrollFired.add(pct);
+    emit(`scroll-${pct}`);
+    io?.unobserve(e.target);
+    maybeFireRead(pct);
+  }
+}
+
+// ---- read milestones (velocity gate) — completed in Task 3 ----
+
+function maybeFireRead(pct: Milestone) {
+  if (!state || state.readFired.has(pct)) return;
+  if (!state.scrollFired.has(pct)) return; // must have reached this depth first
+  const budget = (state.totalChars / 4) * READ_QUARTER_FRACTION;
+  if (state.quarterReadChars[pct] >= budget) {
+    state.readFired.add(pct);
+    emit(`read-${pct}`);
+  }
+}
+
 // ---- active time + flush ----
 
 function accumulateVisible() {
@@ -136,6 +184,17 @@ export function init() {
     sent: false,
   };
 
+  state.sentinels = buildSentinels(article);
+  io = new IntersectionObserver(onIntersect, { threshold: 0 });
+  state.sentinels.forEach(s => io!.observe(s));
+
+  ro = new ResizeObserver(() => {
+    if (!state) return;
+    state.articleHeight = state.article.scrollHeight || 1;
+    state.charsPerPixel = state.totalChars / state.articleHeight;
+  });
+  ro.observe(article);
+
   document.addEventListener("visibilitychange", onVisibilityChange);
   window.addEventListener("pagehide", flush);
 
@@ -157,6 +216,14 @@ export function init() {
 }
 
 export function teardown() {
+  if (io) {
+    io.disconnect();
+    io = null;
+  }
+  if (ro) {
+    ro.disconnect();
+    ro = null;
+  }
   window.removeEventListener("pagehide", flush);
   document.removeEventListener("visibilitychange", onVisibilityChange);
   if (state && !state.sent) flush(); // don't lose data on soft navigation
