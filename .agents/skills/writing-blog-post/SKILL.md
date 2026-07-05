@@ -20,11 +20,13 @@ From Ivan's message: a topic OR a path to his rough draft, plus optional materia
 ### 2. Run the research workflow
 
 ```
-Workflow({ name: "post-research", args: {
+Workflow({ scriptPath: "/Users/jetbrains/Developer/blog/.claude/workflows/post-research.js", args: {
   topic: "...",            // or draftPath: "src/data/blog/... / any path"
-  materials: ["workspace/wwdc26/241-.../digest.md", ...],  // optional
+  materials: ["workspace/wwdc26/241-.../digest.md", ...],  // optional, absolute paths
 } })
 ```
+
+Invoke by `scriptPath`, not `name` — name resolution can serve a stale snapshot after the script was edited. Pass `args` as a real JSON object, not a string (the scripts tolerate a string, but don't rely on it).
 
 It writes `workspace/posts/<slug>/research-packet.md` and `outlines.md`, and returns 2–3 outline candidates with a recommendation.
 
@@ -51,7 +53,7 @@ After this point the pipeline runs without questions.
 ### 4. Run the drafting workflow
 
 ```
-Workflow({ name: "post-draft", args: {
+Workflow({ scriptPath: "/Users/jetbrains/Developer/blog/.claude/workflows/post-draft.js", args: {
   slug: "<confirmed slug from direction.md>",
   pubDatetime: "<current UTC, e.g. 2026-07-05T09:00:00Z>",
 } })

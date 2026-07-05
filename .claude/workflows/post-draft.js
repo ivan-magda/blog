@@ -19,8 +19,10 @@ const VOICE_DOC = `${REPO}/docs/blog-project-knowledge.md`
 const STYLE_DOC = `${REPO}/docs/writing-style-guide.md`
 const STOP_SLOP = '/Users/jetbrains/.agents/skills/stop-slop'
 
-const slug = args?.slug
-const pubDatetime = args?.pubDatetime
+// Tolerate args arriving as a JSON-encoded string (easy invocation slip)
+const input = typeof args === 'string' ? JSON.parse(args) : args
+const slug = input?.slug
+const pubDatetime = input?.pubDatetime
 if (!slug) throw new Error('post-draft needs args.slug')
 if (!pubDatetime) throw new Error('post-draft needs args.pubDatetime (current UTC ISO string)')
 const postDir = `${REPO}/workspace/posts/${slug}`

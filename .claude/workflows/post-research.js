@@ -12,9 +12,11 @@ export const meta = {
 const REPO = '/Users/jetbrains/Developer/blog'
 const VOICE_DOC = `${REPO}/docs/blog-project-knowledge.md`
 
-const topic = args?.topic
-const draftPath = args?.draftPath
-const materials = args?.materials || []
+// Tolerate args arriving as a JSON-encoded string (easy invocation slip)
+const input = typeof args === 'string' ? JSON.parse(args) : args
+const topic = input?.topic
+const draftPath = input?.draftPath
+const materials = input?.materials || []
 if (!topic === !draftPath) throw new Error('post-research needs exactly one of args.topic or args.draftPath')
 
 const INTAKE_SCHEMA = {
