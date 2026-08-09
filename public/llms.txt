@@ -59,6 +59,7 @@ A three-post cluster on the WWDC26 Foundation Models announcements: an overview 
 
 ## Optional
 
-- [Source Code](https://github.com/ivan-magda/swift-claude-code): The swift-claude-code GitHub repository
+- [swift-claw](https://github.com/ivan-magda/swift-claw): An always-on personal AI assistant in one pure-Swift binary
+- [swift-claude-code](https://github.com/ivan-magda/swift-claude-code): The swift-claude-code GitHub repository
 - [All Posts](https://ivanmagda.dev/posts/): Browse all articles
 - [Tags](https://ivanmagda.dev/tags/): Browse by topic
