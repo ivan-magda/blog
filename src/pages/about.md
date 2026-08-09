@@ -7,9 +7,15 @@ Hi, I'm Ivan — a mobile developer writing about AI Engineering and Software De
 
 I work across iOS, Android, and KMM, and I'm interested in how AI is changing the way we build software.
 
-## swift-claude-code
+## Projects
 
-My main project right now is [swift-claude-code](https://github.com/ivan-magda/swift-claude-code) — a Swift reimplementation of a Claude Code-style CLI agent, built stage by stage to explore what makes coding agents work. The thesis: Claude Code's effectiveness comes from architectural restraint, not complexity. The [blog series](/tags/swift-claude-code) walks through the ideas behind each stage.
+### swift-claw
+
+My primary project is [swift-claw](https://github.com/ivan-magda/swift-claw), an always-on personal AI assistant that runs as a single pure-Swift daemon on your own hardware. It pairs a private Telegram bot with the LLM of your choice, keeps its memory local, and asks for approval before taking consequential actions.
+
+### swift-claude-code
+
+[swift-claude-code](https://github.com/ivan-magda/swift-claude-code) is a Swift reimplementation of a Claude Code-style CLI agent, built stage by stage to explore what makes coding agents work. The thesis: Claude Code's effectiveness comes from architectural restraint, not complexity. The [blog series](/tags/swift-claude-code) walks through the ideas behind each stage.
 
 ## This blog
 
