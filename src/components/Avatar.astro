@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+import avatar from "@/assets/images/avatar.jpg";
+import { SITE } from "@/config";
+
+type Props = {
+  size: number;
+  loading?: "eager" | "lazy";
+  class?: string;
+};
+
+const { size, loading = "lazy", class: className } = Astro.props;
+---
+
+<!-- One Avatar per page: view-transition-name must be unique. -->
+<Image
+  src={avatar}
+  alt={`Portrait of ${SITE.author}`}
+  width={size}
+  height={size}
+  layout="fixed"
+  loading={loading}
+  transition:name="avatar"
+  class:list={[
+    "not-prose shrink-0 rounded-full border border-border p-1",
+    className,
+  ]}
+/>
