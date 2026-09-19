@@ -15,7 +15,7 @@ My primary project is [swift-claw](https://github.com/ivan-magda/swift-claw), an
 
 ### swift-claude-code
 
-[swift-claude-code](https://github.com/ivan-magda/swift-claude-code) is a Swift reimplementation of a Claude Code-style CLI agent, built stage by stage to explore what makes coding agents work. The thesis: Claude Code's effectiveness comes from architectural restraint, not complexity. The [blog series](/tags/swift-claude-code) walks through the ideas behind each stage.
+[swift-claude-code](https://github.com/ivan-magda/swift-claude-code) is a Swift reimplementation of a Claude Code-style CLI agent, built stage by stage to explore what makes coding agents work. The thesis: Claude Code's effectiveness comes from architectural restraint, not complexity. The [blog series](/tags/swift-claude-code/) walks through the ideas behind each stage.
 
 ## This blog
 

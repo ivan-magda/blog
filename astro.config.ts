@@ -15,6 +15,10 @@ import { SITE } from "./src/config";
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  // Pages build as `posts/index.html`, which Cloudflare Pages serves only at
+  // `/posts/` (it 308-redirects `/posts`). "always" makes Astro-generated URLs
+  // such as paginate() links end in "/" and makes dev 404 on links that don't.
+  trailingSlash: "always",
   // Astro 7 defaults to JSX-style whitespace stripping ("jsx"), which glues
   // inline elements together (breadcrumbs, tag titles, archive counts).
   compressHTML: true,
