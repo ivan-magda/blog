@@ -6,7 +6,8 @@ import { slugifyStr } from "./slugify";
  * @param id - id of the blog post (aka slug)
  * @param filePath - the blog post full file location
  * @param includeBase - whether to include `/posts` in return value
- * @returns blog post path
+ * @returns blog post path, with a trailing slash when `includeBase` is true
+ *   (a link URL); without `includeBase` it is a bare `[...slug]` route param
  */
 export function getPath(
   id: string,
@@ -27,10 +28,13 @@ export function getPath(
   const blogId = id.split("/");
   const slug = blogId.length > 0 ? blogId.slice(-1) : blogId;
 
+  // Links use the canonical trailing-slash URL; route params stay bare
+  const trailingSlash = includeBase ? "/" : "";
+
   // If not inside the sub-dir, simply return the file path
   if (!pathSegments || pathSegments.length < 1) {
-    return [basePath, slug].join("/");
+    return [basePath, slug].join("/") + trailingSlash;
   }
 
-  return [basePath, ...pathSegments, slug].join("/");
+  return [basePath, ...pathSegments, slug].join("/") + trailingSlash;
 }

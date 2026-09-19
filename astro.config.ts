@@ -15,6 +15,7 @@ import { SITE } from "./src/config";
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  trailingSlash: "always",
   // Astro 7 defaults to JSX-style whitespace stripping ("jsx"), which glues
   // inline elements together (breadcrumbs, tag titles, archive counts).
   compressHTML: true,
