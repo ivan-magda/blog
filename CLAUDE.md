@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Personal blog: Astro v5 + AstroPaper v5.5.1 theme, deployed to Cloudflare Pages at https://ivanmagda.dev. Package manager: pnpm.
+Personal blog: Astro v7 + AstroPaper v5.5.1 theme, deployed to Cloudflare Pages at https://ivanmagda.dev. Package manager: pnpm.
 
 ## Commands
 
@@ -16,7 +16,7 @@ pnpm run sync         # Generate Astro TypeScript types
 ## Critical gotchas
 
 - **Tailwind v4, CSS-first config** — theme variables live in `src/styles/global.css` (5 vars: background, foreground, accent, muted, border). No `tailwind.config.*`.
-- **Font config spans 3 files** — Google Sans Code via Astro experimental fonts API; changes must touch `astro.config.ts`, `src/layouts/Layout.astro`, AND `src/styles/global.css`.
+- **Font config spans 3 files** — Google Sans Code via the Astro fonts API (top-level `fonts`); changes must touch `astro.config.ts`, `src/layouts/Layout.astro`, AND `src/styles/global.css`.
 - **Navigation is hardcoded** in `src/components/Header.astro` — not driven by `src/config.ts`.
 - **Prev/Next post links are chronological** — `PostDetails.astro` overrides AstroPaper's default newest-first ordering.
 - **`Main.astro`'s `pageDesc` prop is visible page text only** — it does NOT set the `<meta name="description">`. Pass an explicit `description` prop to `Layout.astro` for that.
