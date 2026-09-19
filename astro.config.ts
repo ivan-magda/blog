@@ -73,10 +73,9 @@ export default defineConfig({
       fallbacks: ["monospace"],
       weights: [300, 400, 500, 600, 700],
       styles: ["normal", "italic"],
-      // Astro 6+ ships only woff2 by default, and those files are subset to
-      // the Latin range. The full-coverage woff files keep glyphs such as "→"
-      // in Google Sans Code instead of the system fallback, as in Astro 5.
-      formats: ["woff2", "woff"],
+      // Load arrows and box drawing on demand without full-coverage woff files.
+      formats: ["woff2"],
+      subsets: ["latin", "symbols", "symbols2"],
     },
   ],
 });

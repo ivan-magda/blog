@@ -106,10 +106,10 @@ const structuredData = buildStructuredData();
     <!-- DNS prefetch for external domains -->
     <link rel="dns-prefetch" href="https://cloud.umami.is" />
 
-    <!-- Load Font -->
+    <!-- Preload normal Latin only; its variable file is shared across weights. -->
     <Font
       cssVariable="--font-google-sans-code"
-      preload={[{ subset: "latin", weight: 400, style: "normal" }]}
+      preload={[{ subset: "latin", style: "normal" }]}
     />
 
     <!-- General Meta Tags -->
