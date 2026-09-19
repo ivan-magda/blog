@@ -23,6 +23,7 @@ pnpm run sync         # Generate Astro TypeScript types
 - **Twitter meta uses `name=`, not `property=`** per spec. Don't "fix" it.
 - **Update `public/llms.txt` when adding new posts** — used by AI search engines.
 - **Post URL = frontmatter `slug`, not filename** — Astro's glob loader uses `slug` as the entry id (`getPath`). Renaming a `.md` doesn't change its URL; edit `slug` plus any cross-links and `llms.txt`.
+- **Internal links end with `/`** (`/posts/<slug>/`, not `/posts/<slug>`): Cloudflare Pages 308-redirects slash-less URLs, and `trailingSlash: "always"` makes dev/preview 404 on them. `getPath()` link URLs already include the slash.
 - **`hideFromFeed: true`** hides a post from every human surface (home, `/posts`, RSS, tags, archives, Pagefind search) while keeping it built, indexed, and in the sitemap. Gate is `postFilter.ts`; archives and the `data-pagefind-body` in `PostDetails.astro` are filtered separately — touch all three or the hide leaks.
 - **Custom domain + `www`→apex 301 live in Cloudflare** (Pages custom domain + a Redirect Rule), not in the repo — there is no `CNAME` file.
 - **Future-dated posts build immediately** — page + sitemap exist from day one (internal links to them work); only listings are gated by `postFilter.ts` until a rebuild after `pubDatetime`. Deploy is push-only, so a scheduled post appears only after a post-date push or manual workflow run.
