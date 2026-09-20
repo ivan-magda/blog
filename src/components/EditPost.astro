@@ -23,7 +23,12 @@ const showEditPost =
       target="_blank"
       rel="noopener noreferrer"
       class:list={[
-        "flex justify-baseline gap-1.5 opacity-80 hover:text-accent",
+        /* Dimmed with a colour, not opacity: opacity composites the whole
+           element, so it dragged the hover accent down to 3.23:1 in light.
+           text-foreground/80 renders the same at rest (7.35:1) and lets
+           hover:text-accent land at the full 4.53:1. IconEdit strokes with
+           currentColor, so it tints either way. */
+        "flex justify-baseline gap-1.5 text-foreground/80 hover:text-accent",
         className,
       ]}
     >

@@ -33,8 +33,12 @@ html[data-theme="dark"] {
 }
 
 @layer base {
+  /* Full-strength accent on both: at /75 the outline measured 2.97:1 in
+     light, under the 3:1 floor for non-text. `a, button` below already use the
+     undimmed accent, so this only reaches the other focusables (summary, pre)
+     and now matches them. Same for the selection fill on body. */
   * {
-    @apply border-border outline-accent/75;
+    @apply border-border outline-accent;
     scrollbar-width: auto;
     scrollbar-color: var(--color-muted) transparent;
   }
@@ -42,7 +46,7 @@ html[data-theme="dark"] {
     @apply overflow-y-scroll scroll-smooth;
   }
   body {
-    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
+    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent selection:text-background;
   }
   a,
   button {
