@@ -7,8 +7,6 @@
 html[data-theme="light"] {
   --background: #faf8f5;
   --foreground: #2c2825;
-  /* 4.53:1 on --background, clearing WCAG AA by 0.03.
-     Re-measure if either value moves. */
   --accent: #b25936;
   --muted: #ede9e3;
   --border: #ddd8d0;
@@ -34,7 +32,7 @@ html[data-theme="dark"] {
 
 @layer base {
   * {
-    @apply border-border outline-accent/75;
+    @apply border-border outline-accent;
     scrollbar-width: auto;
     scrollbar-color: var(--color-muted) transparent;
   }
@@ -42,7 +40,7 @@ html[data-theme="dark"] {
     @apply overflow-y-scroll scroll-smooth;
   }
   body {
-    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
+    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent selection:text-background;
   }
   a,
   button {

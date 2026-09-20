@@ -165,12 +165,14 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
         prevPost && (
           <a
             href={getPath(prevPost.id, prevPost.filePath)}
-            class="flex w-full gap-1 hover:opacity-75"
+            class="group flex w-full gap-1"
           >
             <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
             <div>
               <span>Previous Post</span>
-              <div class="text-sm text-accent">{prevPost.title}</div>
+              <div class="text-sm text-accent group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4">
+                {prevPost.title}
+              </div>
             </div>
           </a>
         )
@@ -179,11 +181,13 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
         nextPost && (
           <a
             href={getPath(nextPost.id, nextPost.filePath)}
-            class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
+            class="group flex w-full justify-end gap-1 text-end sm:col-start-2"
           >
             <div>
               <span>Next Post</span>
-              <div class="text-sm text-accent">{nextPost.title}</div>
+              <div class="text-sm text-accent group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4">
+                {nextPost.title}
+              </div>
             </div>
             <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
           </a>
