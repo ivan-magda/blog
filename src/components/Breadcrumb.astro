@@ -45,7 +45,11 @@ const breadcrumbJsonLd = {
     class="font-light [&>li]:inline [&>li:not(:last-child)>a]:hover:opacity-100"
   >
     <li>
-      <a href="/" class="opacity-80">Home</a>
+      <a
+        href="/"
+        class="underline decoration-dashed underline-offset-4 opacity-80"
+        >Home</a
+      >
       <span aria-hidden="true" class="opacity-80">&raquo;</span>
     </li>
     {
@@ -62,7 +66,10 @@ const breadcrumbJsonLd = {
           </li>
         ) : (
           <li>
-            <a href={`/${breadcrumb}/`} class="capitalize opacity-70">
+            <a
+              href={`/${breadcrumb}/`}
+              class="capitalize underline decoration-dashed underline-offset-4 opacity-70"
+            >
               {breadcrumb}
             </a>
             <span aria-hidden="true">&raquo;</span>

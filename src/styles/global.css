@@ -7,7 +7,9 @@
 html[data-theme="light"] {
   --background: #faf8f5;
   --foreground: #2c2825;
-  --accent: #b85c38;
+  /* 4.53:1 on --background, clearing WCAG AA by 0.03.
+     Re-measure if either value moves. */
+  --accent: #b25936;
   --muted: #ede9e3;
   --border: #ddd8d0;
 }

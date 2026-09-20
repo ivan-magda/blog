@@ -100,6 +100,29 @@
     @apply bg-(--shiki-dark-bg) text-(--shiki-dark) [&_span]:text-(--shiki-dark);
   }
 
+  /* WCAG AA floor for syntax tokens. min-light's comment/parameter colours and
+     night-owl's comment/template colours sit below 4.5:1 on their own code-block
+     backgrounds (#ffffff and #011627). defaultColor: false makes Shiki emit each
+     colour as an inline custom property per span, so the override needs
+     !important to beat the style attribute, and the i flag because Shiki emits
+     mixed hex casing. Re-check these if shikiConfig.themes changes
+     (astro.config.ts). Ratios are against the bare code-block background:
+     the notation transformers below paint line tints over it, which drops
+     every token under 4.5:1 (comments land at 4.3 light, 3.6 dark). No post
+     uses those annotations yet. */
+  .astro-code span[style*="--shiki-light:#c2c3c5" i] {
+    --shiki-light: #6d6f73 !important; /* comment   1.76:1 -> 5.03:1 */
+  }
+  .astro-code span[style*="--shiki-light:#ff9800" i] {
+    --shiki-light: #a16000 !important; /* parameter 2.16:1 -> 5.01:1 */
+  }
+  .astro-code span[style*="--shiki-dark:#637777" i] {
+    --shiki-dark: #738a8a !important; /* comment   3.87:1 -> 5.00:1 */
+  }
+  .astro-code span[style*="--shiki-dark:#d3423e" i] {
+    --shiki-dark: #da5f5b !important; /* template  4.03:1 -> 5.04:1 */
+  }
+
   /* Styles for Shiki transformers */
   /* https://shiki.style/packages/transformers */
   .astro-code {
