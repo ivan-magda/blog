@@ -7,8 +7,6 @@
 html[data-theme="light"] {
   --background: #faf8f5;
   --foreground: #2c2825;
-  /* 4.53:1 on --background, clearing WCAG AA by 0.03.
-     Re-measure if either value moves. */
   --accent: #b25936;
   --muted: #ede9e3;
   --border: #ddd8d0;
@@ -33,10 +31,6 @@ html[data-theme="dark"] {
 }
 
 @layer base {
-  /* Full-strength accent on both: at /75 the outline measured 2.97:1 in
-     light, under the 3:1 floor for non-text. `a, button` below already use the
-     undimmed accent, so this only reaches the other focusables (summary, pre)
-     and now matches them. Same for the selection fill on body. */
   * {
     @apply border-border outline-accent;
     scrollbar-width: auto;

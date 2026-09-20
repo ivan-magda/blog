@@ -160,12 +160,6 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
     <hr class="my-6 border-dashed" />
 
     <!-- Previous/Next Post Buttons -->
-    {
-      /* The titles are text-accent, which clears AA by 0.03 in light. Any alpha
-         on them fails: the old hover:opacity-75 on the anchor composited to
-         2.97:1 light / 4.24:1 dark. Hover is carried by the dashed underline
-         instead, the same affordance Breadcrumb and prose links use. */
-    }
     <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
       {
         prevPost && (
