@@ -74,12 +74,6 @@
       @apply flex-[1_0_100%] bg-inherit p-0;
     }
 
-    /* Dim the quote's own text rather than the element. opacity composites the
-       whole subtree, so it also dimmed descendant links, dropping their
-       hover:text-accent to 3.23:1 in light, and a child cannot reset it. A
-       colour leaves links alone: they set their own, so they hover at the full
-       4.53:1. It also stops double-dimming the border, which composited to an
-       effective 0.64 alpha (2.49:1, under the 3:1 non-text floor). */
     blockquote {
       @apply border-s-accent/80 wrap-break-word;
 
