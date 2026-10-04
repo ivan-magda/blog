@@ -39,6 +39,7 @@ const hasVideo = Astro.slots.has("default");
       let hasManuallyStarted = false;
       let usesNativeControls = false;
       let playbackRequest = 0;
+      let hasLoadedSource = false;
 
       this.tabIndex = 0;
       this.setAttribute("role", "button");
@@ -63,6 +64,14 @@ const hasVideo = Astro.slots.has("default");
       };
 
       const playVideo = () => {
+        if (!hasLoadedSource) {
+          // Safari can retain an idle media loader after Astro adopts the page.
+          // Initialize it in the active document, only when playback is needed.
+          hasLoadedSource = true;
+          video.setAttribute("loading", "eager");
+          video.load();
+        }
+
         const request = ++playbackRequest;
         void video.play().catch(error => {
           if (
