@@ -1,0 +1,208 @@
+---
+// With a slot, render a player. Without one, register support for Markdown embeds.
+const hasVideo = Astro.slots.has("default");
+---
+
+{
+  hasVideo && (
+    <inline-video>
+      <slot />
+    </inline-video>
+  )
+}
+
+<script>
+  const MIN_VISIBLE_RATIO = 0.35;
+
+  class InlineVideo extends HTMLElement {
+    private cleanup?: () => void;
+
+    connectedCallback() {
+      if (this.cleanup) {
+        return;
+      }
+
+      const video = this.querySelector("video");
+      if (!video) {
+        return;
+      }
+
+      const abortController = new AbortController();
+      const listenerOptions = { signal: abortController.signal };
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      );
+      const videoDescription = video.getAttribute("aria-label") ?? "Demo video";
+
+      let isVisible = false;
+      let isManuallyPaused = false;
+      let hasManuallyStarted = false;
+      let usesNativeControls = false;
+      let playbackRequest = 0;
+
+      this.tabIndex = 0;
+      this.setAttribute("role", "button");
+
+      video.controls = false;
+      video.autoplay = false;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+
+      const updatePlaybackLabel = () => {
+        if (usesNativeControls) {
+          return;
+        }
+        const action = video.paused ? "Play" : "Pause";
+        this.setAttribute("aria-label", `${action}: ${videoDescription}`);
+      };
+
+      const pauseVideo = () => {
+        playbackRequest += 1;
+        video.pause();
+      };
+
+      const playVideo = () => {
+        const request = ++playbackRequest;
+        void video.play().catch(error => {
+          if (
+            abortController.signal.aborted ||
+            !this.isConnected ||
+            request !== playbackRequest ||
+            error?.name === "AbortError"
+          ) {
+            return;
+          }
+
+          // Hand playback entirely to the browser if autoplay is unavailable.
+          usesNativeControls = true;
+          abortController.abort();
+          visibilityObserver.disconnect();
+          video.controls = true;
+          this.removeAttribute("tabindex");
+          this.removeAttribute("role");
+          this.removeAttribute("aria-label");
+          if (document.activeElement === this) {
+            video.focus();
+          }
+        });
+      };
+
+      const syncPlayback = () => {
+        if (usesNativeControls || abortController.signal.aborted) {
+          return;
+        }
+        const canPlayWithMotionPreference =
+          !reducedMotion.matches || hasManuallyStarted;
+        const shouldPlay =
+          isVisible &&
+          !document.hidden &&
+          !isManuallyPaused &&
+          canPlayWithMotionPreference;
+
+        if (shouldPlay) {
+          playVideo();
+        } else {
+          pauseVideo();
+        }
+      };
+
+      const togglePlayback = () => {
+        if (usesNativeControls) {
+          return;
+        }
+
+        if (video.paused) {
+          isManuallyPaused = false;
+          hasManuallyStarted = true;
+          playVideo();
+        } else {
+          isManuallyPaused = true;
+          pauseVideo();
+        }
+      };
+
+      this.addEventListener("click", togglePlayback, listenerOptions);
+      this.addEventListener(
+        "keydown",
+        event => {
+          const isActivationKey = event.key === " " || event.key === "Enter";
+          if (usesNativeControls || event.target !== this || !isActivationKey) {
+            return;
+          }
+
+          event.preventDefault();
+          togglePlayback();
+        },
+        listenerOptions
+      );
+
+      video.addEventListener("play", updatePlaybackLabel, listenerOptions);
+      video.addEventListener("pause", updatePlaybackLabel, listenerOptions);
+      document.addEventListener(
+        "visibilitychange",
+        syncPlayback,
+        listenerOptions
+      );
+      reducedMotion.addEventListener("change", syncPlayback, listenerOptions);
+
+      const visibilityObserver = new IntersectionObserver(
+        entries => {
+          const entry = entries[0];
+          isVisible =
+            entry.isIntersecting &&
+            entry.intersectionRatio >= MIN_VISIBLE_RATIO;
+          syncPlayback();
+        },
+        { threshold: [0, MIN_VISIBLE_RATIO] }
+      );
+
+      visibilityObserver.observe(this);
+      updatePlaybackLabel();
+
+      this.cleanup = () => {
+        visibilityObserver.disconnect();
+        abortController.abort();
+        pauseVideo();
+        this.cleanup = undefined;
+      };
+    }
+
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+
+  if (!customElements.get("inline-video")) {
+    customElements.define("inline-video", InlineVideo);
+  }
+</script>
+
+<style is:global>
+  inline-video {
+    display: block;
+    position: relative;
+    margin-block: 1.5rem;
+    overflow: hidden;
+    border-radius: 0.65rem;
+    background: #191919;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  inline-video[role="button"] {
+    cursor: pointer;
+  }
+
+  inline-video:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 5px;
+  }
+
+  inline-video > video,
+  .app-prose inline-video video {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+</style>
