@@ -1,0 +1,32 @@
+.device-stage {
+  margin-block: 2rem;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(
+      ellipse at 25% 15%,
+      color-mix(in srgb, var(--color-accent) 18%, transparent),
+      transparent 70%
+    ),
+    var(--color-muted);
+}
+.phone-mockup {
+  width: min(100%, 340px);
+  margin: 0 auto;
+  border: 8px solid #171819;
+  border-radius: 42px;
+  background: #191919;
+  box-shadow:
+    0 0 0 1px #626568,
+    0 0 0 3px #303235,
+    0 18px 36px #0003;
+}
+/* The frame accepts any screen content, including an image or an ordinary video. */
+.phone-mockup > :first-child {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: 33px;
+  overflow: hidden;
+}
