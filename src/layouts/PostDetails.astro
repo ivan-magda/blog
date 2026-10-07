@@ -2,6 +2,7 @@
 import { render, type CollectionEntry } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import InlineVideo from "@/components/InlineVideo.astro";
+import AsciiFileTree from "@/components/AsciiFileTree.astro";
 import "@/styles/phone-mockup.css";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
@@ -109,6 +110,7 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 
 <Layout {...layoutProps}>
   <InlineVideo />
+  <AsciiFileTree />
   <Header />
   <BackButton />
   <main
@@ -277,6 +279,7 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
     const codeBlocks = Array.from(document.querySelectorAll("pre"));
 
     for (const codeBlock of codeBlocks) {
+      if (codeBlock.closest("ascii-file-tree")) continue;
       const wrapper = document.createElement("div");
       wrapper.style.position = "relative";
 
