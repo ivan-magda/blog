@@ -4,7 +4,7 @@ author: "Ivan Magda"
 pubDatetime: 2026-10-13T21:00:45Z
 slug: "swift-debounce-runtime-investigation"
 featured: false
-draft: true
+draft: false
 tags:
   - swift
 description: "A Swift debounce investigation through task reuse, runtime metadata, generic specialization, lock placement, and callback latency."
