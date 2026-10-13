@@ -97,6 +97,36 @@
     }
   }
 
+  /* Research figures follow the site's explicit theme, including manual toggles. */
+  .app-prose .research-figure {
+    margin-block: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    a {
+      display: block;
+      border-radius: inherit;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      margin: 0;
+      border: 0;
+      border-radius: calc(0.375rem - 1px);
+    }
+    .figure-dark {
+      display: none;
+    }
+  }
+
+  html[data-theme="dark"] .research-figure {
+    .figure-light {
+      display: none;
+    }
+    .figure-dark {
+      display: block;
+    }
+  }
+
   /* ===== Code Blocks & Syntax Highlighting ===== */
   .astro-code {
     @apply flex border bg-(--shiki-light-bg) text-(--shiki-light) outline-border [&_span]:text-(--shiki-light);

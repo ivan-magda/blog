@@ -1,7 +1,7 @@
 export const meta = {
   name: 'post-research',
   description: 'Blog pipeline phase 1: intake, research fan-out, research packet + outline candidates',
-  whenToUse: 'Invoked by the writing-blog-post skill with {topic|draftPath, materials?}. Writes workspace/posts/<slug>/research-packet.md and outlines.md, returns outline candidates for the checkpoint.',
+  whenToUse: 'Invoked by the writing-blog-post skill with {topic|draftPath, destination, articleLanguage, materials?}. Writes workspace/posts/<slug>/research-packet.md and outlines.md, returns outline candidates for the checkpoint.',
   phases: [
     { title: 'Intake', detail: 'parse input, propose slug, derive research angles' },
     { title: 'Research', detail: 'local materials, web angles, own-blog context, landscape scan' },
@@ -17,7 +17,13 @@ const input = typeof args === 'string' ? JSON.parse(args) : args
 const topic = input?.topic
 const draftPath = input?.draftPath
 const materials = input?.materials || []
+const destination = typeof input?.destination === 'string' ? input.destination.trim() : ''
+const articleLanguage = typeof input?.articleLanguage === 'string' ? input.articleLanguage.trim() : ''
 if (!topic === !draftPath) throw new Error('post-research needs exactly one of args.topic or args.draftPath')
+if (!destination || !articleLanguage) throw new Error('post-research needs explicit args.destination and args.articleLanguage; resolve missing inputs with the author')
+const PUBLICATION_BRIEF = `Destination: ${destination}
+Article language: ${articleLanguage}
+These inputs are explicit. Write proposed article titles, theses, headings, and visual captions/labels in the article language; do not infer it from the conversation or materials. Keep source code identifiers, API names, URLs, and actual quotations unchanged. Preserve the author's phrasings verbatim in research notes; flag any language conflict for the outline checkpoint.`
 
 const INTAKE_SCHEMA = {
   type: 'object',
@@ -91,7 +97,8 @@ const inputDesc = topic
   : `Rough draft by the author at: ${draftPath} — Read it fully.`
 
 const intake = await agent(
-  `You are the intake stage of a blog-post pipeline for ivanmagda.dev (author: Ivan Magda; audience: Apple-platform and AI-agent developers).
+  `You are the intake stage of a blog-post pipeline (author: Ivan Magda; audience: Apple-platform and AI-agent developers).
+${PUBLICATION_BRIEF}
 
 ${inputDesc}
 ${materials.length ? `Supporting materials provided (read each, skim for scope):\n${materials.map(m => `- ${m}`).join('\n')}` : 'No supporting materials provided.'}
@@ -117,7 +124,7 @@ log(`Intake: slug=${slug}, ${intake.researchAngles.length} research angles`)
 phase('Research')
 
 const intakeJson = JSON.stringify(intake, null, 2)
-const commonHeader = `You are a research agent for a blog post on ivanmagda.dev. Intake analysis:\n${intakeJson}\n`
+const commonHeader = `You are a research agent for a blog post.\n${PUBLICATION_BRIEF}\nIntake analysis:\n${intakeJson}\n`
 
 const researchThunks = []
 
@@ -190,6 +197,7 @@ phase('Synthesize')
 
 const synthesis = await agent(
   `You are the synthesis stage of a blog-post pipeline. Combine intake + research into two files.
+${PUBLICATION_BRIEF}
 
 Intake:
 ${intakeJson}
@@ -201,7 +209,7 @@ Read ${VOICE_DOC} §3 (article templates) and §13 (pre-publish checklist) to sh
 
 Write TWO files:
 
-1. ${postDir}/research-packet.md — the single source drafters may use. Sections: Verified facts (each with source), Code references, Perspectives, Cross-links to our own posts, Warnings & contested claims, Material drafters must NOT invent beyond. Deduplicate; keep only what serves the theses.
+1. ${postDir}/research-packet.md — the single source drafters may use. Record Destination and Article language at the top. Sections: Verified facts (each with source), Code references, Perspectives, Cross-links to our own posts, Warnings & contested claims, Material drafters must NOT invent beyond. Deduplicate; keep only what serves the theses.
 
 2. ${postDir}/outlines.md — 2-3 outline candidates with DIFFERENT angles (not reorderings of the same idea). For each: id (A/B/C), title (no em dashes), thesis, template (series-style|standalone), full heading arc (headings must tell the story alone — house rule), per-section one-line notes on what goes in/out, word estimate (house target 1500-2500).
 ${intake.inputType === 'draft' ? 'The input was Ivan’s own draft: ALL candidates MUST be built around his existing structure and thesis — vary the lead, emphasis, and per-section in/out choices, not the skeleton. Carry preservedPhrasings into the packet verbatim.' : ''}
@@ -213,6 +221,8 @@ if (!synthesis) throw new Error('Synthesis agent failed')
 
 return {
   slug,
+  destination,
+  articleLanguage,
   postDir,
   workingTitle: intake.workingTitle,
   inputType: intake.inputType,

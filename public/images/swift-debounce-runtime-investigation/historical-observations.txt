@@ -1,0 +1,64 @@
+Swift debounce investigation: historical observations
+Development session: 2026-10-13
+
+These are selected technical observations from the author's saved development
+session. They are not new benchmark runs. They supplement the result files in:
+https://github.com/ivan-magda/swift-debounce/tree/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results
+
+1. Selected symbols observed in macOS sample output
+
+Original long-lived reference:
+  DebounceStateMachine.newValue(_:)
+  OptimizedDebounce.emit(value:)
+  type metadata accessor for ContinuousClock.Instant
+  static ContinuousClock.now.getter
+  ContinuousClock.Instant.advanced(by:)
+  static Duration.+ infix(_:_:)
+  __swift_memcpy16_8
+  __swift_instantiateGenericMetadata
+  swift_getGenericMetadata
+  swift_getTupleTypeMetadata3
+  swift_getTupleTypeMetadata
+
+Fast prototype after changing the time representation:
+  FastDebounce.emit(value:)
+  closure #1 in FastDebounce.emit(value:)
+  type metadata accessor for Optional
+  __swift_instantiateGenericMetadata
+  swift_getGenericMetadata
+  mach_continuous_time
+
+These lists contain selected observed names, not contiguous call stacks.
+They do not encode sample counts, percentages, call order or generated assembly.
+
+2. Historical cross-module optimization A/B experiment
+
+Release LockBench; target 3 seconds per invocation; 10,000 emits between outer
+clock checks; debounce interval 3,600 seconds. One listed run per configuration.
+The interval keeps callback delivery outside the repeated-emit workload.
+
+Command structure, retaining actual arguments and execution order while
+omitting output filtering and cosmetic shell printing:
+
+  for mode in 0 1; do
+      CMO=$mode swift build -c release --product LockBench
+      .build/release/LockBench profile 3 fast
+      .build/release/LockBench profile 3
+  done
+
+Saved output:
+  CMO=0  fast: emits: 27580000
+  CMO=0  article: emits: 15770000
+  CMO=1  fast: emits: 257900000
+  CMO=1  article: emits: 15680000
+
+CMO toggled the historical Debounce target's -cross-module-optimization flag.
+These counts compare throughput over a target time window. They are neither
+medians nor directly measured per-call latencies. The clock was checked in
+batches, so an invocation could run slightly beyond its target window.
+
+The old profile banner still used the OptimizedDebounce name in fast mode;
+the saved harness selection code and FastDebounce sample symbols identify
+the actual prototype. The current package is not the original historical
+FastDebounce implementation and its current manifest does not expose this
+old CMO environment toggle as a reproduction interface.
