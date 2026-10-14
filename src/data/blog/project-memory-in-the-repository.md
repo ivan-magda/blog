@@ -27,14 +27,19 @@ Codex has its own local memory too. OpenAI recommends putting required project g
 
 For this blog, I use:
 
+<ascii-file-tree data-highlight="MEMORY.md">
+
 ```text
-.agents/memory/
-├── MEMORY.md
-├── editorial.md
-├── platform.md
-├── content.md
-└── migration.md
+.agents/
+└── memory/
+    ├── MEMORY.md
+    ├── editorial.md
+    ├── platform.md
+    ├── content.md
+    └── migration.md
 ```
+
+</ascii-file-tree>
 
 `MEMORY.md` stays short. It acts as an index that tells the agent which topic file is relevant. Source code and maintained specifications remain authoritative. Memory notes can capture useful feedback and point to existing documentation instead of copying it.
 
