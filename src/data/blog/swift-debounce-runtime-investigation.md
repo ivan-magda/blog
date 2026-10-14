@@ -10,7 +10,7 @@ tags:
 description: "A Swift debounce investigation through task reuse, runtime metadata, generic specialization, lock placement, and callback latency."
 ---
 
-I started with [Side Effect's article on debouncing with Swift concurrency](https://sideeffect.io/posts/2023-01-11-regulate/). It replaces a task created for each input with one task that stays alive through a burst. New values update the pending value and deadline while the worker sleeps.
+I started with [Side Effect's article on debouncing with Swift concurrency](https://sideeffect.io/posts/2023-01-11-regulate/). It replaces a task created for each input with one task that handles a whole burst of events, such as the keystrokes you type before pausing in a search field. New values update the pending value and deadline while the worker sleeps.
 
 I wanted to measure how much work that saved. The comparison led from task creation to the cost of a lock, then into `ContinuousClock.Instant`, runtime metadata, and generic code across a module boundary. Later, moving the lock in memory improved the debouncer while making the raw-lock benchmark worse.
 
