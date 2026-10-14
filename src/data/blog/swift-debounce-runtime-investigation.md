@@ -26,7 +26,6 @@ The [task-per-value implementation](https://github.com/ivan-magda/swift-debounce
 
 ```swift
 task?.cancel()
-
 task = Task {
     do {
         try await Task.sleep(for: dueTime)
