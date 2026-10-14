@@ -95,6 +95,7 @@ import loadGoogleFonts from "../loadGoogleFont";
 
 export default async post => {
   const title = post.data.ogTitle ?? post.data.title;
+  const hostname = new URL(SITE.website).hostname;
 
   return satori(
     {
@@ -170,7 +171,7 @@ export default async post => {
                       props: {
                         style: {
                           display: "flex",
-                          justifyContent: "space-between",
+                          justifyContent: "flex-end",
                           width: "100%",
                           marginBottom: "8px",
                           fontSize: 28,
@@ -179,33 +180,8 @@ export default async post => {
                           {
                             type: "span",
                             props: {
-                              children: [
-                                "by ",
-                                {
-                                  type: "span",
-                                  props: {
-                                    style: { color: "transparent" },
-                                    children: '"',
-                                  },
-                                },
-                                {
-                                  type: "span",
-                                  props: {
-                                    style: {
-                                      overflow: "hidden",
-                                      fontWeight: "bold",
-                                    },
-                                    children: post.data.author,
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          {
-                            type: "span",
-                            props: {
                               style: { overflow: "hidden", fontWeight: "bold" },
-                              children: SITE.title,
+                              children: hostname,
                             },
                           },
                         ],
@@ -223,9 +199,7 @@ export default async post => {
       width: 1200,
       height: 630,
       embedFont: true,
-      fonts: await loadGoogleFonts(
-        title + post.data.author + SITE.title + "by"
-      ),
+      fonts: await loadGoogleFonts(title + hostname),
     }
   );
 };
