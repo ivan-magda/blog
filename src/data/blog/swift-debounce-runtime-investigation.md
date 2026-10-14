@@ -120,52 +120,9 @@ _Median of 15 rounds in the recorded M1 Max release environment. [Scenario resul
 
 The reference counters recorded 100,000 tasks for the first strategy and one for the second. The larger reduction in CPU is consistent with work continuing outside the synchronous calls, including cancellation cleanup.
 
-### A worker's lifetime also defines action ordering
+The implementations handle long-running actions differently: the reference allows actions to overlap, while the package runs them one at a time. This benchmark sends a single burst and checks that the final value is delivered once.
 
-Delivering the final value after a burst leaves another part of the contract open: what happens if the async action is still running when another burst arrives?
-
-The reference's [`sleepIsOver()` transition](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L113-L123) changes the state to `.idle` before the worker awaits `output(value)`. A later send can start another worker while that action remains suspended. If the next quiet period expires first, the actions can overlap.
-
-The package uses a serial-action policy. Its worker stays active while awaiting the action; new input updates pending state. The worker asks for its next step after the action returns. A value whose quiet period has already expired may therefore wait for the previous action too.
-
-<figure class="research-figure">
-  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/03-action-serialization.svg"><img src="/images/swift-debounce-runtime-investigation/03-action-serialization.svg" alt="The reference can start a second action while the first is suspended; the package waits for the running action to return before delivering another due value." width="720" height="592" loading="lazy" decoding="async" /></a>
-  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/03-action-serialization-dark.svg"><img src="/images/swift-debounce-runtime-investigation/03-action-serialization-dark.svg" alt="The reference can start a second action while the first is suspended; the package waits for the running action to return before delivering another due value." width="720" height="592" loading="lazy" decoding="async" /></a>
-</figure>
-
-_Action ordering from the [reference's idle transition](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L113-L123) and the package's [worker loop](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/Pacer.swift#L60-L105). Action lengths illustrate the two contracts._
-
-We can follow the package's transitions without a real timer. In this [virtual-time example](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Tests/DebounceTests/DebounceMachineTests.swift#L27-L38), `machine()` creates a trailing debouncer with an interval of 100 abstract ticks. Value `a` arrives at 0 and becomes due at 100; while its action runs, `b` and `c` arrive:
-
-```swift
-@Test
-func valueSentWhileActionRunsWaitsForTheQuietPeriod() {
-    var stateMachine = machine()
-
-    _ = stateMachine.send("a", now: 0)
-    #expect(stateMachine.next(now: 100) == .run("a"))
-
-    // New values arrive while the action for "a" is running.
-    #expect(stateMachine.send("b", now: 120) == false)
-    #expect(stateMachine.send("c", now: 130) == false)
-
-    // The action returns, but "c" still needs its full quiet period.
-    #expect(stateMachine.next(now: 150) == .sleep(until: 230))
-    #expect(stateMachine.next(now: 230) == .run("c"))
-    #expect(stateMachine.next(now: 240) == .exit)
-}
-```
-
-Both sends return `false` because a worker already exists. At tick 150, action `a` has returned, but the last input arrived at 130, so the worker must wait another 80 ticks before delivering `c`. The driver obeys a separate rule: it does not call `next` during an action. The machine chooses the next operation; the worker enforces that ordering.
-
-<figure class="research-figure">
-  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/13-state-machine.svg"><img src="/images/swift-debounce-runtime-investigation/13-state-machine.svg" alt="The package&#x27;s trailing debouncer has four conceptual states: idle, waiting, running an action, and running with pending input." width="720" height="856" loading="lazy" decoding="async" /></a>
-  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/13-state-machine-dark.svg"><img src="/images/swift-debounce-runtime-investigation/13-state-machine-dark.svg" alt="The package&#x27;s trailing debouncer has four conceptual states: idle, waiting, running an action, and running with pending input." width="720" height="856" loading="lazy" decoding="async" /></a>
-</figure>
-
-_Trailing behavior from the package's [state machine](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/PacingMachine.swift#L41-L123) and [worker](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/Pacer.swift). Cancellation is omitted from the diagram; these states summarize behavior rather than the stored representation._
-
-The burst benchmark exercises common output behavior, while the implementations differ for a slow action. The long-lived reference still spent 216 ns accepting each value. Each input acquired the state lock, computed a deadline, and replaced the pending value.
+The long-lived reference still spent 216 ns accepting each value. Each input acquired the state lock, computed a deadline, and replaced the pending value.
 
 ## Replacing the lock saved about ten nanoseconds
 
@@ -814,6 +771,53 @@ For one value, the package's median overshoot was higher in this run. For 20 val
 Reducing work inside `send` leaves the requested quiet period unchanged. The worker still needs to resume after sleeping and reach the action through the relevant executor. The focused harness measures that combined outcome without isolating the timer from scheduling and executor delay. It shows lower input-processing cost alongside millisecond callback overshoot, with no corresponding fiftyfold improvement in delivery time.
 
 The resource benefit is clearest in dense bursts. In the scenario suite's paced synthetic stream, 200 events separated by 5 ms consumed 31.10 ms of total CPU with task per value, 21.65 ms with the long-lived reference, and 21.22 ms with the package. A separate no-debouncer run measured 19.94 ms of CPU; the implementation totals above are not baseline-subtracted. This [separate scenario](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/scenarios.md) puts the smaller difference between the worker-based designs under paced input in context.
+
+## How the package handles long-running actions
+
+An action can still be running when the next burst arrives. The implementations handle that case differently.
+
+The reference's [`sleepIsOver()` transition](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L113-L123) changes the state to `.idle` before the worker awaits `output(value)`. A later send can start another worker while that action remains suspended. If the next quiet period expires first, the actions can overlap.
+
+The package uses a serial-action policy. Its worker stays active while awaiting the action; new input updates pending state. The worker asks for its next step after the action returns. A value whose quiet period has already expired may therefore wait for the previous action too.
+
+<figure class="research-figure">
+  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/03-action-serialization.svg"><img src="/images/swift-debounce-runtime-investigation/03-action-serialization.svg" alt="The reference can start a second action while the first is suspended; the package waits for the running action to return before delivering another due value." width="720" height="592" loading="lazy" decoding="async" /></a>
+  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/03-action-serialization-dark.svg"><img src="/images/swift-debounce-runtime-investigation/03-action-serialization-dark.svg" alt="The reference can start a second action while the first is suspended; the package waits for the running action to return before delivering another due value." width="720" height="592" loading="lazy" decoding="async" /></a>
+</figure>
+
+_Action ordering from the [reference's idle transition](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L113-L123) and the package's [worker loop](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/Pacer.swift#L60-L105). Action lengths illustrate the two contracts._
+
+We can follow the package's transitions without a real timer. In this [virtual-time example](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Tests/DebounceTests/DebounceMachineTests.swift#L27-L38), `machine()` creates a trailing debouncer with an interval of 100 abstract ticks. Value `a` arrives at 0 and becomes due at 100; while its action runs, `b` and `c` arrive:
+
+```swift
+@Test
+func valueSentWhileActionRunsWaitsForTheQuietPeriod() {
+    var stateMachine = machine()
+
+    _ = stateMachine.send("a", now: 0)
+    #expect(stateMachine.next(now: 100) == .run("a"))
+
+    // New values arrive while the action for "a" is running.
+    #expect(stateMachine.send("b", now: 120) == false)
+    #expect(stateMachine.send("c", now: 130) == false)
+
+    // The action returns, but "c" still needs its full quiet period.
+    #expect(stateMachine.next(now: 150) == .sleep(until: 230))
+    #expect(stateMachine.next(now: 230) == .run("c"))
+    #expect(stateMachine.next(now: 240) == .exit)
+}
+```
+
+Both sends return `false` because a worker already exists. At tick 150, action `a` has returned, but the last input arrived at 130, so the worker must wait another 80 ticks before delivering `c`. The driver obeys a separate rule: it does not call `next` during an action. The machine chooses the next operation; the worker enforces that ordering.
+
+<figure class="research-figure">
+  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/13-state-machine.svg"><img src="/images/swift-debounce-runtime-investigation/13-state-machine.svg" alt="The package&#x27;s trailing debouncer has four conceptual states: idle, waiting, running an action, and running with pending input." width="720" height="856" loading="lazy" decoding="async" /></a>
+  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/13-state-machine-dark.svg"><img src="/images/swift-debounce-runtime-investigation/13-state-machine-dark.svg" alt="The package&#x27;s trailing debouncer has four conceptual states: idle, waiting, running an action, and running with pending input." width="720" height="856" loading="lazy" decoding="async" /></a>
+</figure>
+
+_Trailing behavior from the package's [state machine](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/PacingMachine.swift#L41-L123) and [worker](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/Pacer.swift). Cancellation is omitted from the diagram; these states summarize behavior rather than the stored representation._
+
+## What the measurements changed
 
 The lock replacement saved about as much as its isolated cost suggested. The remaining method required two different runtime investigations: one into a resilient deadline representation, another into the optimizer's access to generic state. The layout experiment then favored storage that lost the raw-lock comparison. In each case, measuring the complete operation changed how I interpreted a smaller benchmark.
 
