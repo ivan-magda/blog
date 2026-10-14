@@ -8,6 +8,8 @@ featured: false
 draft: false
 tags:
   - swift
+  - performance
+  - concurrency
 description: "A Swift debounce investigation through task reuse, runtime metadata, generic specialization, lock placement, and callback latency."
 ---
 
