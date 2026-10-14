@@ -7,7 +7,7 @@ description: Use when Ivan gives a post topic, idea, or rough draft to turn into
 
 ## Overview
 
-Turns a topic sentence or a rough draft into a final, editable post in the house voice with exactly one human checkpoint (outline). Design rationale and evidence: `docs/superpowers/specs/2026-07-05-blog-content-pipeline-design.md` and `docs/research/llm-writing-pipeline-research.md`. Voice source of truth is `docs/blog-project-knowledge.md` — point agents at it; this skill duplicates none of its rules. The workflow prompts deliberately prime a few high-violation rules at generation time (per the design spec); do not strip that priming, and never add rules to prompts that aren't in the doc.
+Turns a topic sentence or a rough draft into a final, editable post in the house voice with exactly one approval checkpoint (outline). Design rationale and evidence: `docs/superpowers/specs/2026-07-05-blog-content-pipeline-design.md` and `docs/research/llm-writing-pipeline-research.md`. Voice source of truth is `docs/blog-project-knowledge.md` — point agents at it; this skill duplicates none of its rules. The workflow prompts deliberately prime a few high-violation voice rules at generation time (per the design spec); do not strip that priming, and never add voice rules to prompts that aren't in the doc.
 
 **Ivan is the final editor.** The pipeline targets an excellent editable draft, not unreviewed publishing. His phrasings from a provided draft are preserved; content cuts and personality calls are his.
 
@@ -15,13 +15,22 @@ Turns a topic sentence or a rough draft into a final, editable post in the house
 
 ### 1. Gather input
 
-From Ivan's message: a topic OR a path to his rough draft, plus optional materials (WWDC digests in `workspace/`, a repo+tag, research docs). Ask only for what's missing to start — nothing else.
+Gather a topic OR a path to Ivan's rough draft, optional materials (WWDC digests in `workspace/`, a repo+tag, research docs), and two separate required inputs:
+
+- **Destination:** the intended publication site or platform.
+- **Article language:** the language of the reader-facing article and its visuals.
+
+Reuse explicit answers from the current session or an existing `direction.md`; do not ask again. For a new post with either input missing, ask one concise bundled question in Ivan's conversational language, asking only for missing values. When both are missing: “Куда пишем пост и на каком языке? Обычный вариант: ivanmagda.dev, English (рекомендую).” His usual destination is `https://ivanmagda.dev`; English is the recommended article language there. Present this as a suggestion, not a silently accepted answer. Conversation language, rough-draft language, and source-material language do not determine article language.
+
+While awaiting missing inputs, inspect materials and continue independent read-only research. Resolve both inputs before generating outlines or article text. This is intake clarification, not another approval checkpoint.
 
 ### 2. Run the research workflow
 
 ```
 Workflow({ scriptPath: "/Users/jetbrains/Developer/blog/.claude/workflows/post-research.js", args: {
   topic: "...",            // or draftPath: "src/data/blog/... / any path"
+  destination: "<resolved site/platform>",
+  articleLanguage: "<resolved article language>",
   materials: ["workspace/wwdc26/241-.../digest.md", ...],  // optional, absolute paths
 } })
 ```
@@ -37,6 +46,8 @@ Present the outline candidates to Ivan via AskUserQuestion: recommended first, e
 ```markdown
 # Direction: <working title>
 - Slug: <confirmed slug>
+- Destination: <resolved site/platform>
+- Article language: <resolved article language>
 - Template: series-style | standalone   (per blog-project-knowledge.md §3)
 - Thesis: <one sentence>
 - Target length: <words>
@@ -48,13 +59,15 @@ Present the outline candidates to Ivan via AskUserQuestion: recommended first, e
 <full heading arc with per-section notes on what goes in/out>
 ```
 
-After this point the pipeline runs without questions.
+If preserved phrasings conflict with the article language, resolve their treatment at this same outline checkpoint; never silently translate them. After this point the pipeline runs without questions. Pass Destination and Article language to every research, author, merge, review, and visual prompt, including any delegated work outside the saved workflows. Visual briefs cover captions, alt text, and labels inside diagrams. Preserve source code identifiers, API names, URLs, and actual quotations in their original form.
 
 ### 4. Run the drafting workflow
 
 ```
 Workflow({ scriptPath: "/Users/jetbrains/Developer/blog/.claude/workflows/post-draft.js", args: {
   slug: "<confirmed slug from direction.md>",
+  destination: "<Destination from direction.md>",
+  articleLanguage: "<Article language from direction.md>",
   pubDatetime: "<current UTC, e.g. 2026-07-05T09:00:00Z>",
 } })
 ```
@@ -65,7 +78,7 @@ It produces `workspace/posts/<slug>/final.md` and `handoff.md` (variants → cri
 
 1. Read `handoff.md`. **Surface blockers first** — a killed load-bearing claim stops the flow until Ivan decides.
 2. Run the **stop-slop** skill over `final.md` as an explicit pass (house voice wins where they conflict).
-3. Copy the result to `src/data/blog/<slug>.md` with `draft: true`. Frontmatter rules: omit `ogImage`/`canonicalURL` entirely (never empty strings), field order matches existing posts, description ≤160 chars ending with a period.
+3. Verify reader-facing prose uses the selected Article language: frontmatter title/description, body and headings, captions, alt text, and diagram labels (inspect the visuals themselves). Keep source code identifiers, API names, URLs, and actual quotations unchanged; flag unresolved preserved-phrasings conflicts. Then copy the result to `src/data/blog/<slug>.md` with `draft: true`. Frontmatter rules: omit `ogImage`/`canonicalURL` entirely (never empty strings), field order matches existing posts, description ≤160 chars ending with a period.
 4. Append the prepared entry to `public/llms.txt`.
 5. `pnpm run build` — confirm the expected page count indexes.
 6. Present the handoff summary: what was verified (with sources), what deserves Ivan's eyes, judge/critique notes. Hand over for his edit. Before publishing, the **reviewing-blog-draft** skill runs as usual.

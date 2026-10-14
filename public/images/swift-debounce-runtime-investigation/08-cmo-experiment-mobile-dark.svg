@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="360pt" height="590pt" viewBox="0 0 360 590" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="08-cmo-experiment-mobile-dark-title 08-cmo-experiment-mobile-dark-desc" xml:lang="en"><title id="08-cmo-experiment-mobile-dark-title">Cross-module optimization experiment</title><desc id="08-cmo-experiment-mobile-dark-desc">One listed run per configuration, three-second target, clock checks every 10,000 emits. Fast prototype: 27.58 million with CMO off, 257.90 million on. Original reference: 15.77 million off, 15.68 million on. Both panels share the same zero-based scale.</desc>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 590
+L 360 590
+L 360 0
+L 0 0
+z
+" style="fill: #242834"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 24 228
+L 336 228
+L 336 68
+L 24 68
+z
+" style="fill: #242834"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 24 228
+L 24 68
+" clip-path="url(#p7b706e2831)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="mc990be1f16" d="M 0 0
+L 0 4
+" style="stroke: #b0aaa1; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mc990be1f16" x="24" y="228" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="24" y="249.5" transform="rotate(-0 24 249.5)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 124.645161 228
+L 124.645161 68
+" clip-path="url(#p7b706e2831)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#mc990be1f16" x="124.645161" y="228" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="124.645161" y="249.5" transform="rotate(-0 124.645161 249.5)">100</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 225.290323 228
+L 225.290323 68
+" clip-path="url(#p7b706e2831)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#mc990be1f16" x="225.290323" y="228" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="225.290323" y="249.5" transform="rotate(-0 225.290323 249.5)">200</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 325.935484 228
+L 325.935484 68
+" clip-path="url(#p7b706e2831)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#mc990be1f16" x="325.935484" y="228" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="325.935484" y="249.5" transform="rotate(-0 325.935484 249.5)">300</text>
+     </g>
+    </g>
+    <g id="text_5">
+     <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="180" y="272.378906" transform="rotate(-0 180 272.378906)">Completed emits (millions)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2"/>
+   <g id="patch_3">
+    <path d="M 24 228
+L 336 228
+" style="fill: none; stroke: #b0aaa1; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="95.094778" transform="rotate(-0 24 95.094778)">CMO off</text>
+   </g>
+   <g id="patch_4">
+    <path d="M 24 137.824561
+L 51.757935 137.824561
+L 51.757935 117.473684
+L 24 117.473684
+z
+" clip-path="url(#p7b706e2831)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="58.757935" y="131.70967" transform="rotate(-0 58.757935 131.70967)">27.58</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="165.270217" transform="rotate(-0 24 165.270217)">CMO on</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 24 208
+L 283.563871 208
+L 283.563871 187.649123
+L 24 187.649123
+z
+" clip-path="url(#p7b706e2831)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="290.563871" y="201.885108" transform="rotate(-0 290.563871 201.885108)">257.90</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_6">
+    <path d="M 24 514
+L 336 514
+L 336 354
+L 24 354
+z
+" style="fill: #242834"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 24 514
+L 24 354
+" clip-path="url(#p1cfb9bc77a)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#mc990be1f16" x="24" y="514" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="24" y="535.5" transform="rotate(-0 24 535.5)">0</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 124.645161 514
+L 124.645161 354
+" clip-path="url(#p1cfb9bc77a)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#mc990be1f16" x="124.645161" y="514" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="124.645161" y="535.5" transform="rotate(-0 124.645161 535.5)">100</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_13">
+      <path d="M 225.290323 514
+L 225.290323 354
+" clip-path="url(#p1cfb9bc77a)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#mc990be1f16" x="225.290323" y="514" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="225.290323" y="535.5" transform="rotate(-0 225.290323 535.5)">200</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_15">
+      <path d="M 325.935484 514
+L 325.935484 354
+" clip-path="url(#p1cfb9bc77a)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#mc990be1f16" x="325.935484" y="514" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="325.935484" y="535.5" transform="rotate(-0 325.935484 535.5)">300</text>
+     </g>
+    </g>
+    <g id="text_14">
+     <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="180" y="558.378906" transform="rotate(-0 180 558.378906)">Completed emits (millions)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4"/>
+   <g id="patch_7">
+    <path d="M 24 514
+L 336 514
+" style="fill: none; stroke: #b0aaa1; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="381.094778" transform="rotate(-0 24 381.094778)">CMO off</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 24 423.824561
+L 39.871742 423.824561
+L 39.871742 403.473684
+L 24 403.473684
+z
+" clip-path="url(#p1cfb9bc77a)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="46.871742" y="417.70967" transform="rotate(-0 46.871742 417.70967)">15.77</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="451.270217" transform="rotate(-0 24 451.270217)">CMO on</text>
+   </g>
+   <g id="patch_9">
+    <path d="M 24 494
+L 39.781161 494
+L 39.781161 473.649123
+L 24 473.649123
+z
+" clip-path="url(#p1cfb9bc77a)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="46.781161" y="487.885108" transform="rotate(-0 46.781161 487.885108)">15.68</text>
+   </g>
+  </g>
+  <g id="text_19">
+   <text style="font-weight: 700; font-size: 16px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="34" transform="rotate(-0 24 34)">a  Fast prototype</text>
+  </g>
+  <g id="text_20">
+   <text style="font-weight: 700; font-size: 16px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="320" transform="rotate(-0 24 320)">b  Original reference</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7b706e2831">
+   <rect x="24" y="68" width="312" height="160"/>
+  </clipPath>
+  <clipPath id="p1cfb9bc77a">
+   <rect x="24" y="354" width="312" height="160"/>
+  </clipPath>
+ </defs>
+</svg>

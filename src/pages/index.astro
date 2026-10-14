@@ -11,7 +11,6 @@ import getSortedPosts from "@/utils/getSortedPosts";
 import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
 
 const posts = await getCollection("blog");
 
@@ -32,38 +31,32 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       >
         <div>
           <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-            {SITE.title}
+            {SITE.author}
           </h1>
-          <a
-            target="_blank"
-            href="/rss.xml"
-            class="inline-block"
-            aria-label="rss feed"
-            title="RSS Feed"
-          >
-            <IconRss
-              width={20}
-              height={20}
-              class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
-            />
-            <span class="sr-only">RSS Feed</span>
-          </a>
         </div>
         <Avatar size={112} loading="eager" class="max-sm:size-20" />
       </div>
 
-      <p>
-        {SITE.desc}
-      </p>
-      {
-        // only display if at least one social link is enabled
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
-            <Socials />
+      <p>Notes on Swift, AI agents, and developer tools.</p>
+      <div class="mt-4 flex gap-2 max-sm:flex-col sm:items-center">
+        <span class="whitespace-nowrap">Social Links:</span>
+        <div class="flex items-center gap-3">
+          <Socials />
+          <div class="border-s border-border ps-3">
+            <LinkButton
+              href="/rss.xml"
+              target="_blank"
+              class="gap-2 p-2 text-sm sm:p-1"
+              title="RSS Feed"
+            >
+              <IconRss
+                class="inline-block size-6 fill-transparent stroke-current stroke-2 opacity-90"
+              />
+              <span>RSS<span class="sr-only"> Feed</span></span>
+            </LinkButton>
           </div>
-        )
-      }
+        </div>
+      </div>
     </section>
 
     {

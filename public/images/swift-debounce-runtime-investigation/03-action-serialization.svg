@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" width="720" height="592" viewBox="0 0 720 592" role="img" aria-labelledby="action-serialization-light-title action-serialization-light-desc"><title id="action-serialization-light-title">The reference can overlap actions; swift-debounce serializes them</title><desc id="action-serialization-light-desc">Illustrative timing, not a measurement. A new input B arrives while action A runs. In the long-lived reference, the state becomes idle before awaiting the action, so action B can begin at its deadline and overlap A. In swift-debounce, B waits until A returns even after its deadline has passed.</desc><defs><marker id="action-serialization-light-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#69645e" stroke-width="1.2"/></marker></defs><rect width="720" height="592" fill="#ffffff"/><g font-family="Helvetica, Arial, sans-serif"><text x="32" y="36" font-size="20" font-weight="600" fill="#2c2825" text-anchor="start">(a) Reference: idle before awaiting the action</text>
+<text x="284" y="88" font-size="18" font-weight="400" fill="#2c2825" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">send(B)</text>
+<text x="404" y="88" font-size="20" font-weight="400" fill="#69645e" text-anchor="middle">B due</text>
+<line x1="284" y1="104" x2="284" y2="224" stroke="#ddd8d0" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="404" y1="104" x2="404" y2="224" stroke="#ddd8d0" stroke-width="1.5" stroke-dasharray="3 5"/>
+<text x="32" y="140" font-size="18" font-weight="400" fill="#2c2825" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">action(A)</text>
+<text x="32" y="204" font-size="18" font-weight="400" fill="#2c2825" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">action(B)</text>
+<rect x="172" y="116" width="328" height="32" rx="0" fill="#ffffff" fill-opacity="1" stroke="#69645e" stroke-width="1.5"/>
+<rect x="404" y="180" width="172" height="32" rx="0" fill="#ffffff" fill-opacity="1" stroke="#b25936" stroke-width="1.5"/>
+<line x1="404" y1="240" x2="500" y2="240" stroke="#b25936" stroke-width="1.5"/>
+<line x1="404" y1="236" x2="404" y2="244" stroke="#b25936" stroke-width="1.5"/>
+<line x1="500" y1="236" x2="500" y2="244" stroke="#b25936" stroke-width="1.5"/>
+<text x="452" y="272" font-size="20" font-weight="400" fill="#b25936" text-anchor="middle">Overlap</text>
+<text x="32" y="324" font-size="20" font-weight="600" fill="#2c2825" text-anchor="start">(b) swift-debounce: one action at a time</text>
+<text x="284" y="376" font-size="18" font-weight="400" fill="#2c2825" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">send(B)</text>
+<text x="404" y="376" font-size="20" font-weight="400" fill="#69645e" text-anchor="middle">B due</text>
+<line x1="284" y1="392" x2="284" y2="512" stroke="#ddd8d0" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="404" y1="392" x2="404" y2="512" stroke="#ddd8d0" stroke-width="1.5" stroke-dasharray="3 5"/>
+<text x="32" y="428" font-size="18" font-weight="400" fill="#2c2825" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">action(A)</text>
+<text x="32" y="492" font-size="18" font-weight="400" fill="#2c2825" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">action(B)</text>
+<rect x="172" y="404" width="328" height="32" rx="0" fill="#ffffff" fill-opacity="1" stroke="#69645e" stroke-width="1.5"/>
+<rect x="500" y="468" width="172" height="32" rx="0" fill="#ffffff" fill-opacity="1" stroke="#b25936" stroke-width="1.5"/>
+<line x1="404" y1="484" x2="496" y2="484" stroke="#69645e" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="452" y="532" font-size="20" font-weight="400" fill="#69645e" text-anchor="middle">wait</text>
+<line x1="500" y1="436" x2="500" y2="464" stroke="#ddd8d0" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="500" y1="504" x2="500" y2="544" stroke="#ddd8d0" stroke-width="1.5"/>
+<text x="500" y="568" font-size="20" font-weight="400" fill="#69645e" text-anchor="middle">A returns</text></g></svg>

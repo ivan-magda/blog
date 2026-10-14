@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" width="720" height="656" viewBox="0 0 720 656" role="img" aria-labelledby="07-module-boundary-dark-title 07-module-boundary-dark-desc"><title id="07-module-boundary-dark-title">Optimizer visibility through the send path</title><desc id="07-module-boundary-dark-desc">A client knows Value is Int and can inspect the inlinable bodies of Debouncer.send, clock acquisition before locking, locked storage, and the state machine; conditional worker creation exposes only its declaration through usableFromInline, so specialization is possible but not guaranteed.</desc><defs><marker id="07-module-boundary-dark-arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#b0aaa1" stroke-width="1.2"/></marker><marker id="07-module-boundary-dark-arrow-accent" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#e09040" stroke-width="1.2"/></marker><marker id="07-module-boundary-dark-arrow-link" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#b0aaa1" stroke-width="1.2"/></marker></defs><rect width="720" height="656" fill="#242834"/><text x="32" y="44" fill="#e4dfd7" font-size="20" font-weight="600" text-anchor="start" font-family="Helvetica, Arial, sans-serif">Client</text>
+<text x="176" y="44" fill="#e4dfd7" font-size="20" font-weight="400" text-anchor="start" font-family="Menlo, Consolas, monospace">Debouncer&lt;Int&gt;</text>
+<line x1="32" y1="84" x2="688" y2="84" stroke="#b0aaa1" stroke-width="1.2" stroke-dasharray="4 4"/>
+<rect x="484" y="68" width="204" height="28" fill="#242834"/>
+<text x="496" y="88" fill="#b0aaa1" font-size="20" font-weight="400" text-anchor="start" font-family="Helvetica, Arial, sans-serif">module boundary</text>
+<text x="32" y="136" fill="#e09040" font-size="20" font-weight="400" text-anchor="start" font-family="Menlo, Consolas, monospace">@inlinable</text>
+<text x="192" y="136" fill="#e4dfd7" font-size="20" font-weight="400" text-anchor="start" font-family="Helvetica, Arial, sans-serif">bodies available to the client</text>
+<path d="M64 200 V236" fill="none" stroke="#b0aaa1" stroke-width="1.2" marker-end="url(#07-module-boundary-dark-arrow)"/>
+<path d="M64 264 V300" fill="none" stroke="#b0aaa1" stroke-width="1.2" marker-end="url(#07-module-boundary-dark-arrow)"/>
+<path d="M64 328 V364" fill="none" stroke="#b0aaa1" stroke-width="1.2" marker-end="url(#07-module-boundary-dark-arrow)"/>
+<path d="M64 392 V500" fill="none" stroke="#b0aaa1" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#07-module-boundary-dark-arrow)"/>
+<circle cx="64" cy="188" r="4" fill="#e4dfd7"/>
+<circle cx="64" cy="252" r="4" fill="#e4dfd7"/>
+<circle cx="64" cy="316" r="4" fill="#e4dfd7"/>
+<circle cx="64" cy="380" r="4" fill="#e4dfd7"/>
+<circle cx="64" cy="516" r="4" fill="#e4dfd7"/>
+<text x="88" y="196" fill="#e4dfd7" font-size="20" font-weight="400" text-anchor="start" font-family="Menlo, Consolas, monospace">Debouncer.send</text>
+<text x="88" y="260" fill="#e4dfd7" font-size="20" font-weight="400" text-anchor="start" font-family="Menlo, Consolas, monospace">_MonotonicClock.now()</text>
+<text x="432" y="260" fill="#b0aaa1" font-size="20" font-weight="400" text-anchor="start" font-family="Helvetica, Arial, sans-serif">before taking the lock</text>
+<text x="88" y="324" fill="#e4dfd7" font-size="20" font-weight="400" text-anchor="start" font-family="Menlo, Consolas, monospace">storage.withLock</text>
+<text x="88" y="388" fill="#e4dfd7" font-size="20" font-weight="400" text-anchor="start" font-family="Menlo, Consolas, monospace">state.machine.send</text>
+<rect x="80" y="428" width="292" height="32" fill="#242834"/>
+<text x="88" y="452" fill="#b0aaa1" font-size="20" font-weight="400" text-anchor="start" font-family="Helvetica, Arial, sans-serif">if a worker needs to start</text>
+<text x="88" y="524" fill="#e4dfd7" font-size="20" font-weight="400" text-anchor="start" font-family="Menlo, Consolas, monospace">core.startWorker</text>
+<text x="88" y="572" fill="#e4dfd7" font-size="20" font-weight="400" text-anchor="start" font-family="Menlo, Consolas, monospace">@usableFromInline</text>
+<text x="88" y="608" fill="#b0aaa1" font-size="20" font-weight="400" text-anchor="start" font-family="Helvetica, Arial, sans-serif">Declaration available; body not exposed.</text>
+<line x1="32" y1="164" x2="32" y2="408" stroke="#e09040" stroke-width="1.2"/>
+<line x1="32" y1="164" x2="44" y2="164" stroke="#e09040" stroke-width="1.2"/>
+<line x1="32" y1="408" x2="44" y2="408" stroke="#e09040" stroke-width="1.2"/></svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" width="720" height="548" viewBox="0 0 720 548" role="img" aria-labelledby="task-timeline-dark-title task-timeline-dark-desc"><title id="task-timeline-dark-title">One input burst, two task policies</title><desc id="task-timeline-dark-desc">Illustrative trailing-debounce timing, not a captured trace. Inputs A, B and C each replace the pending value. A task per input requests cancellation of A and B; C runs after the quiet period. A single worker instead wakes at its original deadline, observes the extension, sleeps again, and runs C. Crosses denote cancellation requests, not immediate task completion.</desc><defs><marker id="task-timeline-dark-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#b0aaa1" stroke-width="1.2"/></marker></defs><rect width="720" height="548" fill="#242834"/><g font-family="Helvetica, Arial, sans-serif"><text x="32" y="64" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">Input</text>
+<path d="M164 56 H676" fill="none" stroke="#b0aaa1" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#task-timeline-dark-arrow)"/>
+<circle cx="172" cy="56" r="4" fill="#e4dfd7"/>
+<text x="172" y="36" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="middle">A</text>
+<circle cx="252" cy="56" r="4" fill="#e4dfd7"/>
+<text x="252" y="36" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="middle">B</text>
+<circle cx="332" cy="56" r="4" fill="#e4dfd7"/>
+<text x="332" y="36" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="middle">C</text>
+<line x1="332" y1="96" x2="540" y2="96" stroke="#b0aaa1" stroke-width="1.5"/>
+<line x1="332" y1="92" x2="332" y2="100" stroke="#b0aaa1" stroke-width="1.5"/>
+<line x1="540" y1="92" x2="540" y2="100" stroke="#b0aaa1" stroke-width="1.5"/>
+<text x="436" y="128" font-size="20" font-weight="400" fill="#b0aaa1" text-anchor="middle">Quiet period</text>
+<text x="32" y="176" font-size="20" font-weight="600" fill="#e4dfd7" text-anchor="start">(a) Task per value</text>
+<line x1="172" y1="192" x2="172" y2="340" stroke="#3d4155" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="252" y1="192" x2="252" y2="340" stroke="#3d4155" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="332" y1="192" x2="332" y2="340" stroke="#3d4155" stroke-width="1.5" stroke-dasharray="3 5"/>
+<text x="32" y="232" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">Task A</text>
+<rect x="172" y="212" width="80" height="28" rx="0" fill="#242834" fill-opacity="1" stroke="#b0aaa1" stroke-width="1.5"/>
+<line x1="247" y1="221" x2="257" y2="231" stroke="#e4dfd7" stroke-width="1.5"/>
+<line x1="247" y1="231" x2="257" y2="221" stroke="#e4dfd7" stroke-width="1.5"/>
+<text x="268" y="232" font-size="18" font-weight="400" fill="#b0aaa1" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">cancel()</text>
+<text x="32" y="284" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">Task B</text>
+<rect x="252" y="264" width="80" height="28" rx="0" fill="#242834" fill-opacity="1" stroke="#b0aaa1" stroke-width="1.5"/>
+<line x1="327" y1="273" x2="337" y2="283" stroke="#e4dfd7" stroke-width="1.5"/>
+<line x1="327" y1="283" x2="337" y2="273" stroke="#e4dfd7" stroke-width="1.5"/>
+<text x="348" y="284" font-size="18" font-weight="400" fill="#b0aaa1" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">cancel()</text>
+<text x="32" y="336" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">Task C</text>
+<rect x="332" y="316" width="208" height="28" rx="0" fill="#242834" fill-opacity="1" stroke="#b0aaa1" stroke-width="1.5"/>
+<text x="436" y="336" font-size="20" font-weight="400" fill="#b0aaa1" text-anchor="middle">sleep</text>
+<rect x="540" y="312" width="132" height="36" rx="0" fill="#242834" fill-opacity="1" stroke="#e09040" stroke-width="1.5"/>
+<text x="606" y="336" font-size="18" font-weight="400" fill="#e09040" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">action(C)</text>
+<text x="32" y="408" font-size="20" font-weight="600" fill="#e4dfd7" text-anchor="start">(b) One Task per burst</text>
+<line x1="172" y1="424" x2="172" y2="468" stroke="#3d4155" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="252" y1="424" x2="252" y2="468" stroke="#3d4155" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="332" y1="424" x2="332" y2="468" stroke="#3d4155" stroke-width="1.5" stroke-dasharray="3 5"/>
+<text x="32" y="456" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">Worker</text>
+<rect x="172" y="436" width="368" height="28" rx="0" fill="#242834" fill-opacity="1" stroke="#b0aaa1" stroke-width="1.5"/>
+<line x1="380" y1="436" x2="380" y2="464" stroke="#b0aaa1" stroke-width="1.5"/>
+<text x="276" y="456" font-size="20" font-weight="400" fill="#b0aaa1" text-anchor="middle">sleep</text>
+<text x="460" y="456" font-size="20" font-weight="400" fill="#b0aaa1" text-anchor="middle">sleep</text>
+<rect x="540" y="432" width="132" height="36" rx="0" fill="#242834" fill-opacity="1" stroke="#e09040" stroke-width="1.5"/>
+<text x="606" y="456" font-size="18" font-weight="400" fill="#e09040" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">action(C)</text>
+<line x1="380" y1="468" x2="380" y2="488" stroke="#3d4155" stroke-width="1.5"/>
+<text x="380" y="520" font-size="20" font-weight="400" fill="#b0aaa1" text-anchor="middle">Deadline moved; sleep again</text></g></svg>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="330pt" viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="06-clock-cost-dark-title 06-clock-cost-dark-desc" xml:lang="en"><title id="06-clock-cost-dark-title">Cost of the two saved clock loops</title><desc id="06-clock-cost-dark-desc">ContinuousClock.now: 28.9 ns per iteration; mach_continuous_time(): 5.0 ns. Median of seven runs. The loops consume results differently: blackHole per Instant versus integer accumulation.</desc>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 330
+L 720 330
+L 720 0
+L 0 0
+z
+" style="fill: #242834"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 302.4 247.5
+L 669.6 247.5
+L 669.6 23.1
+L 302.4 23.1
+z
+" style="fill: #242834"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 302.4 247.5
+L 302.4 23.1
+" clip-path="url(#pb49a638a52)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="me05d9117fb" d="M 0 0
+L 0 4
+" style="stroke: #b0aaa1; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#me05d9117fb" x="302.4" y="247.5" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="302.4" y="271.5" transform="rotate(-0 302.4 271.5)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 404.4 247.5
+L 404.4 23.1
+" clip-path="url(#pb49a638a52)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#me05d9117fb" x="404.4" y="247.5" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="404.4" y="271.5" transform="rotate(-0 404.4 271.5)">10</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 506.4 247.5
+L 506.4 23.1
+" clip-path="url(#pb49a638a52)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#me05d9117fb" x="506.4" y="247.5" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="506.4" y="271.5" transform="rotate(-0 506.4 271.5)">20</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 608.4 247.5
+L 608.4 23.1
+" clip-path="url(#pb49a638a52)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#me05d9117fb" x="608.4" y="247.5" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="608.4" y="271.5" transform="rotate(-0 608.4 271.5)">30</text>
+     </g>
+    </g>
+    <g id="text_5">
+     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="486" y="299.71875" transform="rotate(-0 486 299.71875)">Loop cost (ns/iteration)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_9"/>
+     <g id="text_6">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="290.4" y="91.05" transform="rotate(-0 290.4 91.05)">ContinuousClock.now</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_10"/>
+     <g id="text_7">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="290.4" y="193.05" transform="rotate(-0 290.4 193.05)">mach_continuous_time()</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 302.4 247.5
+L 669.6 247.5
+" style="fill: none; stroke: #b0aaa1; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 302.4 106.23
+L 597.18 106.23
+L 597.18 62.37
+L 302.4 62.37
+z
+" clip-path="url(#pb49a638a52)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="606.18" y="89.520703" transform="rotate(-0 606.18 89.520703)">28.9</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 302.4 208.23
+L 353.4 208.23
+L 353.4 164.37
+L 302.4 164.37
+z
+" clip-path="url(#pb49a638a52)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="362.4" y="191.520703" transform="rotate(-0 362.4 191.520703)">5.0</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pb49a638a52">
+   <rect x="302.4" y="23.1" width="367.2" height="224.4"/>
+  </clipPath>
+ </defs>
+</svg>

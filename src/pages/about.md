@@ -3,9 +3,9 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-Hi, I'm Ivan, a mobile developer writing about AI Engineering and Software Development.
+Hi, I'm Ivan, a mobile developer working with iOS, Android, and Kotlin Multiplatform.
 
-I work across iOS, Android, and KMM, and I'm interested in how AI is changing the way we build software.
+I write about Swift performance and concurrency, and share what I learn from building AI agents and developer tools.
 
 ## Projects
 

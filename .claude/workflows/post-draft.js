@@ -1,7 +1,7 @@
 export const meta = {
   name: 'post-draft',
   description: 'Blog pipeline phase 2: 4 variants, critique, pairwise judging, generative merge, quality gates, package',
-  whenToUse: 'Invoked by the writing-blog-post skill after the outline checkpoint, with {slug, pubDatetime}. Reads direction.md + research-packet.md, produces final.md + handoff.md in workspace/posts/<slug>/.',
+  whenToUse: 'Invoked by the writing-blog-post skill after the outline checkpoint, with {slug, pubDatetime, destination, articleLanguage}. Reads direction.md + research-packet.md, produces final.md + handoff.md in workspace/posts/<slug>/.',
   phases: [
     { title: 'Variants', detail: '4 parallel drafters, deliberately different angles' },
     { title: 'Critique', detail: 'per-variant style/structure/AI-tell audit' },
@@ -23,14 +23,22 @@ const STOP_SLOP = '/Users/jetbrains/.agents/skills/stop-slop'
 const input = typeof args === 'string' ? JSON.parse(args) : args
 const slug = input?.slug
 const pubDatetime = input?.pubDatetime
+const destination = typeof input?.destination === 'string' ? input.destination.trim() : ''
+const articleLanguage = typeof input?.articleLanguage === 'string' ? input.articleLanguage.trim() : ''
 if (!slug) throw new Error('post-draft needs args.slug')
 if (!pubDatetime) throw new Error('post-draft needs args.pubDatetime (current UTC ISO string)')
+if (!destination || !articleLanguage) throw new Error('post-draft needs explicit args.destination and args.articleLanguage from direction.md')
 const postDir = `${REPO}/workspace/posts/${slug}`
 const DIRECTION = `${postDir}/direction.md`
 const PACKET = `${postDir}/research-packet.md`
 const MERGED = `${postDir}/merged.md`
+const PUBLICATION_BRIEF = `Destination: ${destination}
+Article language: ${articleLanguage}
+These inputs come from direction.md; flag any conflict with that contract. Reader-facing prose, including frontmatter title/description, body headings, captions, alt text, and diagram labels, uses the article language. Conversation and source-material language do not override it. Preserve source code identifiers, API names, URLs, actual quotations, and the approved treatment of preserved phrasings. Language checks concern human-readable text, not frontmatter keys or tag identifiers.`
 
-const DRAFTER_COMMON = `You are drafting a blog post for ivanmagda.dev. Read, in this order, IN FULL:
+const DRAFTER_COMMON = `You are drafting a blog post.
+${PUBLICATION_BRIEF}
+Read, in this order, IN FULL:
 1. ${DIRECTION} — the approved direction. It is a contract: thesis, outline, constraints, preserved phrasings are fixed.
 2. ${PACKET} — the ONLY factual source. Never invent facts, numbers, quotes, or APIs beyond it.
 3. ${VOICE_DOC} §2 (voice rules AND the forbidden-phrases list — internalize both), §3 (template + metrics), §4 (code blocks), §5 (transitions), §7 (editorial lessons), §8 (bugs pattern).
@@ -109,6 +117,7 @@ Write the post to ${postDir}/variants/${angle.key}.md and return a 3-sentence su
         ? null
         : agent(
             `You are an editorial critic. The draft: ${postDir}/variants/${angle.key}.md — read it fully.
+${PUBLICATION_BRIEF}
 Audit it against, read both: ${VOICE_DOC} §2 (voice rules + forbidden phrases list) and §3 (structural metrics table); skim ${STYLE_DOC} Part 2 for do/don't nuances.
 
 Also scan for AI-writing tells using the stop-slop pattern catalog as the reference list — read ${STOP_SLOP}/SKILL.md and ${STOP_SLOP}/references/phrases.md + ${STOP_SLOP}/references/structures.md. Ivan-specific emphasis on top of the catalog: em-dash overuse (his known aversion) and negative parallelisms ("It's not X, it's Y").
@@ -130,7 +139,9 @@ if (variantResults.length < 2) log(`Only ${variantResults.length} variant surviv
 // ---------- Phase: Judge (pairwise, order-swapped, Copeland scores) ----------
 phase('Judge')
 
-const JUDGE_PROMPT = (pathFirst, pathSecond) => `You are ranking two drafts of the SAME planned blog post for ivanmagda.dev. Read both fully:
+const JUDGE_PROMPT = (pathFirst, pathSecond) => `You are ranking two drafts of the SAME planned blog post.
+${PUBLICATION_BRIEF}
+Read both fully:
 - FIRST: ${pathFirst}
 - SECOND: ${pathSecond}
 
@@ -187,6 +198,7 @@ const critiquesJson = JSON.stringify(
 
 const mergeResult = await agent(
   `You are the merge stage: synthesize ONE draft that is better than every variant (generative merge, not selection).
+${PUBLICATION_BRIEF}
 
 Read fully, in order:
 1. ${DIRECTION} (the contract) and ${PACKET} (the only factual source)
@@ -251,7 +263,8 @@ const gateLogs = { facts: [], style: [], mechanics: [] }
 let factBlockers = []
 
 const extraction = await agent(
-  `Read ${MERGED} fully. Extract every VERIFIABLE factual claim: API names/behavior, numbers, quotes, statements about tools/platforms/history, code-behavior assertions tied to a repo. SKIP opinions, advice, and the author's own experience reports. kind: "web" (verify online), "code" (verify against a source repo referenced in ${PACKET} or ${DIRECTION}), "packet-internal" (packet cites a source — verify the packet didn't distort it). Assign ids c1, c2, ...`,
+  `${PUBLICATION_BRIEF}
+Read ${MERGED} fully. Extract every VERIFIABLE factual claim: API names/behavior, numbers, quotes, statements about tools/platforms/history, code-behavior assertions tied to a repo. SKIP opinions, advice, and the author's own experience reports. kind: "web" (verify online), "code" (verify against a source repo referenced in ${PACKET} or ${DIRECTION}), "packet-internal" (packet cites a source — verify the packet didn't distort it). Assign ids c1, c2, ...`,
   { label: 'facts:extract', phase: 'Facts gate', schema: CLAIMS_SCHEMA }
 )
 if (!extraction) {
@@ -277,7 +290,8 @@ async function verifyClaims(list, round) {
   const codeish = list.filter((c) => c.kind === 'code')
   const thunks = chunk(webish, 5).map((batch, i) => () =>
     agent(
-      `${preamble}Verify each claim below against primary sources. For "web": WebSearch/WebFetch official docs, repos, papers. For "packet-internal": open the source in ${PACKET} (WebFetch URLs, Read files) and confirm the claim matches what the source actually says. Default skeptical: if you cannot confirm, verdict is "unverifiable", never "supported".
+      `${PUBLICATION_BRIEF}
+${preamble}Verify each claim below against primary sources. For "web": WebSearch/WebFetch official docs, repos, papers. For "packet-internal": open the source in ${PACKET} (WebFetch URLs, Read files) and confirm the claim matches what the source actually says. Default skeptical: if you cannot confirm, verdict is "unverifiable", never "supported".
 
 Claims:
 ${JSON.stringify(batch, null, 2)}`,
@@ -287,7 +301,8 @@ ${JSON.stringify(batch, null, 2)}`,
   if (codeish.length)
     thunks.push(() =>
       agent(
-        `${preamble}Verify these code-related claims against the ACTUAL source. Find the repo/tag referenced in ${DIRECTION} or ${PACKET}, then Read the real files (clone shallowly into ${postDir}/tmp-src if it is a remote repo and not already present). Every code claim must match the source at the referenced tag (house rule: never invent examples). Claims:
+        `${PUBLICATION_BRIEF}
+${preamble}Verify these code-related claims against the ACTUAL source. Find the repo/tag referenced in ${DIRECTION} or ${PACKET}, then Read the real files (clone shallowly into ${postDir}/tmp-src if it is a remote repo and not already present). Every code claim must match the source at the referenced tag (house rule: never invent examples). Claims:
 ${JSON.stringify(codeish, null, 2)}`,
         { label: `facts:verify-code:${round}`, phase: 'Facts gate', schema: FACT_VERDICTS_SCHEMA }
       )
@@ -303,7 +318,8 @@ ${JSON.stringify(codeish, null, 2)}`,
 
 // Round-1 code-block audit: exhaustive, independent of extracted claims (house rule §7)
 const codeAudit = await agent(
-  `Read ${MERGED} fully. First determine whether ${DIRECTION} or ${PACKET} references a source repo/tag for the post's code. If NOT, return { "verdicts": [] }. Otherwise: Read the repo at the referenced tag (clone shallowly into ${postDir}/tmp-src if remote and not already present), then enumerate EVERY fenced code block in ${MERGED} and check each against the corresponding source — every identifier, parameter, and API in a block must exist in the source at that tag (house rule: never invent examples). Return one verdict per code block with ids cb1, cb2, ... in document order; verdict "supported" only when the block matches; quote the offending block text in "fix" so a reviser can locate it.`,
+  `${PUBLICATION_BRIEF}
+Read ${MERGED} fully. First determine whether ${DIRECTION} or ${PACKET} references a source repo/tag for the post's code. If NOT, return { "verdicts": [] }. Otherwise: Read the repo at the referenced tag (clone shallowly into ${postDir}/tmp-src if remote and not already present), then enumerate EVERY fenced code block in ${MERGED} and check each against the corresponding source — every identifier, parameter, and API in a block must exist in the source at that tag (house rule: never invent examples). Return one verdict per code block with ids cb1, cb2, ... in document order; verdict "supported" only when the block matches; quote the offending block text in "fix" so a reviser can locate it.`,
   { label: 'facts:code-audit', phase: 'Facts gate', schema: FACT_VERDICTS_SCHEMA }
 )
 if (!codeAudit) gateLogs.facts.push('Code-block audit agent FAILED — code blocks NOT verified against source; check manually before publishing')
@@ -330,7 +346,8 @@ let verdictRecord = []
 
   if (bad.length) {
     const revised = await agent(
-      `You are a surgical reviser. ${MERGED} contains claims that failed verification. First read ${DIRECTION} and note its Preserved phrasings: they are verbatim-untouchable — if a failing claim lies inside one, do NOT rewrite it; wrap the sentence in <!-- BLOCKER: ... --> instead. Apply ONLY these verdicts (Edit the file in place; smallest possible changes; preserve voice; if a claim is load-bearing and contradicted with no safe rewrite, use the <!-- BLOCKER: ... --> marker instead of writing around the hole):
+      `${PUBLICATION_BRIEF}
+You are a surgical reviser. ${MERGED} contains claims that failed verification. First read ${DIRECTION} and note its Preserved phrasings: they are verbatim-untouchable — if a failing claim lies inside one, do NOT rewrite it; wrap the sentence in <!-- BLOCKER: ... --> instead. Apply ONLY these verdicts (Edit the file in place; smallest possible changes; preserve voice; if a claim is load-bearing and contradicted with no safe rewrite, use the <!-- BLOCKER: ... --> marker instead of writing around the hole):
 ${JSON.stringify(bad, null, 2)}
 The claims by id:
 ${JSON.stringify(allClaims.filter((c) => bad.some((b) => b.id === c.id)), null, 2)}`,
@@ -374,7 +391,8 @@ const STYLE_SCAN_SCHEMA = {
   },
 }
 
-const STYLE_SCAN_PROMPT = `Deterministically scan ${MERGED}:
+const STYLE_SCAN_PROMPT = `${PUBLICATION_BRIEF}
+Deterministically scan ${MERGED}:
 1. Read ${VOICE_DOC} §2 first; derive EVERY grep pattern (Bash) from its forbidden-phrases list and its DON'T rules — including the em-dash policy (title ban + body budget) — no patterns from memory.
 2. Check metrics against §3's table: word count, code-block line counts against the target range, two code blocks with no prose between, body headings start at ## and none skip a level, "you" outside the closing section.
 Report every hit with quoted text. clean=true only if zero violations.`
@@ -388,7 +406,8 @@ if (styleScan === null) {
   const round1Violations = styleScan.violations
   gateLogs.style.push(`Round 1: ${round1Violations.length} violations`)
   await agent(
-    `Surgical reviser. First read ${DIRECTION} and note its Preserved phrasings: they are untouchable — if a violation falls inside one, skip it (the rescan will escalate it). Fix ONLY these style violations in ${MERGED} (Edit in place, minimal diffs, keep meaning and voice; consult ${VOICE_DOC} §2 for the approved replacements):
+    `${PUBLICATION_BRIEF}
+Surgical reviser. First read ${DIRECTION} and note its Preserved phrasings: they are untouchable — if a violation falls inside one, skip it (the rescan will escalate it). Fix ONLY these style violations in ${MERGED} (Edit in place, minimal diffs, keep meaning and voice; consult ${VOICE_DOC} §2 for the approved replacements):
 ${JSON.stringify(round1Violations, null, 2)}`,
     { label: 'style:revise', phase: 'Style gate' }
   )
@@ -420,7 +439,9 @@ const MECHANICS_SCHEMA = {
 }
 
 const mechanics = await agent(
-  `Mechanics pass on ${MERGED}. First read ${DIRECTION} and note its Preserved phrasings — never edit text inside one; if a mechanics fix would touch it, report it in issues instead. Fix in place (Edit), then report:
+  `${PUBLICATION_BRIEF}
+Mechanics pass on ${MERGED}. First read ${DIRECTION} and note its Preserved phrasings — never edit text inside one; if a mechanics fix would touch it, report it in issues instead. Fix in place (Edit), then report:
+- Language: verify frontmatter title/description, body and headings, captions, alt text, and diagram labels against Article language. Inspect referenced visuals themselves. Report mismatches, inaccessible visuals, and conflicts with direction.md in issues; keep original source code identifiers, API names, URLs, and actual quotations unchanged.
 - Frontmatter: exact field order and shape as existing posts in ${REPO}/src/data/blog/ (read one non-synth post to confirm); title has no em dashes; author "Ivan Magda"; pubDatetime ${pubDatetime}; slug ${slug}; featured false; draft true; tags reuse existing tags where close enough (check other posts' tags; flag brand-new singleton tags as an issue, don't remove them); description ≤160 chars ending with a period; NO ogImage, NO canonicalURL, NO modDatetime keys at all (empty strings are a known SEO trap — omit entirely).
 - Body: headings start at ##, hierarchy never skips a level; all external links https; closing matches the house sign-off per ${VOICE_DOC} §7 if a sign-off exists.
 - Compose llmsEntry: read ${REPO}/public/llms.txt to match its format, produce the exact entry line(s) for this post under the right section (do NOT edit llms.txt itself).`,
@@ -444,6 +465,7 @@ const llmsEntry = mechanics ? mechanics.llmsEntry : null
 
 const packageResult = await agent(
   `Package the pipeline run. Copy ${MERGED} to ${postDir}/final.md (exact copy). Then write ${postDir}/handoff.md for the author with these sections:
+${PUBLICATION_BRIEF}
 
 1. Blockers (${allBlockers.length}) — needs the author's decision first:
 ${allBlockers.length ? allBlockers.map((b) => `- ${b}`).join('\n') : '- none'}
@@ -469,6 +491,8 @@ Return one paragraph: the state of the draft and the single most important thing
 
 return {
   slug,
+  destination,
+  articleLanguage,
   finalPath: `${postDir}/final.md`,
   handoffPath: `${postDir}/handoff.md`,
   blockers: allBlockers,

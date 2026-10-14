@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="620pt" viewBox="0 0 720 620" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="04-lock-hypothesis-dark-title 04-lock-hypothesis-dark-desc" xml:lang="en"><title id="04-lock-hypothesis-dark-title">Replacing the lock: isolated and complete operations</title><desc id="04-lock-hypothesis-dark-desc">Historical single-thread prototype. NSRecursiveLock versus os_unfair_lock: raw lock plus counter, 17.1 versus 8.0 ns; complete emit, 188.0 versus 177.7 ns. Panels have independent zero-based scales.</desc>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 620
+L 720 620
+L 720 0
+L 0 0
+z
+" style="fill: #242834"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 244.8 254.2
+L 669.6 254.2
+L 669.6 74.4
+L 244.8 74.4
+z
+" style="fill: #242834"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 244.8 254.2
+L 244.8 74.4
+" clip-path="url(#p8f23855218)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m6578b648c8" d="M 0 0
+L 0 4
+" style="stroke: #b0aaa1; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m6578b648c8" x="244.8" y="254.2" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="244.8" y="278.2" transform="rotate(-0 244.8 278.2)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 337.147826 254.2
+L 337.147826 74.4
+" clip-path="url(#p8f23855218)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m6578b648c8" x="337.147826" y="254.2" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="337.147826" y="278.2" transform="rotate(-0 337.147826 278.2)">5</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 429.495652 254.2
+L 429.495652 74.4
+" clip-path="url(#p8f23855218)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m6578b648c8" x="429.495652" y="254.2" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="429.495652" y="278.2" transform="rotate(-0 429.495652 278.2)">10</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 521.843478 254.2
+L 521.843478 74.4
+" clip-path="url(#p8f23855218)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m6578b648c8" x="521.843478" y="254.2" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="521.843478" y="278.2" transform="rotate(-0 521.843478 278.2)">15</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 614.191304 254.2
+L 614.191304 74.4
+" clip-path="url(#p8f23855218)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m6578b648c8" x="614.191304" y="254.2" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="614.191304" y="278.2" transform="rotate(-0 614.191304 278.2)">20</text>
+     </g>
+    </g>
+    <g id="text_6">
+     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="457.2" y="306.41875" transform="rotate(-0 457.2 306.41875)">Wall cost (ns/operation)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_11"/>
+     <g id="text_7">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="232.8" y="130.186364" transform="rotate(-0 232.8 130.186364)">NSRecursiveLock</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_12"/>
+     <g id="text_8">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="232.8" y="211.913636" transform="rotate(-0 232.8 211.913636)">os_unfair_lock</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 244.8 254.2
+L 669.6 254.2
+" style="fill: none; stroke: #b0aaa1; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 244.8 141.007727
+L 560.629565 141.007727
+L 560.629565 105.865
+L 244.8 105.865
+z
+" clip-path="url(#p8f23855218)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="569.629565" y="128.657067" transform="rotate(-0 569.629565 128.657067)">17.1</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 244.8 222.735
+L 392.556522 222.735
+L 392.556522 187.592273
+L 244.8 187.592273
+z
+" clip-path="url(#p8f23855218)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="401.556522" y="210.384339" transform="rotate(-0 401.556522 210.384339)">8.0</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_6">
+    <path d="M 244.8 558
+L 669.6 558
+L 669.6 378.2
+L 244.8 378.2
+z
+" style="fill: #242834"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_6">
+     <g id="line2d_13">
+      <path d="M 244.8 558
+L 244.8 378.2
+" clip-path="url(#p6c29b05c6a)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m6578b648c8" x="244.8" y="558" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="244.8" y="582" transform="rotate(-0 244.8 582)">0</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_15">
+      <path d="M 337.147826 558
+L 337.147826 378.2
+" clip-path="url(#p6c29b05c6a)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#m6578b648c8" x="337.147826" y="558" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="337.147826" y="582" transform="rotate(-0 337.147826 582)">50</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_17">
+      <path d="M 429.495652 558
+L 429.495652 378.2
+" clip-path="url(#p6c29b05c6a)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#m6578b648c8" x="429.495652" y="558" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="429.495652" y="582" transform="rotate(-0 429.495652 582)">100</text>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_19">
+      <path d="M 521.843478 558
+L 521.843478 378.2
+" clip-path="url(#p6c29b05c6a)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#m6578b648c8" x="521.843478" y="558" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="521.843478" y="582" transform="rotate(-0 521.843478 582)">150</text>
+     </g>
+    </g>
+    <g id="xtick_10">
+     <g id="line2d_21">
+      <path d="M 614.191304 558
+L 614.191304 378.2
+" clip-path="url(#p6c29b05c6a)" style="fill: none; stroke: #3d4155; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#m6578b648c8" x="614.191304" y="558" style="fill: #b0aaa1; stroke: #b0aaa1; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="614.191304" y="582" transform="rotate(-0 614.191304 582)">200</text>
+     </g>
+    </g>
+    <g id="text_16">
+     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="457.2" y="610.21875" transform="rotate(-0 457.2 610.21875)">Wall cost (ns/emit)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_3">
+     <g id="line2d_23"/>
+     <g id="text_17">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="232.8" y="433.986364" transform="rotate(-0 232.8 433.986364)">NSRecursiveLock</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_24"/>
+     <g id="text_18">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="232.8" y="515.713636" transform="rotate(-0 232.8 515.713636)">os_unfair_lock</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_7">
+    <path d="M 244.8 558
+L 669.6 558
+" style="fill: none; stroke: #b0aaa1; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 244.8 444.807727
+L 592.027826 444.807727
+L 592.027826 409.665
+L 244.8 409.665
+z
+" clip-path="url(#p6c29b05c6a)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="601.027826" y="432.457067" transform="rotate(-0 601.027826 432.457067)">188.0</text>
+   </g>
+   <g id="patch_9">
+    <path d="M 244.8 526.535
+L 573.004174 526.535
+L 573.004174 491.392273
+L 244.8 491.392273
+z
+" clip-path="url(#p6c29b05c6a)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="582.004174" y="514.184339" transform="rotate(-0 582.004174 514.184339)">177.7</text>
+   </g>
+  </g>
+  <g id="text_21">
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="28.8" y="32.86" transform="rotate(-0 28.8 32.86)">a</text>
+  </g>
+  <g id="text_22">
+   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="61.2" y="32.86" transform="rotate(-0 61.2 32.86)">Lock + counter</text>
+  </g>
+  <g id="text_23">
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="28.8" y="336.66" transform="rotate(-0 28.8 336.66)">b</text>
+  </g>
+  <g id="text_24">
+   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="61.2" y="336.66" transform="rotate(-0 61.2 336.66)">Complete emit()</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p8f23855218">
+   <rect x="244.8" y="74.4" width="424.8" height="179.8"/>
+  </clipPath>
+  <clipPath id="p6c29b05c6a">
+   <rect x="244.8" y="378.2" width="424.8" height="179.8"/>
+  </clipPath>
+ </defs>
+</svg>

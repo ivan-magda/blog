@@ -54,6 +54,7 @@ A three-post cluster on the WWDC26 Foundation Models announcements: an overview 
 
 ## Standalone Posts
 
+- [Why my Swift debouncer got 50× faster and what the Swift Runtime has to do with it](https://ivanmagda.dev/posts/swift-debounce-runtime-investigation/): A measured investigation of task reuse, Swift runtime metadata, generic specialization, lock placement, and callback latency
 - [Keeping Project Memory Shared Between Claude Code and Codex](https://ivanmagda.dev/posts/project-memory-in-the-repository/): Sharing reviewed project notes between Claude Code and Codex, with a reusable migration skill
 - [Add Native Progress UI to Your Telegram AI Agent](https://ivanmagda.dev/posts/telegram-native-agent-progress/): Show tool calls and progress in Telegram with native thinking blocks, animated action icons, and a Stop button
 - [Fixing the 40k CLAUDE.md Warning in a Monorepo](https://ivanmagda.dev/posts/fixing-40k-claude-md-warning-monorepo/): How we restructured Claude Code's CLAUDE.md files in a monorepo to cut 73% of always-loaded context without losing a single fact

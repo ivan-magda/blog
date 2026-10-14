@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" width="720" height="856" viewBox="0 0 720 856" role="img" aria-labelledby="state-machine-dark-title state-machine-dark-desc"><title id="state-machine-dark-title">Trailing debounce state machine</title><desc id="state-machine-dark-desc">Four conceptual states and eight transitions, with cancellation omitted. Idle enters Waiting on send. Waiting extends its deadline on send and enters Running when the quiet period ends. Running enters Idle when the action returns without a pending value, or Running plus pending when send arrives. Further sends replace that pending value. After the action returns, a pending value goes to Running if its deadline has passed, or Waiting if its deadline is still ahead.</desc><defs><marker id="state-machine-dark-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#b0aaa1" stroke-width="1.2"/></marker></defs><rect width="720" height="856" fill="#242834"/><g font-family="Helvetica, Arial, sans-serif"><path d="M360 108 V232" fill="none" stroke="#b0aaa1" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#state-machine-dark-arrow)"/>
+<path d="M360 312 V432" fill="none" stroke="#b0aaa1" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#state-machine-dark-arrow)"/>
+<path d="M360 496 V636" fill="none" stroke="#b0aaa1" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#state-machine-dark-arrow)"/>
+<path d="M248 456 H72 Q64 456 64 448 V84 Q64 76 72 76 H248" fill="none" stroke="#b0aaa1" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#state-machine-dark-arrow)"/>
+<path d="M248 676 H184 Q176 676 176 668 V464 Q188 456 176 448 V284 Q176 276 184 276 H248" fill="none" stroke="#242834" stroke-width="6" stroke-linejoin="round"/>
+<path d="M248 676 H184 Q176 676 176 668 V464 Q188 456 176 448 V284 Q176 276 184 276 H248" fill="none" stroke="#b0aaa1" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#state-machine-dark-arrow)"/>
+<path d="M472 660 H544 Q552 660 552 652 V472 Q552 464 544 464 H472" fill="none" stroke="#b0aaa1" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#state-machine-dark-arrow)"/>
+<path d="M472 252 H624 Q632 252 632 260 V284 Q632 292 624 292 H472" fill="none" stroke="#b0aaa1" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#state-machine-dark-arrow)"/>
+<path d="M328 720 V776 Q328 784 336 784 H384 Q392 784 392 776 V720" fill="none" stroke="#b0aaa1" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#state-machine-dark-arrow)"/>
+<rect x="248" y="44" width="224" height="64" rx="8" fill="#242834" fill-opacity="1" stroke="#b0aaa1" stroke-width="1.5"/>
+<text x="360" y="84" font-size="20" font-weight="600" fill="#e4dfd7" text-anchor="middle">Idle</text>
+<rect x="248" y="232" width="224" height="80" rx="8" fill="#242834" fill-opacity="1" stroke="#b0aaa1" stroke-width="1.5"/>
+<text x="360" y="268" font-size="20" font-weight="600" fill="#e4dfd7" text-anchor="middle">Waiting</text>
+<text x="360" y="292" font-size="20" font-weight="400" fill="#b0aaa1" text-anchor="middle">for quiet</text>
+<rect x="248" y="432" width="224" height="64" rx="8" fill="#242834" fill-opacity="1" stroke="#b0aaa1" stroke-width="1.5"/>
+<text x="360" y="472" font-size="20" font-weight="600" fill="#e4dfd7" text-anchor="middle">Running</text>
+<rect x="248" y="636" width="224" height="84" rx="8" fill="#242834" fill-opacity="1" stroke="#e09040" stroke-width="1.5"/>
+<text x="360" y="672" font-size="20" font-weight="600" fill="#e09040" text-anchor="middle">Running + pending</text>
+<text x="360" y="700" font-size="18" font-weight="400" fill="#b0aaa1" text-anchor="middle">latest value retained</text>
+<rect x="372" y="156" width="64" height="32" fill="#242834"/>
+<text x="380" y="176" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">send</text>
+<rect x="372" y="352" width="176" height="32" fill="#242834"/>
+<text x="380" y="372" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">Quiet period ends</text>
+<rect x="372" y="548" width="64" height="32" fill="#242834"/>
+<text x="380" y="568" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">send</text>
+<rect x="80" y="136" width="152" height="56" fill="#242834"/>
+<text x="88" y="156" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">Action returns;</text>
+<text x="88" y="180" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">nothing pending</text>
+<rect x="16" y="532" width="148" height="56" fill="#242834"/>
+<text x="24" y="552" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">Action returns</text>
+<text x="24" y="576" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">before deadline</text>
+<rect x="560" y="528" width="148" height="56" fill="#242834"/>
+<text x="568" y="548" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">Action returns</text>
+<text x="568" y="572" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="start">after deadline</text>
+<rect x="468" y="176" width="176" height="56" fill="#242834"/>
+<text x="556" y="196" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="middle">send extends</text>
+<text x="556" y="220" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="middle">the deadline</text>
+<rect x="196" y="804" width="328" height="32" fill="#242834"/>
+<text x="360" y="824" font-size="20" font-weight="400" fill="#e4dfd7" text-anchor="middle">send replaces the pending value</text></g></svg>
