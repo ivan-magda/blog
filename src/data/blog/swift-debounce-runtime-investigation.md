@@ -1,5 +1,6 @@
 ---
 title: "Why my Swift debouncer got 50× faster and what the Swift Runtime has to do with it"
+ogTitle: "Why my Swift debouncer got 50× faster"
 author: "Ivan Magda"
 pubDatetime: 2026-10-13T21:00:45Z
 slug: "swift-debounce-runtime-investigation"
