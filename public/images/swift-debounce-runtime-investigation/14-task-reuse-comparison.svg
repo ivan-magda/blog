@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="560pt" viewBox="0 0 720 560" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="14-task-reuse-comparison-title 14-task-reuse-comparison-desc" xml:lang="en"><title id="14-task-reuse-comparison-title">Task reuse: input cost and total CPU time</title><desc id="14-task-reuse-comparison-desc">Task per value versus long-lived task: 798 versus 216 ns per send, about 73% lower; 280.81 versus 21.91 ms of total process CPU, about 92% lower. Medians of 15 rounds with 100,000 inputs, one thread and a 10 ms quiet period. CPU includes output and settling. Separate zero-based axes and observation windows.</desc>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 560
+L 720 560
+L 720 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 216 212.8
+L 676.8 212.8
+L 676.8 89.6
+L 216 89.6
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 216 212.8
+L 216 89.6
+" clip-path="url(#pc01aaf1229)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="mf995a6f0d9" d="M 0 0
+L 0 4
+" style="stroke: #69645e; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="216" y="212.8" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="216" y="236.8" transform="rotate(-0 216 236.8)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 303.771429 212.8
+L 303.771429 89.6
+" clip-path="url(#pc01aaf1229)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="303.771429" y="212.8" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="303.771429" y="236.8" transform="rotate(-0 303.771429 236.8)">200</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 391.542857 212.8
+L 391.542857 89.6
+" clip-path="url(#pc01aaf1229)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="391.542857" y="212.8" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="391.542857" y="236.8" transform="rotate(-0 391.542857 236.8)">400</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 479.314286 212.8
+L 479.314286 89.6
+" clip-path="url(#pc01aaf1229)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="479.314286" y="212.8" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="479.314286" y="236.8" transform="rotate(-0 479.314286 236.8)">600</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 567.085714 212.8
+L 567.085714 89.6
+" clip-path="url(#pc01aaf1229)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="567.085714" y="212.8" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="567.085714" y="236.8" transform="rotate(-0 567.085714 236.8)">800</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 654.857143 212.8
+L 654.857143 89.6
+" clip-path="url(#pc01aaf1229)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="654.857143" y="212.8" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="654.857143" y="236.8" transform="rotate(-0 654.857143 236.8)">1000</text>
+     </g>
+    </g>
+    <g id="text_7">
+     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #2c2825" x="446.4" y="265.01875" transform="rotate(-0 446.4 265.01875)">Amortized cost (ns/send)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_13"/>
+     <g id="text_8">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="204" y="129.95" transform="rotate(-0 204 129.95)">Task per value</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_14"/>
+     <g id="text_9">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="204" y="185.95" transform="rotate(-0 204 185.95)">Long-lived task</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 216 212.8
+L 676.8 212.8
+" style="fill: none; stroke: #69645e; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 216 135.24
+L 566.208 135.24
+L 566.208 111.16
+L 216 111.16
+z
+" clip-path="url(#pc01aaf1229)" style="fill: #69645e; stroke: #69645e; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="575.208" y="128.420703" transform="rotate(-0 575.208 128.420703)">798</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 216 191.24
+L 310.793143 191.24
+L 310.793143 167.16
+L 216 167.16
+z
+" clip-path="url(#pc01aaf1229)" style="fill: #b25936; stroke: #b25936; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="319.793143" y="184.420703" transform="rotate(-0 319.793143 184.420703)">216</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_6">
+    <path d="M 216 481.6
+L 676.8 481.6
+L 676.8 358.4
+L 216 358.4
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_3">
+    <g id="xtick_7">
+     <g id="line2d_15">
+      <path d="M 216 481.6
+L 216 358.4
+" clip-path="url(#p2583246540)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="216" y="481.6" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="216" y="505.6" transform="rotate(-0 216 505.6)">0</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_17">
+      <path d="M 340.540541 481.6
+L 340.540541 358.4
+" clip-path="url(#p2583246540)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="340.540541" y="481.6" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="340.540541" y="505.6" transform="rotate(-0 340.540541 505.6)">100</text>
+     </g>
+    </g>
+    <g id="xtick_9">
+     <g id="line2d_19">
+      <path d="M 465.081081 481.6
+L 465.081081 358.4
+" clip-path="url(#p2583246540)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="465.081081" y="481.6" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="465.081081" y="505.6" transform="rotate(-0 465.081081 505.6)">200</text>
+     </g>
+    </g>
+    <g id="xtick_10">
+     <g id="line2d_21">
+      <path d="M 589.621622 481.6
+L 589.621622 358.4
+" clip-path="url(#p2583246540)" style="fill: none; stroke: #ddd8d0; stroke-width: 0.7; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#mf995a6f0d9" x="589.621622" y="481.6" style="fill: #69645e; stroke: #69645e; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="589.621622" y="505.6" transform="rotate(-0 589.621622 505.6)">300</text>
+     </g>
+    </g>
+    <g id="text_16">
+     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #2c2825" x="446.4" y="533.81875" transform="rotate(-0 446.4 533.81875)">CPU time across all threads (ms)</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_4">
+    <g id="ytick_3">
+     <g id="line2d_23"/>
+     <g id="text_17">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="204" y="398.75" transform="rotate(-0 204 398.75)">Task per value</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_24"/>
+     <g id="text_18">
+      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="204" y="454.75" transform="rotate(-0 204 454.75)">Long-lived task</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_7">
+    <path d="M 216 481.6
+L 676.8 481.6
+" style="fill: none; stroke: #69645e; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 216 404.04
+L 565.722292 404.04
+L 565.722292 379.96
+L 216 379.96
+z
+" clip-path="url(#p2583246540)" style="fill: #69645e; stroke: #69645e; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="574.722292" y="397.220703" transform="rotate(-0 574.722292 397.220703)">280.81</text>
+   </g>
+   <g id="patch_9">
+    <path d="M 216 460.04
+L 243.286832 460.04
+L 243.286832 435.96
+L 216 435.96
+z
+" clip-path="url(#p2583246540)" style="fill: #b25936; stroke: #b25936; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="252.286832" y="453.220703" transform="rotate(-0 252.286832 453.220703)">21.91</text>
+   </g>
+  </g>
+  <g id="text_21">
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="32.4" y="39.2" transform="rotate(-0 32.4 39.2)">a</text>
+  </g>
+  <g id="text_22">
+   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="64.8" y="39.2" transform="rotate(-0 64.8 39.2)">Synchronous send cost</text>
+  </g>
+  <g id="text_23">
+   <text style="font-size: 17px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="680.4" y="39.2" transform="rotate(-0 680.4 39.2)">73% lower</text>
+  </g>
+  <g id="text_24">
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="32.4" y="308" transform="rotate(-0 32.4 308)">b</text>
+  </g>
+  <g id="text_25">
+   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="64.8" y="308" transform="rotate(-0 64.8 308)">Total process CPU</text>
+  </g>
+  <g id="text_26">
+   <text style="font-size: 17px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="680.4" y="308" transform="rotate(-0 680.4 308)">92% lower</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pc01aaf1229">
+   <rect x="216" y="89.6" width="460.8" height="123.2"/>
+  </clipPath>
+  <clipPath id="p2583246540">
+   <rect x="216" y="358.4" width="460.8" height="123.2"/>
+  </clipPath>
+ </defs>
+</svg>

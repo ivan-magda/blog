@@ -73,7 +73,6 @@ public func emit(value: T) {
             case .finishDebouncing(let latestValue):
                 await output(latestValue)
                 return
-
             case .continueDebouncing(let newDueTime):
                 deadline = newDueTime
             }
@@ -88,7 +87,25 @@ An input does not have to wake the worker to extend the deadline. At its earlier
 
 In the standardized comparison, each round sent 100,000 integer values in a tight loop on one thread, with a 10 ms quiet period. Both references delivered the final value once:
 
-<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Benchmark results">
+<figure class="research-figure">
+  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/14-task-reuse-comparison.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/14-task-reuse-comparison-mobile.svg" width="360" height="612" />
+      <img src="/images/swift-debounce-runtime-investigation/14-task-reuse-comparison.svg" alt="Reusing one task reduces synchronous send cost from 798 to 216 ns per input and total process CPU from 280.81 to 21.91 ms for 100,000 values." width="720" height="560" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/14-task-reuse-comparison-dark.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/14-task-reuse-comparison-mobile-dark.svg" width="360" height="612" />
+      <img src="/images/swift-debounce-runtime-investigation/14-task-reuse-comparison-dark.svg" alt="Reusing one task reduces synchronous send cost from 798 to 216 ns per input and total process CPU from 280.81 to 21.91 ms for 100,000 values." width="720" height="560" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+</figure>
+
+<details class="research-data">
+  <summary>View data<span class="sr-only">: Task reuse comparison</span></summary>
+
+<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Task reuse comparison">
 
 | Reference       | Amortized synchronous send cost | Total process CPU |
 | --------------- | ------------------------------: | ----------------: |
@@ -96,6 +113,8 @@ In the standardized comparison, each round sent 100,000 integer values in a tigh
 | Long-lived task |                          216 ns |          21.91 ms |
 
 </div>
+
+</details>
 
 _Median of 15 rounds in the recorded M1 Max release environment. [Scenario results](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/scenarios.md). Send cost divides the input loop's wall time by its number of calls. CPU covers a longer window, including output and a settling period for cancelled tasks._
 
@@ -154,7 +173,25 @@ The long-lived reference uses `NSRecursiveLock`. A cheaper lock was a reasonable
 
 The historical prototype comparison measured the primitive around a counter increment, then the complete emit method. It has its own workload and starting point:
 
-<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Benchmark results">
+<figure class="research-figure">
+  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/04-lock-hypothesis.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/04-lock-hypothesis-mobile.svg" width="360" height="588" />
+      <img src="/images/swift-debounce-runtime-investigation/04-lock-hypothesis.svg" alt="Replacing NSRecursiveLock with os_unfair_lock reduces the raw operation from 17.1 to 8.0 ns and the historical prototype’s complete emit from 188.0 to 177.7 ns." width="720" height="620" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/04-lock-hypothesis-dark.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/04-lock-hypothesis-mobile-dark.svg" width="360" height="588" />
+      <img src="/images/swift-debounce-runtime-investigation/04-lock-hypothesis-dark.svg" alt="Replacing NSRecursiveLock with os_unfair_lock reduces the raw operation from 17.1 to 8.0 ns and the historical prototype’s complete emit from 188.0 to 177.7 ns." width="720" height="620" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+</figure>
+
+<details class="research-data">
+  <summary>View data<span class="sr-only">: Lock replacement comparison</span></summary>
+
+<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Lock replacement comparison">
 
 | Operation, one thread             | `NSRecursiveLock` reference | `os_unfair_lock` variant |
 | --------------------------------- | --------------------------: | -----------------------: |
@@ -163,16 +200,11 @@ The historical prototype comparison measured the primitive around a counter incr
 
 </div>
 
+</details>
+
 _Historical [prototype lock experiment](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/prototype-locks.md), with one million emits for the full-method comparison. Its 188 ns baseline is separate from the 216 ns standardized scenario above._
 
 The isolated operation became less than half as expensive. The useful method saved 10.3 ns, about 5.5%. That was close to the raw lock's 9.1 ns saving, leaving most of the method's cost intact.
-
-<figure class="research-figure">
-  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/04-lock-hypothesis.svg"><img src="/images/swift-debounce-runtime-investigation/04-lock-hypothesis.svg" alt="Replacing NSRecursiveLock with os_unfair_lock reduces the raw operation from 17.1 to 8.0 ns and the historical prototype&#x27;s complete emit from 188.0 to 177.7 ns." width="720" height="620" loading="lazy" decoding="async" /></a>
-  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/04-lock-hypothesis-dark.svg"><img src="/images/swift-debounce-runtime-investigation/04-lock-hypothesis-dark.svg" alt="Replacing NSRecursiveLock with os_unfair_lock reduces the raw operation from 17.1 to 8.0 ns and the historical prototype&#x27;s complete emit from 188.0 to 177.7 ns." width="720" height="620" loading="lazy" decoding="async" /></a>
-</figure>
-
-_Single-thread wall cost from the [historical prototype results](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/prototype-locks.md). The panels compare different operations and use separate scales._
 
 Under contention, the lock choice also changed the resources spent accepting values. With eight threads sending 100,000 values each, the reference used 2,551.5 CPU ns per emit and recorded 33,048 context switches. The unfair-lock variant used 1,384.4 CPU ns and recorded 13,924 switches, while wall time per emit moved from 376.6 to 342.1 ns. These aggregate measurements show how CPU and elapsed time can respond by different amounts; they are not individual-call latency distributions.
 
@@ -353,7 +385,25 @@ An earlier cross-module optimization experiment had barely changed the original 
 
 The historical release harness toggled `-cross-module-optimization` on its `Debounce` target. Each invocation targeted three seconds, checking time between batches of 10,000 emits. A 3,600-second quiet period kept callback delivery outside the repeated-input workload. The [saved output](/images/swift-debounce-runtime-investigation/historical-observations.txt) contains one listed run per configuration:
 
-<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Benchmark results">
+<figure class="research-figure">
+  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/08-cmo-experiment.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/08-cmo-experiment-mobile.svg" width="360" height="590" />
+      <img src="/images/swift-debounce-runtime-investigation/08-cmo-experiment.svg" alt="Cross-module optimization changes the fast prototype from 27.58 million to 257.9 million emits per target three-second run, while the original reference remains near 15.7 million." width="720" height="470" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/08-cmo-experiment-dark.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/08-cmo-experiment-mobile-dark.svg" width="360" height="590" />
+      <img src="/images/swift-debounce-runtime-investigation/08-cmo-experiment-dark.svg" alt="Cross-module optimization changes the fast prototype from 27.58 million to 257.9 million emits per target three-second run, while the original reference remains near 15.7 million." width="720" height="470" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+</figure>
+
+<details class="research-data">
+  <summary>View data<span class="sr-only">: Cross-module optimization comparison</span></summary>
+
+<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Cross-module optimization comparison">
 
 | Historical implementation     | CMO off, emits | CMO on, emits |
 | ----------------------------- | -------------: | ------------: |
@@ -362,14 +412,9 @@ The historical release harness toggled `-cross-module-optimization` on its `Debo
 
 </div>
 
+</details>
+
 The fast prototype completed about 9.35 times as many emits with cross-module optimization enabled. The original reference stayed near 15.7 million. The counts measure throughput over a target window with batched clock checks; they are neither medians nor direct ns-per-call measurements.
-
-<figure class="research-figure">
-  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/08-cmo-experiment.svg"><img src="/images/swift-debounce-runtime-investigation/08-cmo-experiment.svg" alt="Cross-module optimization changes the fast prototype from 27.58 million to 257.9 million emits per target three-second run, while the original reference remains near 15.7 million." width="720" height="470" loading="lazy" decoding="async" /></a>
-  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/08-cmo-experiment-dark.svg"><img src="/images/swift-debounce-runtime-investigation/08-cmo-experiment-dark.svg" alt="Cross-module optimization changes the fast prototype from 27.58 million to 257.9 million emits per target three-second run, while the original reference remains near 15.7 million." width="720" height="470" loading="lazy" decoding="async" /></a>
-</figure>
-
-_Historical release-build comparison from [saved terminal output](/images/swift-debounce-runtime-investigation/historical-observations.txt): three-second target, 10,000-emit batches, 3,600-second quiet period, one listed run per configuration._
 
 The similar metadata symbols had appeared under two different constraints. More visibility into the original reference did not change the external `Instant` layout contract. After moving deadlines to integers, the revised prototype responded to the compiler flag with much higher throughput. That supports investigating specialization of the remaining generic state, rather than treating all metadata entries as one fixed category of overhead.
 
@@ -552,30 +597,45 @@ _Storage geometry from the [adjacent and padded prototypes](https://github.com/i
 
 The saved storage suite compares five wrappers over nine interleaved rounds after warm-up. Its single-thread samples send two million values; contended samples use eight threads with 100,000 values each. Both use a 20 ms quiet period:
 
-<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Benchmark results">
+<figure class="research-figure">
+  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/11-storage-variants.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/11-storage-variants-mobile.svg" width="360" height="1080" />
+      <img src="/images/swift-debounce-runtime-investigation/11-storage-variants.svg" alt="Single-thread and eight-thread send costs for five storage wrappers, showing medians and observed minimum-to-maximum ranges over nine rounds. Padded ManagedBuffer stays near 13 ns with one sender and has the lowest median with eight senders, 54.2 ns." width="720" height="1100" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/11-storage-variants-dark.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/11-storage-variants-mobile-dark.svg" width="360" height="1080" />
+      <img src="/images/swift-debounce-runtime-investigation/11-storage-variants-dark.svg" alt="Single-thread and eight-thread send costs for five storage wrappers, showing medians and observed minimum-to-maximum ranges over nine rounds. Padded ManagedBuffer stays near 13 ns with one sender and has the lowest median with eight senders, 54.2 ns." width="720" height="1100" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+</figure>
 
-| Storage for the simplified debouncer | Send, one thread | Send, eight threads | Raw lock, eight threads | Heap per instance |
-| ------------------------------------ | ---------------: | ------------------: | ----------------------: | ----------------: |
-| `Synchronization.Mutex`              |          13.2 ns |             86.8 ns |                 27.2 ns |             128 B |
-| `ManagedBuffer`, adjacent lock       |          13.1 ns |             79.7 ns |                 24.9 ns |             160 B |
-| `ManagedBuffer`, padded lock         |          13.2 ns |             54.2 ns |                 37.1 ns |             288 B |
-| `OSAllocatedUnfairLock`              |          13.1 ns |             84.6 ns |                 23.6 ns |             160 B |
-| Separate lock allocation             |          17.9 ns |             65.7 ns |                 38.4 ns |             144 B |
+<details class="research-data">
+  <summary>View data<span class="sr-only">: Storage wrapper comparison</span></summary>
+
+Send columns show median [minimum–maximum] across nine rounds.
+
+<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Storage wrapper comparison">
+
+| Storage for the simplified debouncer | Send, one thread (ns) | Send, eight threads (ns) | Raw lock, eight threads | Heap per instance |
+| ------------------------------------ | --------------------: | -----------------------: | ----------------------: | ----------------: |
+| `Synchronization.Mutex`              |      13.2 [13.1–13.3] |         86.8 [77.5–94.3] |                 27.2 ns |             128 B |
+| `ManagedBuffer`, adjacent lock       |      13.1 [13.0–13.2] |         79.7 [73.7–97.7] |                 24.9 ns |             160 B |
+| `ManagedBuffer`, padded lock         |      13.2 [13.2–13.3] |         54.2 [51.9–62.6] |                 37.1 ns |             288 B |
+| `OSAllocatedUnfairLock`              |      13.1 [13.1–13.2] |        84.6 [71.3–118.8] |                 23.6 ns |             160 B |
+| Separate lock allocation             |      17.9 [17.8–18.0] |         65.7 [62.7–67.5] |                 38.4 ns |             144 B |
 
 </div>
 
-_Medians from the [storage results](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/storage.md), in the recorded M1 Max release environment. Eight-thread costs divide aggregate wall time by all operations. The raw-lock workload uses 250,000 counter increments per thread._
+</details>
+
+_Medians and observed min–max across nine interleaved rounds from the [storage results](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/storage.md), in the recorded M1 Max release environment. Eight-thread costs divide aggregate wall time by all operations. The raw-lock workload uses 250,000 counter increments per thread._
 
 The [storage harness](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/Storage/main.swift#L39-L87) measures heap cost using malloc's in-use delta across 100,000 retained instances, after reserving their holding array.
 
 The separate allocation preserved the anomaly: 17.9 ns versus 13.1 ns with one sender, but 65.7 ns versus 79.7 ns with eight. Padding kept single-thread cost near 13 ns and reduced the useful contended operation to 54.2 ns, about 32% below the adjacent layout.
-
-<figure class="research-figure">
-  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/11-storage-variants.svg"><img src="/images/swift-debounce-runtime-investigation/11-storage-variants.svg" alt="Medians and observed ranges for five eight-thread storage variants show the lowest send cost for padded ManagedBuffer in the recorded run." width="720" height="600" loading="lazy" decoding="async" /></a>
-  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/11-storage-variants-dark.svg"><img src="/images/swift-debounce-runtime-investigation/11-storage-variants-dark.svg" alt="Medians and observed ranges for five eight-thread storage variants show the lowest send cost for padded ManagedBuffer in the recorded run." width="720" height="600" loading="lazy" decoding="async" /></a>
-</figure>
-
-_Simplified `BoxedDebounce`, eight threads × 100,000 sends, 20 ms quiet period, M1 Max release build. Median and observed min–max over nine interleaved rounds from [storage.md](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/storage.md). Ranges are not confidence intervals._
 
 Across those rounds, adjacent storage ranged from 73.7 to 97.7 ns per contended send; padded storage ranged from 51.9 to 62.6 ns. Aggregate CPU cost fell from 602.8 to 405.3 ns per send too. The improvement did not depend on choosing one unusually good round.
 
@@ -618,27 +678,38 @@ Padding added 128 bytes per measured instance, with almost no single-thread send
 The completed package combines worker reuse, integer deadlines, a path visible to client optimization, and the chosen storage layout. Returning to the original burst workload gives the full comparison:
 
 <figure class="research-figure">
-  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/02-send-baseline.svg"><img src="/images/swift-debounce-runtime-investigation/02-send-baseline.svg" alt="For 100,000 values sent in a tight loop, amortized send cost is 798 ns for task per value, 216 ns for the long-lived reference, and 16 ns for the package." width="720" height="350" loading="lazy" decoding="async" /></a>
-  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/02-send-baseline-dark.svg"><img src="/images/swift-debounce-runtime-investigation/02-send-baseline-dark.svg" alt="For 100,000 values sent in a tight loop, amortized send cost is 798 ns for task per value, 216 ns for the long-lived reference, and 16 ns for the package." width="720" height="350" loading="lazy" decoding="async" /></a>
+  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/02-send-baseline.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/02-send-baseline-mobile.svg" width="360" height="680" />
+      <img src="/images/swift-debounce-runtime-investigation/02-send-baseline.svg" alt="For 100,000 inputs, send costs are 798, 216, and 16 ns for task per value, the long-lived task, and swift-debounce. Total process CPU is 280.81, 21.91, and 1.72 ms, respectively." width="720" height="650" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/02-send-baseline-dark.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/02-send-baseline-mobile-dark.svg" width="360" height="680" />
+      <img src="/images/swift-debounce-runtime-investigation/02-send-baseline-dark.svg" alt="For 100,000 inputs, send costs are 798, 216, and 16 ns for task per value, the long-lived task, and swift-debounce. Total process CPU is 280.81, 21.91, and 1.72 ms, respectively." width="720" height="650" loading="lazy" decoding="async" />
+    </picture>
+  </a>
 </figure>
 
-_100,000 integer values, one sender, 10 ms quiet period; median of 15 rounds, M1 Max, macOS 26.7.1, Swift 6.4, release. [Scenario results](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/scenarios.md). The approximately 50× ratio is 798 ÷ 16 in this workload._
+<details class="research-data">
+  <summary>View data<span class="sr-only">: Final implementation comparison</span></summary>
 
-The result belongs to the whole implementation. The separate lock, clock, compiler, and layout experiments do not divide that gain into independent contributions. The references include atomic task and wakeup counters; the package has no matching instrumentation. Its worker policy follows from the source rather than a measured task-count row.
+<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Final implementation comparison">
 
-The synchronous loop and process CPU results show two kinds of saved work:
-
-<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Benchmark results">
-
-| Implementation  | Send-loop wall time | Total process CPU |
-| --------------- | ------------------: | ----------------: |
-| Task per value  |            79.82 ms |         280.81 ms |
-| Long-lived task |            21.61 ms |          21.91 ms |
-| Package         |             1.57 ms |           1.72 ms |
+| Implementation  | Amortized send cost | Send-loop wall time | Total process CPU |
+| --------------- | ------------------: | ------------------: | ----------------: |
+| Task per value  |              798 ns |            79.82 ms |         280.81 ms |
+| Long-lived task |              216 ns |            21.61 ms |          21.91 ms |
+| Package         |               16 ns |             1.57 ms |           1.72 ms |
 
 </div>
 
-_The same [100,000-value scenario](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/scenarios.md), medians of 15 rounds. CPU sums work across threads over a longer observation window, so it can exceed the loop's elapsed time._
+</details>
+
+_100,000 integer values, one sender, 10 ms quiet period; median of 15 rounds, M1 Max, macOS 26.7.1, Swift 6.4, release. [Scenario results](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/scenarios.md). The approximately 50× ratio is 798 ÷ 16 in this workload. CPU sums work across threads over a longer window, including output and settling._
+
+The result belongs to the whole implementation. The separate lock, clock, compiler, and layout experiments do not divide that gain into independent contributions. The references include atomic task and wakeup counters; the package has no matching instrumentation. Its worker policy follows from the source rather than a measured task-count row.
 
 The [harness snapshots](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/Scenarios/main.swift#L147-L161) show those windows. This excerpt begins after constructing the debouncer and ends before checking the result and returning the metrics:
 
@@ -700,26 +771,45 @@ return elapsedMilliseconds - 50
 
 The return value is **callback overshoot in milliseconds** beyond the requested 50 ms. The polling loop waits until the recorded timestamp is available; its wakeup does not define the callback time. Rotating implementation order between rounds reduces dependence on which implementation runs first.
 
-<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Benchmark results">
+<figure class="research-figure">
+  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/12-cost-versus-latency.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/12-cost-versus-latency-mobile.svg" width="360" height="1070" />
+      <img src="/images/swift-debounce-runtime-investigation/12-cost-versus-latency.svg" alt="Median and p95 callback overshoot for three input patterns, all on a 0–4 ms scale. The package’s medians are 1.38 ms for one value, 1.19 ms for 20 at once, and 1.08 ms for 60 values spaced 5 ms apart. The ranking changes with the input pattern." width="720" height="1100" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/12-cost-versus-latency-dark.svg">
+    <picture>
+      <source media="(max-width: 640px)" srcset="/images/swift-debounce-runtime-investigation/12-cost-versus-latency-mobile-dark.svg" width="360" height="1070" />
+      <img src="/images/swift-debounce-runtime-investigation/12-cost-versus-latency-dark.svg" alt="Median and p95 callback overshoot for three input patterns, all on a 0–4 ms scale. The package’s medians are 1.38 ms for one value, 1.19 ms for 20 at once, and 1.08 ms for 60 values spaced 5 ms apart. The ranking changes with the input pattern." width="720" height="1100" loading="lazy" decoding="async" />
+    </picture>
+  </a>
+</figure>
 
-| Input pattern             | Task per value | Long-lived reference | Package |
-| ------------------------- | -------------: | -------------------: | ------: |
-| One value                 |        1.01 ms |              1.04 ms | 1.38 ms |
-| 20 values at once         |        0.96 ms |              1.18 ms | 1.19 ms |
-| 60 values, one every 5 ms |        1.02 ms |              0.77 ms | 1.08 ms |
+<details class="research-data">
+  <summary>View data<span class="sr-only">: Callback overshoot comparison</span></summary>
+
+<div data-table-scroll style="overflow-x: auto" tabindex="0" role="region" aria-label="Callback overshoot comparison">
+
+| Input pattern             | Implementation       | Median (ms) | p95 (ms) |
+| ------------------------- | -------------------- | ----------: | -------: |
+| One value                 | Task per value       |        1.01 |     2.07 |
+| One value                 | Long-lived reference |        1.04 |     2.16 |
+| One value                 | Package              |        1.38 |     2.60 |
+| 20 values at once         | Task per value       |        0.96 |     2.07 |
+| 20 values at once         | Long-lived reference |        1.18 |     3.32 |
+| 20 values at once         | Package              |        1.19 |     1.70 |
+| 60 values, one every 5 ms | Task per value       |        1.02 |     2.03 |
+| 60 values, one every 5 ms | Long-lived reference |        0.77 |     1.91 |
+| 60 values, one every 5 ms | Package              |        1.08 |     2.38 |
 
 </div>
 
-_Median overshoot from the [focused latency results](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/latency.md), 30 interleaved bursts per pattern in the same M1 Max release environment. The 5 ms cadence is a synthetic 200 Hz stream, rather than typical human typing._
+</details>
+
+_Median and p95 overshoot beyond the 50 ms quiet period from the [focused latency results](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/latency.md), 30 interleaved bursts per pattern in the same M1 Max release environment. The 5 ms cadence is a synthetic 200 Hz stream, rather than typical human typing._
 
 For one value, the package's median overshoot was higher in this run. For 20 values, it was close to the long-lived reference. The p95 results also changed with the pattern: for 20 values they were 2.07 ms, 3.32 ms, and 1.70 ms, respectively. These observations do not establish one callback-latency ranking across workloads.
-
-<figure class="research-figure">
-  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/12-cost-versus-latency.svg"><img src="/images/swift-debounce-runtime-investigation/12-cost-versus-latency.svg" alt="Two panels compare the 100,000-value send costs of 798, 216, and 16 ns with one-value callback overshoot: median bars of 1.01, 1.04, and 1.38 ms and p95 ticks of 2.07, 2.16, and 2.60 ms." width="720" height="820" loading="lazy" decoding="async" /></a>
-  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/12-cost-versus-latency-dark.svg"><img src="/images/swift-debounce-runtime-investigation/12-cost-versus-latency-dark.svg" alt="Two panels compare the 100,000-value send costs of 798, 216, and 16 ns with one-value callback overshoot: median bars of 1.01, 1.04, and 1.38 ms and p95 ticks of 2.07, 2.16, and 2.60 ms." width="720" height="820" loading="lazy" decoding="async" /></a>
-</figure>
-
-_Send panel: [100,000-value scenario](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/scenarios.md), median of 15 rounds. Overshoot panel: [one-value latency pattern](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/latency.md), 50 ms quiet period, 30 interleaved bursts, median bars and p95 ticks. M1 Max release environment; each panel retains its own workload and units._
 
 Reducing work inside `send` leaves the requested quiet period unchanged. The worker still needs to resume after sleeping and reach the action through the relevant executor. The focused harness measures that combined outcome without isolating the timer from scheduling and executor delay. It shows lower input-processing cost alongside millisecond callback overshoot, with no corresponding fiftyfold improvement in delivery time.
 
