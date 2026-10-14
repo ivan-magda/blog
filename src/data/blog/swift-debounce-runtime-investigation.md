@@ -201,7 +201,6 @@ mutating func newValue(_ value: T) -> (Bool, ContinuousClock.Instant) {
             isValueDuringSleep: false
         )
         return (true, dueTime)
-
     case .debouncing:
         state = .debouncing(
             value: value,
@@ -213,7 +212,20 @@ mutating func newValue(_ value: T) -> (Bool, ContinuousClock.Instant) {
 }
 ```
 
-The source gave me several operations to look for: clock acquisition, duration arithmetic, and handling the enum and returned tuple. The saved `sample` output included all of those areas. These are selected observed names, with counts and unrelated entries omitted, rather than a contiguous stack:
+The source gave me several operations to look for: clock acquisition, duration arithmetic, and handling the enum and returned tuple.
+
+To capture a profile on macOS, run this from the `swift-debounce` repository root using the benchmark's [profile mode](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/README.md#running-them):
+
+```sh
+cd Benchmarks
+swift build -c release
+.build/release/Locks profile 10 &
+sample "$!" 5 1 -file debounce-sample.txt
+```
+
+The harness runs the long-lived reference for 10 seconds. `$!` is the PID of that background process; `sample` records its thread stacks every millisecond for five seconds and writes the report to `debounce-sample.txt`.
+
+The saved `sample` output included all of those areas. These are selected observed names, with counts and unrelated entries omitted, rather than a contiguous stack:
 
 ```text
 DebounceStateMachine.newValue(_:)
