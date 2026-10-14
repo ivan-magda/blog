@@ -296,40 +296,7 @@ enum _MonotonicClock {
 }
 ```
 
-Darwin ticks are not necessarily nanoseconds. The package reads the platform timebase once through `mach_timebase_info`. Its numerator and denominator define the scale: `nanoseconds = ticks × numer / denom`. The non-Darwin branch uses a ratio of one to one.
-
-The configured interval converts to ticks during initialization. Repeated sends then read ticks and add that precomputed interval; only a worker preparing to sleep converts the remaining ticks back to nanoseconds. These are the [\_Timebase conversion methods](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/MonotonicClock.swift#L35-L62):
-
-```swift
-func ticks(fromNanoseconds nanoseconds: Double) -> UInt64 {
-    let clampedNanoseconds = min(nanoseconds, Self.maxNanoseconds)
-    let ticks = clampedNanoseconds * denom / numer
-
-    return UInt64(max(1, ticks.rounded(.up)))
-}
-
-func nanoseconds(fromTicks ticks: UInt64) -> UInt64 {
-    let nanoseconds = Double(ticks) * numer / denom
-    let clampedNanoseconds = min(nanoseconds, Self.maxNanoseconds)
-
-    return UInt64(clampedNanoseconds.rounded(.up))
-}
-```
-
-The conversion clamps large intervals and rounds upward, so converting to an integer unit does not truncate the represented wait. An interval retains a minimum of one tick. Moving this work out of repeated sends saves conversion work, while making units and rounding the package's responsibility.
-
-Deadline addition needs an overflow policy too. The [helper](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/MonotonicClock.swift#L28-L33) saturates at the largest deadline rather than wrapping a far-future time into the past:
-
-```swift
-@inlinable
-@inline(__always)
-func _deadline(after now: UInt64, adding ticks: UInt64) -> UInt64 {
-    let (deadline, didOverflow) = now.addingReportingOverflow(ticks)
-    return didOverflow ? .max : deadline
-}
-```
-
-The worker [converts `deadline - now` when it sleeps](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/Pacer.swift#L79-L89). `ContinuousClock` had packaged these concerns behind a portable API; the narrower internal representation now requires platform branches, conversion, and overflow handling.
+`mach_continuous_time()` returns ticks, not necessarily nanoseconds. The package [converts the debounce interval to ticks](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/MonotonicClock.swift#L35-L62) once during initialization, keeping that conversion out of `send`. The worker converts the remaining ticks to nanoseconds when it prepares to sleep.
 
 This experiment changed both clock acquisition and the values carried through state. Synchronization structure and optimizer visibility also changed during the investigation, so the final gain cannot be assigned to replacing `Instant` alone. The next profile still contained runtime metadata work.
 
