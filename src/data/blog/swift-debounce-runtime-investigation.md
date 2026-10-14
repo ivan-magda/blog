@@ -14,7 +14,7 @@ I started with [Side Effect's article on debouncing with Swift concurrency](http
 
 I wanted to measure how much work that saved. The comparison led from task creation to the cost of a lock, then into `ContinuousClock.Instant`, runtime metadata, and generic code across a module boundary. Later, moving the lock in memory improved the debouncer while making the raw-lock benchmark worse.
 
-The resulting package accepted values at **16 ns per send**, compared with **798 ns** for the task-per-value reference, in a 100,000-value burst on one thread. That roughly 50× improvement measures the amortized cost of the synchronous input path. The delay before the action runs needed a separate experiment.
+The resulting package accepted values at **16 ns per send**, compared with **798 ns** for the task-per-value reference, in a 100,000-value burst on one thread. That roughly 50× improvement measures the amortized cost of the synchronous input path.
 
 _Code excerpts and saved results use [swift-debounce at revision `990cf04`](https://github.com/ivan-magda/swift-debounce/tree/990cf04587cf922748c13876d2843071c22873fa). The recorded environment was an M1 Max with 10 CPU cores, macOS 26.7.1, Swift 6.4, and release builds, on October 13, 2026._
 
@@ -22,10 +22,11 @@ _Code excerpts and saved results use [swift-debounce at revision `990cf04`](http
 
 Let's start with trailing debounce. A search field produces several intermediate queries before we pause. Each value replaces the pending query and moves its deadline forward; after the quiet period, the action receives the latest value.
 
-The [task-per-value implementation](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L61-L77) cancels the previous task, then creates a replacement that sleeps before delivering its captured value. Inside the lock, the core logic looks like this (benchmark counters omitted):
+The [task-per-value implementation](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L61-L77) cancels the previous task, then creates a replacement that sleeps before delivering its captured value. Inside the lock, the core logic looks like this:
 
 ```swift
 task?.cancel()
+
 task = Task {
     do {
         try await Task.sleep(for: dueTime)
@@ -47,26 +48,40 @@ Side Effect's alternative keeps the latest value and deadline outside the sleepi
 
 _Task lifetimes and deadline updates based on the [two reference implementations](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift) and [Side Effect's algorithm](https://sideeffect.io/posts/2023-01-11-regulate/). A worker can wake more than once during a burst._
 
-The [long-lived reference's `emit` method](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L137-L157) first asks the state machine whether it needs a new worker. Most calls in a burst stop at the guard. The worker follows an updated deadline by sleeping again. Here too, the benchmark counters are omitted:
+The [long-lived reference's `emit` method](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L137-L157) first asks the state machine whether it needs a new worker. Most calls in a burst stop at the guard. The worker follows an updated deadline by sleeping again:
 
 ```swift
 public func emit(value: T) {
-    let (shouldStartATask, dueTime) = stateMachine.apply { $0.newValue(value) }
-    guard shouldStartATask else { return }
-    task.set(stored: Task { [stateMachine, output] in
-        var localDueTime = dueTime
-        loop: while true {
-            try? await Task.sleep(until: localDueTime, clock: .continuous)
+    let (shouldStartWorker, initialDeadline) = stateMachine.apply { machine in
+        machine.newValue(value)
+    }
 
-            switch stateMachine.apply(block: { $0.sleepIsOver() }) {
-            case .finishDebouncing(let value):
-                await output(value)
-                break loop
+    guard shouldStartWorker else {
+        return
+    }
+
+    let worker = Task { [stateMachine, output] in
+        var deadline = initialDeadline
+
+        while true {
+            try? await Task.sleep(until: deadline, clock: .continuous)
+
+            let nextStep = stateMachine.apply { machine in
+                machine.sleepIsOver()
+            }
+
+            switch nextStep {
+            case .finishDebouncing(let latestValue):
+                await output(latestValue)
+                return
+
             case .continueDebouncing(let newDueTime):
-                localDueTime = newDueTime
+                deadline = newDueTime
             }
         }
-    })
+    }
+
+    task.set(stored: worker)
 }
 ```
 
@@ -105,17 +120,21 @@ _Action ordering from the [reference's idle transition](https://github.com/ivan-
 We can follow the package's transitions without a real timer. In this [virtual-time example](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Tests/DebounceTests/DebounceMachineTests.swift#L27-L38), `machine()` creates a trailing debouncer with an interval of 100 abstract ticks. Value `a` arrives at 0 and becomes due at 100; while its action runs, `b` and `c` arrive:
 
 ```swift
-@Test func valueSentWhileActionRunsWaitsForTheQuietPeriod() {
-    var m = machine()
-    _ = m.send("a", now: 0)
-    #expect(m.next(now: 100) == .run("a"))
-    // the action is running; a new burst starts
-    #expect(m.send("b", now: 120) == false)
-    #expect(m.send("c", now: 130) == false)
-    // the action returns before the burst is over
-    #expect(m.next(now: 150) == .sleep(until: 230))
-    #expect(m.next(now: 230) == .run("c"))
-    #expect(m.next(now: 240) == .exit)
+@Test
+func valueSentWhileActionRunsWaitsForTheQuietPeriod() {
+    var stateMachine = machine()
+
+    _ = stateMachine.send("a", now: 0)
+    #expect(stateMachine.next(now: 100) == .run("a"))
+
+    // New values arrive while the action for "a" is running.
+    #expect(stateMachine.send("b", now: 120) == false)
+    #expect(stateMachine.send("c", now: 130) == false)
+
+    // The action returns, but "c" still needs its full quiet period.
+    #expect(stateMachine.next(now: 150) == .sleep(until: 230))
+    #expect(stateMachine.next(now: 230) == .run("c"))
+    #expect(stateMachine.next(now: 240) == .exit)
 }
 ```
 
@@ -168,24 +187,39 @@ The reference carries its deadline through more than a clock getter. It stores t
 struct DebounceStateMachine<T> {
     enum State {
         case idle
-        case debouncing(value: T, dueTime: ContinuousClock.Instant, isValueDuringSleep: Bool)
+        case debouncing(
+            value: T,
+            dueTime: ContinuousClock.Instant,
+            isValueDuringSleep: Bool
+        )
     }
-    // ...
+
+    // Other members omitted.
 }
 ```
 
 Each new input obtains the current time, advances it by the interval, and replaces this enum payload. The [actual `newValue` method](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L100-L111) also returns the deadline in a tuple:
 
 ```swift
-/// Returns `true` when a new debouncing task must be started.
+/// Returns whether to start a task, along with the latest deadline.
 mutating func newValue(_ value: T) -> (Bool, ContinuousClock.Instant) {
     let dueTime = ContinuousClock.now + duration
+
     switch state {
     case .idle:
-        state = .debouncing(value: value, dueTime: dueTime, isValueDuringSleep: false)
+        state = .debouncing(
+            value: value,
+            dueTime: dueTime,
+            isValueDuringSleep: false
+        )
         return (true, dueTime)
+
     case .debouncing:
-        state = .debouncing(value: value, dueTime: dueTime, isValueDuringSleep: true)
+        state = .debouncing(
+            value: value,
+            dueTime: dueTime,
+            isValueDuringSleep: true
+        )
         return (false, dueTime)
     }
 }
@@ -246,14 +280,17 @@ I changed the internal deadline to `UInt64` ticks. That gives the state a known 
 ```swift
 @usableFromInline
 enum _MonotonicClock {
-    @inlinable @inline(__always)
+    @inlinable
+    @inline(__always)
     static func now() -> UInt64 {
         #if canImport(Darwin)
         return mach_continuous_time()
         #else
         var time = timespec()
         clock_gettime(CLOCK_BOOTTIME, &time)
-        return UInt64(time.tv_sec) &* 1_000_000_000 &+ UInt64(time.tv_nsec)
+
+        let secondsInNanoseconds = UInt64(time.tv_sec) &* 1_000_000_000
+        return secondsInNanoseconds &+ UInt64(time.tv_nsec)
         #endif
     }
 }
@@ -265,12 +302,17 @@ The configured interval converts to ticks during initialization. Repeated sends 
 
 ```swift
 func ticks(fromNanoseconds nanoseconds: Double) -> UInt64 {
-    let ticks = min(nanoseconds, Self.maxNanoseconds) * denom / numer
+    let clampedNanoseconds = min(nanoseconds, Self.maxNanoseconds)
+    let ticks = clampedNanoseconds * denom / numer
+
     return UInt64(max(1, ticks.rounded(.up)))
 }
 
 func nanoseconds(fromTicks ticks: UInt64) -> UInt64 {
-    UInt64(min(Double(ticks) * numer / denom, Self.maxNanoseconds).rounded(.up))
+    let nanoseconds = Double(ticks) * numer / denom
+    let clampedNanoseconds = min(nanoseconds, Self.maxNanoseconds)
+
+    return UInt64(clampedNanoseconds.rounded(.up))
 }
 ```
 
@@ -279,10 +321,11 @@ The conversion clamps large intervals and rounds upward, so converting to an int
 Deadline addition needs an overflow policy too. The [helper](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/MonotonicClock.swift#L28-L33) saturates at the largest deadline rather than wrapping a far-future time into the past:
 
 ```swift
-@inlinable @inline(__always)
+@inlinable
+@inline(__always)
 func _deadline(after now: UInt64, adding ticks: UInt64) -> UInt64 {
-    let (sum, overflow) = now.addingReportingOverflow(ticks)
-    return overflow ? .max : sum
+    let (deadline, didOverflow) = now.addingReportingOverflow(ticks)
+    return didOverflow ? .max : deadline
 }
 ```
 
@@ -352,9 +395,12 @@ The package's [public method](https://github.com/ivan-magda/swift-debounce/blob/
 @inlinable
 public func send(_ value: Value) {
     let now = _MonotonicClock.now()
+
     storage.withLock { state in
-        if state.machine.send(value, now: now) {
-          core.startWorker(&state)
+        let shouldStartWorker = state.machine.send(value, now: now)
+
+        if shouldStartWorker {
+            core.startWorker(&state)
         }
     }
 }
@@ -363,13 +409,18 @@ public func send(_ value: Value) {
 That outer body gives the optimizer little to simplify if the relevant work disappears behind the next call. The clock wrapper already exposes its body. The [storage helper](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/LockedStorage.swift#L44-L52) also exposes the critical-section closure's route to the state:
 
 ```swift
-@inlinable @inline(__always)
-func withLock<R>(_ body: (inout State) -> R) -> R {
-    withUnsafeMutablePointers { state, elements in
-        let lock = elements + Self.lockIndex
+@inlinable
+@inline(__always)
+func withLock<Result>(_ body: (inout State) -> Result) -> Result {
+    withUnsafeMutablePointers { statePointer, lockElements in
+        let lock = lockElements + Self.lockIndex
+
         _lock(lock)
-        defer { _unlock(lock) }
-        return body(&state.pointee)
+        defer {
+            _unlock(lock)
+        }
+
+        return body(&statePointer.pointee)
     }
 }
 ```
@@ -381,22 +432,23 @@ For an active trailing burst, [\_DebounceMachine.send](https://github.com/ivan-m
 ```swift
 @inlinable
 mutating func send(_ value: Value, now: UInt64) -> Bool {
-    let deadline = _deadline(after: now, adding: interval)
+    let newDeadline = _deadline(after: now, adding: interval)
 
-    if let current = burstDeadline, now < current {
-        burstDeadline = max(current, deadline)
+    if let currentDeadline = burstDeadline, now < currentDeadline {
+        burstDeadline = max(currentDeadline, newDeadline)
+
         if edges.contains(.trailing) {
-          trailingValue = value
+            trailingValue = value
         }
     } else {
-        // ...
+        // Start a new burst (omitted).
     }
 
     if isWorkerActive {
-      return false
+        return false
     }
-    isWorkerActive = true
 
+    isWorkerActive = true
     return true
 }
 ```
@@ -410,16 +462,17 @@ Worker creation uses this narrower visibility. The [actual method](https://githu
 ```swift
 @usableFromInline
 func startWorker(_ state: inout _PacerState<Machine>) {
-    let previous = state.worker
+    let previousWorker = state.worker
     let generation = state.generation
+
     state.worker = Task {
-        await previous?.value
+        await previousWorker?.value
         await self.run(generation: generation)
     }
 }
 ```
 
-Most sends in a long burst never take that branch. Waiting for `previous` also preserves the serial-action policy across a cancelled predecessor that has not returned. The package has a [runtime check of that case](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Tests/DebounceE2ETests/DebouncerE2ETests.swift#L147-L164), using an action that ignores cancellation until released.
+Most sends in a long burst never take that branch. Waiting for `previousWorker` also preserves the serial-action policy across a cancelled predecessor that has not returned. The package has a [runtime check of that case](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Tests/DebounceE2ETests/DebouncerE2ETests.swift#L147-L164), using an action that ignores cancellation until released.
 
 Publishing these bodies carries a maintenance cost. In a distributed binary library, existing clients may retain an older inlined implementation after the library changes, and `@usableFromInline` declarations form part of its ABI commitments. A source dependency rebuilt with the application has a different deployment arrangement; it still exposes implementation to the optimizer. Swift's [discussion of inlinable functions](https://www.swift.org/blog/library-evolution/#inlinable-functions) explains the binary-compatibility obligations.
 
@@ -438,11 +491,17 @@ This experiment uses a simplified `BoxedDebounce` with interchangeable storage w
 The [adjacent prototype](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/StorageVariants.swift#L40-L46) initializes its lock at the start of the element area. The state remains the buffer's header:
 
 ```swift
-@inlinable public init(_ initial: sending Wrapped) {
-    let buffer = Storage.create(minimumCapacity: 1) { buf in
-        buf.withUnsafeMutablePointerToElements { $0.initialize(to: os_unfair_lock_s()) }
+@inlinable
+public init(_ initial: sending Wrapped) {
+    let buffer = Storage.create(minimumCapacity: 1) { newBuffer in
+        newBuffer.withUnsafeMutablePointerToElements { lockElements in
+            let lock = lockElements
+            lock.initialize(to: os_unfair_lock_s())
+        }
+
         return initial
     }
+
     storage = unsafeDowncast(buffer, to: Storage.self)
 }
 ```
@@ -450,11 +509,17 @@ The [adjacent prototype](https://github.com/ivan-magda/swift-debounce/blob/990cf
 The [padded prototype](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/StorageVariants.swift#L58-L70) computes `lockIndex` as `128 / MemoryLayout<os_unfair_lock_s>.stride`. Its initializer reserves enough elements to reach that index and initializes the lock there:
 
 ```swift
-@inlinable public init(_ initial: sending Wrapped) {
-    let buffer = Storage.create(minimumCapacity: Self.lockIndex + 1) { buf in
-        buf.withUnsafeMutablePointerToElements { ($0 + Self.lockIndex).initialize(to: os_unfair_lock_s()) }
+@inlinable
+public init(_ initial: sending Wrapped) {
+    let buffer = Storage.create(minimumCapacity: Self.lockIndex + 1) { newBuffer in
+        newBuffer.withUnsafeMutablePointerToElements { lockElements in
+            let lock = lockElements + Self.lockIndex
+            lock.initialize(to: os_unfair_lock_s())
+        }
+
         return initial
     }
+
     storage = unsafeDowncast(buffer, to: Storage.self)
 }
 ```
@@ -462,12 +527,17 @@ The [padded prototype](https://github.com/ivan-magda/swift-debounce/blob/990cf04
 The offset begins at the element-area base, not at the first byte of the state or allocation. The corresponding [`withLock` method](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/StorageVariants.swift#L71-L79) uses the same index, while passing the unchanged state pointer into the protected operation:
 
 ```swift
-@inlinable public func withLock<R>(_ body: (inout Wrapped) -> R) -> R {
-    storage.withUnsafeMutablePointers { state, base in
-        let lock = base + Self.lockIndex
+@inlinable
+public func withLock<Result>(_ body: (inout Wrapped) -> Result) -> Result {
+    storage.withUnsafeMutablePointers { statePointer, lockElements in
+        let lock = lockElements + Self.lockIndex
+
         os_unfair_lock_lock(lock)
-        defer { os_unfair_lock_unlock(lock) }
-        return body(&state.pointee)
+        defer {
+            os_unfair_lock_unlock(lock)
+        }
+
+        return body(&statePointer.pointee)
     }
 }
 ```
@@ -530,10 +600,13 @@ The two workloads also touch different amounts of state. A raw-lock operation in
 The final package retains the padded single-allocation approach, with a [rounded-up index](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/LockedStorage.swift#L25-L41) for the platform lock's stride:
 
 ```swift
-@inlinable @inline(__always)
+@inlinable
+@inline(__always)
 static var lockIndex: Int {
-    let stride = MemoryLayout<_PlatformLock>.stride
-    return (128 + stride - 1) / stride
+    let paddingBytes = 128
+    let lockStride = MemoryLayout<_PlatformLock>.stride
+
+    return (paddingBytes + lockStride - 1) / lockStride
 }
 ```
 
@@ -571,17 +644,24 @@ _The same [100,000-value scenario](https://github.com/ivan-magda/swift-debounce/
 The [harness snapshots](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/Scenarios/main.swift#L147-L161) show those windows. This excerpt begins after constructing the debouncer and ends before checking the result and returning the metrics:
 
 ```swift
-let s0 = ProcSnapshot.now()
-for i in 0..<n { d.emit(value: i) }
-let s1 = ProcSnapshot.now()
-let v = await sink.waitFirst()
-let s2 = ProcSnapshot.now()
+let beforeSending = ProcSnapshot.now()
+
+for value in 0..<sendCount {
+    debouncer.emit(value: value)
+}
+
+let afterSending = ProcSnapshot.now()
+
+let deliveredValue = await sink.waitFirst()
+let afterDelivery = ProcSnapshot.now()
+
 await settle()
-let s3 = ProcSnapshot.now()
-withExtendedLifetime(d) {}
+let afterSettling = ProcSnapshot.now()
+
+withExtendedLifetime(debouncer) {}
 ```
 
-Send cost uses `s1.wall - s0.wall`, divided by `n`. Total CPU uses `s3.cpu - s0.cpu`, after receiving the output and allowing a 30 ms settling period for cancelled tasks to drain. The harness also checks that the final input was the single delivered value.
+Send cost uses `afterSending.wall - beforeSending.wall`, divided by `sendCount`. Total CPU uses `afterSettling.cpu - beforeSending.cpu`, after receiving the output and allowing a 30 ms settling period for cancelled tasks to drain. The harness also checks that the final input was the single delivered value.
 
 `withExtendedLifetime` came from a release-build lifetime problem during the investigation. The optimizer can release an object after its last use, before the closing brace of its lexical scope. Keeping the debouncer alive through observation prevents its lifetime from ending while the harness waits for the async result.
 
@@ -594,17 +674,29 @@ The scenario harness's first-input-to-output interval includes time spent feedin
 After seeing larger delays in the combined scenario harness, I used a focused harness with a 50 ms quiet period and 30 interleaved bursts per input pattern. It records a timestamp in the callback and compares that with the time immediately after the last send. This [measurement body](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/Latency/main.swift#L27-L37) omits the surrounding function declaration:
 
 ```swift
-let fired = FireTime()
-let debouncer = make(.milliseconds(50), fired.record)
-var lastSend: UInt64 = 0
-for i in 0..<sends {
-    if let cadenceMs { try? await Task.sleep(nanoseconds: cadenceMs * 1_000_000) }
-    debouncer.emit(value: i)
-    lastSend = now()
+let fireTime = FireTime()
+let debouncer = make(.milliseconds(50), fireTime.record)
+var lastSendTime: UInt64 = 0
+
+for value in 0..<sends {
+    if let cadenceMs {
+        let pauseNanoseconds = cadenceMs * 1_000_000
+        try? await Task.sleep(nanoseconds: pauseNanoseconds)
+    }
+
+    debouncer.emit(value: value)
+    lastSendTime = now()
 }
-while fired.value.load(ordering: .relaxed) == 0 { try? await Task.sleep(nanoseconds: 1_000_000) }
+
+while fireTime.value.load(ordering: .relaxed) == 0 {
+    try? await Task.sleep(nanoseconds: 1_000_000)
+}
+
 withExtendedLifetime(debouncer) {}
-return Double(fired.value.load(ordering: .relaxed) - lastSend) / 1e6 - 50
+
+let callbackTime = fireTime.value.load(ordering: .relaxed)
+let elapsedMilliseconds = Double(callbackTime - lastSendTime) / 1_000_000
+return elapsedMilliseconds - 50
 ```
 
 The return value is **callback overshoot in milliseconds** beyond the requested 50 ms. The polling loop waits until the recorded timestamp is available; its wakeup does not define the callback time. Rotating implementation order between rounds reduces dependence on which implementation runs first.
