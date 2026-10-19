@@ -20,7 +20,7 @@ Reusing the task brought the cost of accepting a value from **798 ns to 216 ns**
 ## What surprised me
 
 - **The lock swap saved only about 10 ns.** Most of the work in the repeated-input path remained.
-- **A concrete type can still need runtime layout information.** Knowing the input was an `Int` did not tell the compiler how `ContinuousClock.Instant` was laid out. Later, cross-module optimization barely affected the original worker-based version but gave my revised prototype roughly nine times the throughput.
+- **The compiler optimization helped my prototype much more than the original debouncer.** With the same flag enabled, my prototype handled roughly nine times as many inputs per second, while the original version barely changed.
 - **Moving the lock helped the debouncer and hurt the lock benchmark.** With competing senders, the state update got faster when I moved the lock farther from the state.
 - **Callbacks did not arrive 50× sooner.** The headline measures synchronous input cost in a dense burst. Callback lateness stayed on the millisecond scale, and paced input showed a much smaller resource benefit.
 
@@ -63,7 +63,7 @@ The chart compares complete implementations. I used different workloads for the 
 
 The code and saved results come from [swift-debounce at revision `990cf04`](https://github.com/ivan-magda/swift-debounce/tree/990cf04587cf922748c13876d2843071c22873fa). The measurements were recorded on October 13, 2026, on an M1 Max with 10 CPU cores, macOS 26.7.1, and Swift 6.4, using release builds.
 
-Send cost is the input loop's wall time divided by its call count. Total process CPU covers a longer window, including output and 30 ms for cancelled tasks to settle. My benchmark copies of the two implementations include atomic task and wakeup counters; the package has no matching instrumentation. The final harness enables cross-module optimization for its [References target](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Package.swift#L13-L20) too.
+Send cost is the input loop's wall time divided by its call count. Total process CPU covers a longer window, including output and 30 ms for cancelled tasks to settle. My benchmark copies of the two implementations include atomic task and wakeup counters; the package has no matching instrumentation. The harness enables cross-module optimization for its [References target](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Package.swift#L13-L20). Inspecting the executable later showed that both `emit` methods remained unspecialized.
 
 The package also runs actions one at a time, while the original worker-based version allows them to overlap. This burst test checks that the final value arrives once.
 
@@ -266,9 +266,9 @@ Swift's **type metadata** points to a **value witness table** containing layout 
 
 _Selected [profile symbols](/images/swift-debounce-runtime-investigation/historical-observations.txt) alongside the layout mechanism they led me to investigate. The diagram is conceptual; the symbol list does not establish a call chain or timing shares._
 
-Knowing `T == Int` removes uncertainty about the input payload; it does not expose the separate `Instant` representation. The surrounding enum and tuple depend on the layouts of their fields too, including [padding and alignment](https://github.com/swiftlang/swift/blob/c06a182b36451e19ddf17189b872151b7b163dca/docs/ABI/TypeLayout.rst#L19-L43).
+The caller knew that `T` was `Int`, but a later check of the generated code showed that it still invoked the generic `LongLivedTaskDebounce.emit(value:)`. That method had to handle any permitted `T`.
 
-The profile showed runtime metadata work, but it did not tell me how much of the send cost that work accounted for.
+A version compiled specifically for `Int` can use the known payload layout. `Instant`'s representation remains opaque, and the surrounding enum and tuple still depend on their fields' layouts, including [padding and alignment](https://github.com/swiftlang/swift/blob/c06a182b36451e19ddf17189b872151b7b163dca/docs/ABI/TypeLayout.rst#L19-L43). The profile alone did not tell me how much overhead came from generic value handling and how much came from the deadline representation.
 
 <details class="research-notes">
 <summary>Reproduce the profile and inspect the state update</summary>
@@ -379,7 +379,7 @@ I changed both how I read the clock and how I stored deadlines. These measuremen
 
 The deadline was now an integer; the pending input was still an `Optional<Value>`. Metadata symbols for that optional appeared in the revised prototype's profile. The caller might know that `Value` was `Int`, while a generic method compiled in another module still had to support any permitted payload.
 
-I tried `-cross-module-optimization` again. It had barely affected the original worker-based version. This time the revised prototype completed **about 9.35× as many emits**:
+Enabling `-cross-module-optimization` had barely changed the original worker-based version. With the revised prototype, I got **about 9.35× as many emits**:
 
 <figure class="research-figure">
   <a class="figure-light" href="/images/swift-debounce-runtime-investigation/08-cmo-experiment.svg">
@@ -412,7 +412,7 @@ I tried `-cross-module-optimization` again. It had barely affected the original 
 
 _[Saved CMO experiment](/images/swift-debounce-runtime-investigation/historical-observations.txt): one listed run per configuration, targeting three seconds. Counts measure throughput, with time checked between batches of 10,000 emits. A 3,600-second quiet period kept callback delivery out of the workload._
 
-Similar metadata symbols appeared in both profiles, but the implementations responded differently to optimization. CMO could not change the external `Instant` layout contract. After switching to integer deadlines, I saw a large throughput increase when I enabled CMO, which made specialization of the remaining generic state worth investigating.
+In a separate compiler experiment with CMO enabled, I replaced only the original version's `SafeStorage` lock wrapper with `os_unfair_lock`, keeping `Instant` as the deadline type. The compiler then produced an `Int` specialization of `emit`. Here I inspected the generated code; the 10.3 ns saving above came from the earlier timing experiment. The lock wrapper could affect specialization with `Instant` still present, so the CMO throughput comparison above did not isolate the cost of `Instant`.
 
 ### Letting the optimizer use `Value == Int`
 
