@@ -39,3 +39,9 @@ pnpm run sync         # Generate Astro TypeScript types
 - Reading-analytics events + Umami dashboard recipe → `docs/blog-analytics-umami-recipe.md`
 
 Post body headings must use `##` or smaller — the frontmatter `title` renders as h1.
+
+## Shared project memory
+
+Read `.agents/memory/MEMORY.md` at session start and follow its topic routes and
+maintenance rules. Update shared topics and their index. Do not use agent-private
+project memory.

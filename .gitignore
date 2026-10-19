@@ -50,3 +50,5 @@ docs/writing-style-guide.md
 docs/blog-project-knowledge.md
 docs/superpowers/
 docs/research/
+# private project-local agent settings
+.claude/settings.local.json
