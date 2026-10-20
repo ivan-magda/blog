@@ -23,7 +23,8 @@ if (!topic === !draftPath) throw new Error('post-research needs exactly one of a
 if (!destination || !articleLanguage) throw new Error('post-research needs explicit args.destination and args.articleLanguage; resolve missing inputs with the author')
 const PUBLICATION_BRIEF = `Destination: ${destination}
 Article language: ${articleLanguage}
-These inputs are explicit. Write proposed article titles, theses, headings, and visual captions/labels in the article language; do not infer it from the conversation or materials. Keep source code identifiers, API names, URLs, and actual quotations unchanged. Preserve the author's phrasings verbatim in research notes; flag any language conflict for the outline checkpoint.`
+These inputs are explicit. Write proposed article titles, theses, headings, and visual captions/labels in the article language; do not infer it from the conversation or materials. Keep source code identifiers, API names, URLs, and actual quotations unchanged. Preserve the author's phrasings verbatim in research notes; flag any language conflict for the outline checkpoint.
+If Article language is Russian, first read ${REPO}/docs/russian-writing.md and follow it over conflicting English voice/style rules in this prompt. Use established English technical terms where precise, explain them on first substantive use, and preserve distinctions such as deadline versus actual callback time. Apply the same vocabulary to prose and figure labels; do not flag those terms as wrong-language text. Preserve approved author wording.`
 
 const INTAKE_SCHEMA = {
   type: 'object',

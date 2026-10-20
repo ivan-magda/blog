@@ -34,7 +34,8 @@ const PACKET = `${postDir}/research-packet.md`
 const MERGED = `${postDir}/merged.md`
 const PUBLICATION_BRIEF = `Destination: ${destination}
 Article language: ${articleLanguage}
-These inputs come from direction.md; flag any conflict with that contract. Reader-facing prose, including frontmatter title/description, body headings, captions, alt text, and diagram labels, uses the article language. Conversation and source-material language do not override it. Preserve source code identifiers, API names, URLs, actual quotations, and the approved treatment of preserved phrasings. Language checks concern human-readable text, not frontmatter keys or tag identifiers.`
+These inputs come from direction.md; flag any conflict with that contract. Reader-facing prose, including frontmatter title/description, body headings, captions, alt text, and diagram labels, uses the article language. Conversation and source-material language do not override it. Preserve source code identifiers, API names, URLs, actual quotations, and the approved treatment of preserved phrasings. Language checks concern human-readable text, not frontmatter keys or tag identifiers.
+If Article language is Russian, first read ${REPO}/docs/russian-writing.md and follow it over conflicting English voice/style rules in this prompt. Use established English technical terms where precise, explain them on first substantive use, and preserve distinctions such as deadline versus actual callback time. Apply the same vocabulary to prose and figure labels; do not flag those terms as wrong-language text. Preserve approved author wording.`
 
 const DRAFTER_COMMON = `You are drafting a blog post.
 ${PUBLICATION_BRIEF}

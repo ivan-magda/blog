@@ -9,6 +9,8 @@ description: Use when a new blog post draft in src/data/blog/ is ready for revie
 
 New blog drafts need a structural + factual review pass before publishing. The Zod schema and `pnpm run build` catch type errors. They do not catch empty-string SEO traps, `draft: true` still set at ship time, fabricated/future-dated citations, heading hierarchy slips, or a stale `llms.txt`. This skill is the checklist for that review pass.
 
+For Russian drafts, read [Russian technical writing](../../../docs/russian-writing.md). Check semantic distinctions, natural syntax and figure terminology; established English terms are not language errors. Apply its Russian overrides to English style rules and preserve author-approved wording.
+
 ## Process
 
 1. **Establish conventions** — read 2–3 existing posts in `src/data/blog/` plus `src/content.config.ts` (Zod schema), `src/layouts/PostDetails.astro`, and `src/layouts/Layout.astro`. Conventions live in the existing posts and layout code, not in docs.

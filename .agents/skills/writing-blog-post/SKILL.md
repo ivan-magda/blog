@@ -7,9 +7,13 @@ description: Use when Ivan gives a post topic, idea, or rough draft to turn into
 
 ## Overview
 
-Turns a topic sentence or a rough draft into a final, editable post in the house voice with exactly one approval checkpoint (outline). Design rationale and evidence: `docs/superpowers/specs/2026-07-05-blog-content-pipeline-design.md` and `docs/research/llm-writing-pipeline-research.md`. Voice source of truth is `docs/blog-project-knowledge.md` — point agents at it; this skill duplicates none of its rules. The workflow prompts deliberately prime a few high-violation voice rules at generation time (per the design spec); do not strip that priming, and never add voice rules to prompts that aren't in the doc.
+Turns a topic sentence or a rough draft into a final, editable post in the house voice with exactly one approval checkpoint (outline). Design rationale and evidence: `docs/superpowers/specs/2026-07-05-blog-content-pipeline-design.md` and `docs/research/llm-writing-pipeline-research.md`. English voice source of truth is `docs/blog-project-knowledge.md` — point agents at it; this skill duplicates none of its rules. The workflow prompts deliberately prime a few high-violation voice rules at generation time (per the design spec); do not strip that priming, and use the Russian guide below for Russian-language overrides.
 
 **Ivan is the final editor.** The pipeline targets an excellent editable draft, not unreviewed publishing. His phrasings from a provided draft are preserved; content cuts and personality calls are his.
+
+## Russian articles and adaptations
+
+When Article language is Russian, read [Russian technical writing](../../../docs/russian-writing.md) before drafting. It overrides conflicting English voice rules. Carry this reference and the approved terminology into every author, merge, review and visual brief, including web second opinions. Established English technical terms are valid Russian-article vocabulary; language checks must not flag them merely for being English. During author-led edits, follow its current/proposed comparison rule rather than treating the initial outline approval as permission to rewrite accepted prose.
 
 ## Process
 
