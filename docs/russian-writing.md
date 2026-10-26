@@ -54,13 +54,29 @@ and passive voice are allowed; blanket English style rules do not apply.
 Use «е» instead of «ё» in authored prose and figure labels, preserving exact
 source quotations and identifiers where spelling matters.
 
+Review explanations from the reader's current knowledge: name the implementation,
+operation or experiment when a generic label is ambiguous, and introduce concepts
+before relying on them. Split dense prose by reasoning steps. Preserve the actual
+history of an investigation, including accidental discoveries; do not invent motives
+for a smooth transition. Before polishing a section, check its role in the main
+question. Keep material limits beside the claims they qualify, but consolidate
+repeated qualifications across prose, captions and conclusions.
+
 During author-led editing, show **current text → proposed text** before changing
 files. A request to try improving a paragraph calls for a proposal. Explicit
 approval authorizes that wording; an authorized broad editing task does not need
 reconfirmation for every routine correction. Preserve accepted author wording.
 For a batch of choices, prefer short groups through the available question tool
-(the author finds large comparison tables inconvenient). Record decisions so
-accepted or superseded choices are not repeatedly presented.
+(the author finds large comparison tables inconvenient). Record accepted wording,
+rejected alternatives and unresolved choices in existing per-post notes. Re-read the current text before applying a delayed approval.
+
+For a local wording request, preserve the accepted surrounding text except for
+necessary grammatical repairs. Do not treat a style example as replacement copy
+unless the author presents it as such. Reuse relevant approved article wording when
+it fits the new context; check that extracted sentences retain their antecedents.
+Treat local approval as a local decision, not a global style rule. Separate objective
+errors from optional stylistic alternatives; do not reopen a rejected stylistic
+replacement without an author request or new evidence affecting its meaning.
 
 ## Review and verification
 
@@ -71,9 +87,21 @@ causal strength, units, measured boundaries, code and citations. Apply the same
 vocabulary to captions, tables and rendered diagrams; check label fit after
 regeneration. Refresh derived publication files only after approved edits.
 
+After local edits, read the changed paragraph and its surrounding context. During
+the final article pass, check section transitions and repeated qualifications.
+Export success does not resolve pending editorial choices. If the author edits the
+platform draft, identify the current source of truth before reusing or overwriting
+its local preparation copy.
+
 A second model's review is a suggestion, not evidence. Verify quoted wording
 against the current draft and judge each replacement for meaning as well as
 naturalness. Do not accept unsupported claims that ordinary phrases are calques,
 that conversational language is unprofessional, or that a correct term must be
 translated. Do not turn a weaker observation into a stronger guarantee. Preserve
 raw reviews separately; current user choices override reviewer preferences.
+
+For an independent first draft, provide source material and voice references without
+a preferred competing draft. For a targeted rewrite or review, provide the current
+article, neighboring passage and relevant author decisions, not just a factual
+summary. Authorized account or project memory can supply voice context but does not
+replace the current article.
