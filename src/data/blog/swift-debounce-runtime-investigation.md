@@ -15,14 +15,14 @@ description: "A Swift debounce investigation through task reuse, runtime metadat
 
 I read [Side Effect's article on debouncing with Swift concurrency](https://sideeffect.io/posts/2023-01-11-regulate/) and wanted to see how much work its approach saved: keep one worker alive for a burst of events instead of creating a task for every input. A burst is a run of values before a pause, such as the keystrokes you type into a search field.
 
-Reusing the task brought the cost of accepting a value from **798 ns to 216 ns** in my benchmark. The package I eventually built reached **16 ns**. To understand the remaining cost, I had to look at Swift's type metadata, generic specialization, and where the lock sat in memory.
+Reusing the task brought the cost of accepting a value from **798 ns to 216 ns** in my benchmark. The package I eventually built reached **16 ns**. Each number is the average time of one synchronous send call, measured over 100,000 back-to-back calls. The call updates the debouncer's state and returns; the action runs later, after the quiet period. To find out where the remaining 216 ns went, I had to look at Swift's type metadata, generic specialization, and where the lock sat in memory.
 
 ## What surprised me
 
 - **The lock swap saved only about 10 ns.** Most of the work in the repeated-input path remained.
-- **The compiler optimization helped my prototype much more than the original debouncer.** With the same flag enabled, my prototype handled roughly nine times as many inputs per second, while the original version barely changed.
+- **Cross-module optimization helped my prototype far more than the original.** With `-cross-module-optimization` enabled, my prototype handled about nine times as many calls in the same time; the original worker-based version barely changed.
 - **Moving the lock helped the debouncer and hurt the lock benchmark.** With competing senders, the state update got faster when I moved the lock farther from the state.
-- **Callbacks did not arrive 50× sooner.** The headline measures synchronous input cost in a dense burst. Callback lateness stayed on the millisecond scale, and paced input showed a much smaller resource benefit.
+- **Callbacks did not arrive 50× sooner.** Callback lateness stayed on the millisecond scale, and paced input showed a much smaller resource benefit.
 
 <figure class="research-figure">
   <a class="figure-light" href="/images/swift-debounce-runtime-investigation/02-send-baseline.svg">
@@ -89,7 +89,7 @@ task = Task {
 
 Most tasks in a dense burst will deliver nothing, but creating and cancelling them still takes CPU time. Cancellation is cooperative: the sleeping task has to respond to the request.
 
-Side Effect's alternative stores the latest value and deadline outside the task. The first input starts a worker; later inputs update that shared state. When the worker wakes, it checks the deadline and sleeps again if an input moved it forward.
+Side Effect's alternative stores the latest value and deadline outside the task. The first input starts a worker; later inputs update that shared state. When the worker wakes, it checks the deadline and sleeps again if a newer input extended it.
 
 <figure class="research-figure">
   <a class="figure-light" href="/images/swift-debounce-runtime-investigation/01-task-timeline.svg"><img src="/images/swift-debounce-runtime-investigation/01-task-timeline.svg" alt="A burst creates and cancels a task for each value in one implementation; the other keeps one worker and extends its deadline." width="720" height="548" loading="lazy" decoding="async" /></a>
@@ -100,7 +100,7 @@ _The same input stream, using [one task per value or one worker per burst](https
 
 An input does not have to wake the worker to extend the deadline. Most calls now read the clock and update state under a lock, without creating another task.
 
-Reusing the worker cut input cost by about 3.7× and total CPU by about 13×. The benchmark counters recorded 100,000 tasks for the first strategy and one for the second. The larger CPU reduction is consistent with avoiding work outside the synchronous calls, including cancellation cleanup.
+Reusing the worker cut send cost by about 3.7× and total CPU by about 13×. The benchmark counters recorded 100,000 tasks for the first strategy and one for the second. The larger CPU reduction is consistent with avoiding work outside the synchronous calls, including cancellation cleanup.
 
 <details class="research-notes">
 <summary>Compare the two task strategies and inspect the worker</summary>
@@ -234,9 +234,9 @@ swift_getGenericMetadata
 swift_getTupleTypeMetadata
 ```
 
-The deadline was a `ContinuousClock.Instant`, a concrete Swift type. Why would updating it involve runtime layout information?
+The deadline was a `ContinuousClock.Instant`, and the benchmark sent `Int` values. Both are concrete types. Why would updating them involve runtime layout information?
 
-With **library evolution**, a library can change the stored representation of a non-frozen value type without breaking existing clients. Client code therefore cannot assume a fixed size or layout. A type can have a concrete name while its representation remains opaque across that boundary. [`@frozen` publishes stronger layout guarantees](https://www.swift.org/blog/library-evolution/#structs-and-enums).
+With **library evolution**, a library can change the stored representation of a non-frozen value type without breaking existing clients. Client code therefore cannot assume a fixed size or layout. A type can have a concrete name while its representation remains opaque across the module boundary. [`@frozen` publishes stronger layout guarantees](https://www.swift.org/blog/library-evolution/#structs-and-enums).
 
 The [upstream declaration of `Instant`](https://github.com/swiftlang/swift/blob/c06a182b36451e19ddf17189b872151b7b163dca/stdlib/public/Concurrency/ContinuousClock.swift#L23-L33) has no `@frozen` attribute. Side Effect's state machine stores the instant inside an enum alongside the input value:
 
@@ -334,7 +334,7 @@ Metadata access does not imply a fresh allocation or a boxed deadline on every s
 
 ### The clock read was another cost
 
-I also measured the clock loops. The `ContinuousClock.now` loop took **28.9 ns per iteration**; the `mach_continuous_time()` loop took **5.0 ns**.
+I also timed both clocks in a loop. An iteration with `ContinuousClock.now` took **28.9 ns**; one with `mach_continuous_time()` took **5.0 ns**.
 
 <figure class="research-figure">
   <a class="figure-light" href="/images/swift-debounce-runtime-investigation/06-clock-cost.svg"><img src="/images/swift-debounce-runtime-investigation/06-clock-cost.svg" alt="The saved clock loops cost 28.9 ns per iteration for ContinuousClock.now and 5.0 ns for mach_continuous_time." width="720" height="330" loading="lazy" decoding="async" /></a>
@@ -375,11 +375,11 @@ enum _MonotonicClock {
 
 I changed both how I read the clock and how I stored deadlines. These measurements do not isolate the saving from replacing `Instant`. The next profile still showed metadata work, this time around the generic input value.
 
-## The same compiler flag helped one implementation and barely changed another
+## The same compiler flag helped one implementation and barely changed the other
 
-The deadline was now an integer; the pending input was still an `Optional<Value>`. Metadata symbols for that optional appeared in the revised prototype's profile. The caller might know that `Value` was `Int`, while a generic method compiled in another module still had to support any permitted payload.
+The deadline was now an integer; the pending input was still an `Optional<Value>`. Metadata symbols for that optional appeared in the profile of my revised prototype, which now stored `UInt64` deadlines. The caller knew that `Value` was `Int`, but a generic method compiled in another module still had to support any permitted payload type.
 
-Enabling `-cross-module-optimization` had barely changed the original worker-based version. With the revised prototype, I got **about 9.35× as many emits**:
+I built both implementations with and without `-cross-module-optimization` (CMO). Each run called `emit` in a loop for about three seconds and counted the calls. A one-hour quiet period kept the action from running during the test. The original worker-based version barely changed, while the revised prototype completed **about nine times as many calls with CMO as without it**:
 
 <figure class="research-figure">
   <a class="figure-light" href="/images/swift-debounce-runtime-investigation/08-cmo-experiment.svg">
@@ -410,13 +410,13 @@ Enabling `-cross-module-optimization` had barely changed the original worker-bas
 
 </details>
 
-_[Saved CMO experiment](/images/swift-debounce-runtime-investigation/historical-observations.txt): one listed run per configuration, targeting three seconds. Counts measure throughput, with time checked between batches of 10,000 emits. A 3,600-second quiet period kept callback delivery out of the workload._
-
-In a separate compiler experiment with CMO enabled, I replaced only the original version's `SafeStorage` lock wrapper with `os_unfair_lock`, keeping `Instant` as the deadline type. The compiler then produced an `Int` specialization of `emit`. Here I inspected the generated code; the 10.3 ns saving above came from the earlier timing experiment. The lock wrapper could affect specialization with `Instant` still present, so the CMO throughput comparison above did not isolate the cost of `Instant`.
-
-### Letting the optimizer use `Value == Int`
+_[Saved CMO experiment](/images/swift-debounce-runtime-investigation/historical-observations.txt): one saved run per configuration, so run-to-run variation is unknown. Counts measure throughput, with time checked between batches of 10,000 emits._
 
 **Specialization** creates a version of generic code for a concrete type. For `Debouncer<Int>`, that can replace generic value handling with operations for `Int` and `Optional<Int>`.
+
+To see why the original barely changed, I ran a separate compiler experiment with CMO enabled. I kept `Instant` as the deadline type and replaced only the original version's `SafeStorage` lock wrapper with `os_unfair_lock`. This time the compiler produced an `Int` specialization of `emit`. So `Instant` alone did not prevent specialization, and the throughput comparison above does not isolate its cost. In this experiment I only inspected the generated code; I did not time it.
+
+### Letting the optimizer use `Value == Int`
 
 **Inlining** puts a function's body at its call site. It can expose more opportunities to optimize. The compiler can also specialize a function without inlining it, leaving a call to the specialized version.
 
@@ -528,13 +528,11 @@ func startWorker(_ state: inout _PacerState<Machine>) {
 
 Waiting for `previousWorker` preserves serial execution even if a cancelled predecessor has not returned. The package [tests that case](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Tests/DebounceE2ETests/DebouncerE2ETests.swift#L147-L164) with an action that ignores cancellation until released.
 
-Publishing bodies has a maintenance cost. Clients of a binary library may retain an older inlined implementation after the library changes, and `@usableFromInline` declarations become ABI commitments. A source package rebuilt with the application has a different deployment model. Swift's [library-evolution guide](https://www.swift.org/blog/library-evolution/#inlinable-functions) covers these obligations.
-
 </details>
 
 ## Moving the lock made its benchmark worse and the debouncer better
 
-Once the repeated-input path was cheaper, I compared ways to store its lock and state. In a simplified debouncer benchmark with eight senders, moving the lock farther from the state reduced the complete operation from **79.7 to 54.2 ns**. The isolated lock test went the other way, from **24.9 to 37.1 ns**.
+I came across the effect of lock placement by accident, while preparing the repository for publication on GitHub. I was comparing several ways to store the state and the lock, looking for one that also supported older iOS versions. In a simplified debouncer benchmark with eight senders, moving the lock farther from the state reduced the complete operation from **79.7 to 54.2 ns**. The isolated lock test went the other way, from **24.9 to 37.1 ns**.
 
 <figure class="research-figure">
   <a class="figure-light" href="/images/swift-debounce-runtime-investigation/10-storage-tradeoff.svg"><img src="/images/swift-debounce-runtime-investigation/10-storage-tradeoff.svg" alt="Padding worsens raw contended lock cost from 24.9 to 37.1 ns, improves useful send cost from 79.7 to 54.2 ns, and adds 128 measured heap bytes per instance." width="720" height="840" loading="lazy" decoding="async" /></a>
@@ -602,7 +600,7 @@ The 128-byte spacing is an implementation choice, not a universal cache-line siz
 
 ### Why separating them might help
 
-Cores coordinate memory access at cache-line granularity. A core holding the lock writes the state, while another core accesses the lock word. If those locations share a line, traffic around the lock can interfere with the line containing the owner's state. Separating the fields can reduce that interference, although the threads still contend for the same lock and pass ownership of the protected state between them.
+Cores keep their caches coherent in units of cache lines. While one thread holds the lock and writes the state, other threads may access the lock word as they try to acquire it. If the lock and the state share a cache line, that traffic can interfere with the core updating the state. This is known as false sharing. Separating the fields can reduce that interference, although the threads still contend for the same lock and pass ownership of the protected state between them.
 
 The Linux kernel documents this [lock-and-data false-sharing pattern](https://docs.kernel.org/kernel-hacking/false-sharing.html). That could explain these results, but I did not collect hardware counters to confirm whether coherence traffic caused the slowdown.
 
@@ -646,7 +644,7 @@ _[Five storage wrappers](https://github.com/ivan-magda/swift-debounce/blob/990cf
 
 Padding kept single-thread cost near 13 ns and reduced the contended send cost by about 32%. The observed ranges were 73.7–97.7 ns for adjacent storage and 51.9–62.6 ns for padded storage, so the improvement held across all nine rounds.
 
-It also raised measured heap use from **160 to 288 bytes per instance**. I kept the padded layout in the package, but the extra space may be harder to justify in an application with many mostly idle debouncers.
+It also raised measured heap use from **160 to 288 bytes per instance** of the simplified debouncer. I kept the padded layout in the package, but the extra space may be harder to justify in an application with many mostly idle debouncers.
 
 <details class="research-notes">
 <summary>Storage measurement details</summary>
@@ -659,11 +657,11 @@ Aggregate CPU cost also fell, from 602.8 to 405.3 ns per send. The raw-lock work
 
 ## What 50× faster means for the caller
 
-The completed package reuses its worker, stores integer deadlines, exposes the input path to the optimizer, and uses the padded storage layout. Together, those changes produced the **16 ns per send** result in the opening comparison.
+The completed package reuses its worker, uses `os_unfair_lock` on Apple platforms, stores integer deadlines, exposes the input path to the optimizer, and pads its storage. In the opening benchmark, that combination reached **16 ns per send**.
 
 Burst size matters. With 1,000 inputs, the package measured **41 ns per send** instead of 16 ns for 100,000. The cost of starting a worker spreads across fewer calls.
 
-With paced input, the largest CPU difference was between the two task strategies. In the synthetic [200-event stream with 5 ms between inputs](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/scenarios.md), total CPU was 31.10 ms for task per value, 21.65 ms for the original worker-based version, and 21.22 ms for the package. A separate no-debouncer run used 19.94 ms; those totals are not baseline-subtracted.
+With paced input, the largest CPU difference was between the two task strategies. In the synthetic [200-event stream with 5 ms between inputs](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/scenarios.md), total CPU was 31.10 ms for task per value, 21.65 ms for the original worker-based version, and 21.22 ms for the package. Without a debouncer, the same stream used 19.94 ms, the median of five control runs. The three debouncer totals are medians of seven runs and are not baseline-subtracted.
 
 <details class="research-notes">
 <summary>How send cost and process CPU were measured</summary>
@@ -738,7 +736,7 @@ I measured callback lateness with a focused harness and a 50 ms quiet period. It
 
 _[Median and p95 callback overshoot](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/2026-10-13/latency.md), 30 interleaved bursts per pattern on the same M1 Max release environment. The paced case is a synthetic 200 Hz stream, not typical typing._
 
-The latency ranking changed with the input pattern. The package's median overshoot was higher for one value and close to the original worker-based version for 20 values. Its medians across the three patterns were **1.38, 1.19, and 1.08 ms**. There was no improvement comparable to the fiftyfold reduction in input cost.
+The latency ranking changed with the input pattern. The package's median overshoot was higher for one value and close to the original worker-based version for 20 values. Its medians across the three patterns were **1.38, 1.19, and 1.08 ms**. There was no improvement comparable to the fiftyfold reduction in send cost.
 
 Those delays combine timer, scheduling, and executor effects. For a high-volume source, spending less CPU accepting values can be useful even when delivery timing stays in the same range. For a search field, the dense-burst headline says little about how responsive the UI will feel.
 
@@ -774,54 +772,6 @@ return elapsedMilliseconds - 50
 ```
 
 The polling loop waits for the recorded timestamp; its wakeup does not define the callback time. Rotating implementation order across rounds reduces dependence on which runs first. This differs from measuring first-input-to-output time, which also includes feeding the burst.
-
-</details>
-
-### Long-running actions are another trade-off
-
-Side Effect's state machine [returns to `.idle`](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L113-L123) before awaiting its output. New input can therefore start another worker while an earlier action is still running. The package keeps one action active at a time; pending input may wait for that action even after its own quiet period expires.
-
-<figure class="research-figure">
-  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/03-action-serialization.svg"><img src="/images/swift-debounce-runtime-investigation/03-action-serialization.svg" alt="The original worker-based version can start a second action while the first is suspended; the package waits for the running action to return before delivering another due value." width="720" height="592" loading="lazy" decoding="async" /></a>
-  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/03-action-serialization-dark.svg"><img src="/images/swift-debounce-runtime-investigation/03-action-serialization-dark.svg" alt="The original worker-based version can start a second action while the first is suspended; the package waits for the running action to return before delivering another due value." width="720" height="592" loading="lazy" decoding="async" /></a>
-</figure>
-
-_[Side Effect's action ordering](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/Sources/References/ReferenceDebouncers.swift#L113-L123) compared with the [package's worker loop](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/Pacer.swift#L60-L105). Action lengths illustrate the two policies._
-
-<details class="research-notes">
-<summary>Follow the action policy with virtual time</summary>
-
-In this [test](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Tests/DebounceTests/DebounceMachineTests.swift#L27-L38), `machine()` creates a trailing debouncer with an interval of 100 abstract ticks. Value `a` arrives at 0 and becomes due at 100. Values `b` and `c` arrive while its action runs:
-
-```swift
-@Test
-func valueSentWhileActionRunsWaitsForTheQuietPeriod() {
-    var stateMachine = machine()
-
-    _ = stateMachine.send("a", now: 0)
-    #expect(stateMachine.next(now: 100) == .run("a"))
-
-    // New values arrive while the action for "a" is running.
-    #expect(stateMachine.send("b", now: 120) == false)
-    #expect(stateMachine.send("c", now: 130) == false)
-
-    // The action returns, but "c" still needs its full quiet period.
-    #expect(stateMachine.next(now: 150) == .sleep(until: 230))
-    #expect(stateMachine.next(now: 230) == .run("c"))
-    #expect(stateMachine.next(now: 240) == .exit)
-}
-```
-
-Both later sends return `false` because a worker already exists. At tick 150, action `a` has returned, but the last input arrived at 130. The worker waits another 80 ticks before delivering `c`.
-
-<figure class="research-figure">
-  <a class="figure-light" href="/images/swift-debounce-runtime-investigation/13-state-machine.svg"><img src="/images/swift-debounce-runtime-investigation/13-state-machine.svg" alt="The package&#x27;s trailing debouncer has four conceptual states: idle, waiting, running an action, and running with pending input." width="720" height="856" loading="lazy" decoding="async" /></a>
-  <a class="figure-dark" href="/images/swift-debounce-runtime-investigation/13-state-machine-dark.svg"><img src="/images/swift-debounce-runtime-investigation/13-state-machine-dark.svg" alt="The package&#x27;s trailing debouncer has four conceptual states: idle, waiting, running an action, and running with pending input." width="720" height="856" loading="lazy" decoding="async" /></a>
-</figure>
-
-_[State machine](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/PacingMachine.swift#L41-L123) and [worker](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Sources/Debounce/Internal/Pacer.swift) behavior for trailing debounce. The diagram omits cancellation and summarizes behavior rather than stored fields._
-
-The worker does not call `next` during an action. The machine chooses the next operation; the worker enforces the ordering.
 
 </details>
 
