@@ -1,0 +1,234 @@
+<!-- Registers progressive enhancement for file trees in Markdown posts. -->
+<script>
+  class AsciiFileTree extends HTMLElement {
+    private cleanup?: () => void;
+
+    connectedCallback() {
+      if (this.cleanup) return;
+      const code = this.querySelector("pre code");
+      const lines = Array.from(
+        code?.querySelectorAll<HTMLElement>(".line") ?? []
+      );
+      if (!code || !lines.length) return;
+
+      const controller = new AbortController();
+      const options = { signal: controller.signal };
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+      const toolbar = document.createElement("div");
+      toolbar.className = "file-tree-toolbar";
+      toolbar.dataset.pagefindIgnore = "";
+
+      const replay = document.createElement("button");
+      replay.type = "button";
+      replay.textContent = "Replay";
+      replay.setAttribute("aria-label", "Replay file tree animation");
+
+      const copy = document.createElement("button");
+      copy.type = "button";
+      copy.textContent = "Copy";
+      copy.setAttribute("aria-label", "Copy file tree");
+      const copyStatus = document.createElement("span");
+      copyStatus.className = "sr-only";
+      copyStatus.setAttribute("role", "status");
+      toolbar.append(replay, copy, copyStatus);
+      this.append(toolbar);
+
+      let animations: Animation[] = [];
+      let started = false;
+      let visible = false;
+      let copyTimeout: ReturnType<typeof setTimeout> | undefined;
+
+      const finish = () => {
+        animations.forEach(animation => animation.cancel());
+        animations = [];
+        replay.removeAttribute("aria-disabled");
+      };
+
+      const syncPlayback = () => {
+        if (reducedMotion.matches) {
+          finish();
+          replay.hidden = true;
+          return;
+        }
+        replay.hidden = false;
+        animations.forEach(animation => {
+          if (animation.playState === "finished") return;
+          if (visible && !document.hidden) animation.play();
+          else animation.pause();
+        });
+      };
+
+      const play = () => {
+        if (reducedMotion.matches || animations.length) return;
+        started = true;
+        replay.setAttribute("aria-disabled", "true");
+
+        // Keep every line in the layout and accessibility tree throughout.
+        // Only its paint changes, so the article never moves as folders open.
+        animations = lines.slice(1).map((line, index) => {
+          const animation = line.animate([{ opacity: 0 }, { opacity: 1 }], {
+            duration: 1,
+            delay: index === 0 ? 350 : 700 + (index - 1) * 150,
+            fill: "backwards",
+          });
+          animation.pause();
+          return animation;
+        });
+
+        const highlighted = lines.find(line =>
+          line.textContent?.trimEnd().endsWith(this.dataset.highlight ?? "\0")
+        );
+        if (highlighted) {
+          const animation = highlighted.animate(
+            [
+              { backgroundColor: "transparent" },
+              { backgroundColor: "var(--file-tree-highlight)", offset: 0.25 },
+              { backgroundColor: "var(--file-tree-highlight)", offset: 0.75 },
+              { backgroundColor: "transparent" },
+            ],
+            { duration: 1100, delay: 850 + lines.length * 150 }
+          );
+          animation.pause();
+          animations.push(animation);
+        }
+
+        void Promise.all(animations.map(animation => animation.finished))
+          .then(finish)
+          .catch(() => {}); // Cancellation on navigation or reduced motion.
+        syncPlayback();
+      };
+
+      replay.addEventListener("click", play, options);
+      copy.addEventListener(
+        "click",
+        async () => {
+          copyStatus.textContent = "";
+          try {
+            await navigator.clipboard.writeText(code.textContent ?? "");
+            if (controller.signal.aborted) return;
+            copy.textContent = "Copied";
+            copyStatus.textContent = "File tree copied to clipboard.";
+          } catch {
+            if (controller.signal.aborted) return;
+            copy.textContent = "Select text to copy";
+            copyStatus.textContent =
+              "Could not copy. Select the file tree text to copy it manually.";
+          }
+          clearTimeout(copyTimeout);
+          copyTimeout = setTimeout(() => (copy.textContent = "Copy"), 1500);
+        },
+        options
+      );
+      reducedMotion.addEventListener("change", syncPlayback, options);
+      document.addEventListener("visibilitychange", syncPlayback, options);
+
+      const observer = new IntersectionObserver(
+        entries => {
+          visible =
+            entries[0].isIntersecting && entries[0].intersectionRatio >= 0.5;
+          if (visible && !started) play();
+          syncPlayback();
+        },
+        { threshold: [0, 0.5] }
+      );
+      observer.observe(this);
+      syncPlayback();
+
+      this.cleanup = () => {
+        controller.abort();
+        observer.disconnect();
+        finish();
+        clearTimeout(copyTimeout);
+        toolbar.remove();
+        this.cleanup = undefined;
+      };
+    }
+
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+
+  if (!customElements.get("ascii-file-tree")) {
+    customElements.define("ascii-file-tree", AsciiFileTree);
+  }
+</script>
+
+<style is:global>
+  ascii-file-tree {
+    --file-tree-highlight: color-mix(in srgb, var(--accent) 16%, transparent);
+    display: block;
+    position: relative;
+    margin-block: 1.5rem;
+    /* Reserve controls before JavaScript loads to keep the article in place. */
+    padding-bottom: 2.75rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    background: color-mix(in srgb, var(--muted) 30%, var(--background));
+  }
+
+  .app-prose ascii-file-tree pre.astro-code {
+    margin: 0;
+    padding: 1.25rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.85;
+    font-variant-ligatures: none;
+  }
+
+  .app-prose ascii-file-tree .astro-code span {
+    color: var(--foreground);
+  }
+
+  ascii-file-tree .line {
+    display: inline-block;
+    border-radius: 2px;
+  }
+
+  .file-tree-toolbar {
+    display: flex;
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    justify-content: flex-end;
+    gap: 1.25rem;
+    min-height: 2.75rem;
+    padding-inline: 1.25rem;
+    border-top: 1px dashed var(--border);
+    color: var(--foreground);
+    font-size: 0.75rem;
+  }
+
+  .file-tree-toolbar button {
+    padding-block: 0.75rem;
+  }
+
+  .file-tree-toolbar button:hover,
+  .file-tree-toolbar button:focus-visible {
+    color: var(--accent);
+  }
+
+  .file-tree-toolbar button[aria-disabled="true"] {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  @media print {
+    ascii-file-tree {
+      padding-bottom: 0;
+    }
+
+    .file-tree-toolbar {
+      display: none;
+    }
+
+    ascii-file-tree .line {
+      opacity: 1 !important;
+      background: transparent !important;
+    }
+  }
+</style>
