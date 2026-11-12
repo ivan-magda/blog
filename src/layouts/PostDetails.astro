@@ -335,6 +335,18 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 </script>
 
 <script>
+  // Interactive research figures load only on posts that use them.
+  const RESEARCH_WIDGETS =
+    "bench-chart, time-ruler, inversion-timeline, actor-hops, memory-blocks";
+
+  document.addEventListener("astro:page-load", () => {
+    if (document.querySelector(RESEARCH_WIDGETS)) {
+      import("../scripts/sync-bench/index");
+    }
+  });
+</script>
+
+<script>
   import { init, teardown } from "../scripts/reading-tracker";
 
   document.addEventListener("astro:page-load", init);
