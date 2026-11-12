@@ -1,0 +1,1179 @@
+{
+  "phones": {
+    "iphone15": { "name": "iPhone 15 Pro Max", "ios": "26.6.2" },
+    "iphone11": { "name": "iPhone 11 Pro Max", "ios": "26.6" }
+  },
+  "charts": {
+    "base": {
+      "axis": "Time per operation, ns",
+      "unit": "ns",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": "mutex",
+      "conditions": "One thread or one Task",
+      "controls": [
+        {
+          "key": "op",
+          "label": "Operation",
+          "options": [
+            { "id": "increment", "label": "Counter" },
+            { "id": "read", "label": "Read" },
+            { "id": "write", "label": "Write" }
+          ]
+        }
+      ],
+      "extra": {
+        "label": "Add the actor and queues",
+        "rows": [
+          "actor",
+          "serialQueue",
+          "barrierQueueAsyncWrite",
+          "barrierQueueSyncWrite"
+        ]
+      },
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "atomic", "label": "Atomic" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "pthreadReadWriteLock", "label": "pthread_rwlock" },
+        { "id": "nsLock", "label": "NSLock" },
+        {
+          "id": "osAllocatedUnfairLockAdaptiveSpin",
+          "label": "OSAllocatedUnfairLock + .adaptiveSpin"
+        },
+        { "id": "objcSync", "label": "objc_sync_enter / objc_sync_exit" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "actor", "label": "actor" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" },
+        {
+          "id": "barrierQueueAsyncWrite",
+          "label": "Concurrent queue, async(flags: .barrier)"
+        },
+        {
+          "id": "barrierQueueSyncWrite",
+          "label": "Concurrent queue, sync(flags: .barrier)"
+        }
+      ],
+      "data": {
+        "increment|iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [1.8552, 1.8526, 2.4936],
+            "osAllocatedUnfairLock": [1.8558, 1.8525, 1.8826],
+            "osUnfairLock": [1.8545, 1.8522, 1.8671],
+            "atomic": [1.8792, 1.8761, 1.9032],
+            "dispatchSemaphore": [3.736, 3.7145, 3.9715],
+            "pthreadMutex": [4.6222, 2.6904, 6.377],
+            "pthreadReadWriteLock": [6.0032, 5.993, 8.7791],
+            "nsLock": [6.3587, 6.3496, 7.6768],
+            "osAllocatedUnfairLockAdaptiveSpin": [8.4891, 8.4693, 13.868],
+            "objcSync": [10.8659, 10.8473, 14.2828],
+            "nsRecursiveLock": [12.7216, 12.699, 16.6534],
+            "actor": [62.7729, 60.3507, 64.0988],
+            "serialQueue": [88.2335, 86.0441, 125.0524],
+            "barrierQueueAsyncWrite": [110.4177, 103.972, 121.9918],
+            "barrierQueueSyncWrite": [209.6147, 203.2249, 276.085]
+          }
+        },
+        "increment|iphone11": {
+          "n": 12,
+          "values": {
+            "mutex": [9.4852, 9.4245, 11.6061],
+            "osAllocatedUnfairLock": [9.4849, 9.4543, 9.6626],
+            "osUnfairLock": [9.4817, 9.4518, 9.6715],
+            "atomic": [8.3317, 8.2709, 8.4252],
+            "dispatchSemaphore": [10.4546, 10.3993, 10.6278],
+            "pthreadMutex": [10.2509, 10.1754, 10.4076],
+            "pthreadReadWriteLock": [15.5282, 15.4562, 15.7569],
+            "nsLock": [10.6428, 10.6096, 10.6757],
+            "osAllocatedUnfairLockAdaptiveSpin": [25.5291, 25.4116, 25.5925],
+            "objcSync": [21.5865, 21.2505, 21.8615],
+            "nsRecursiveLock": [21.1891, 21.1152, 21.236],
+            "actor": [64.6625, 63.4171, 75.0673],
+            "serialQueue": [198.5157, 197.1528, 208.4373],
+            "barrierQueueAsyncWrite": [197.7749, 194.7306, 202.8711],
+            "barrierQueueSyncWrite": [452.392, 422.4328, 458.7611]
+          }
+        },
+        "read|iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [1.8547, 1.8519, 2.5458],
+            "osAllocatedUnfairLock": [1.8575, 1.8521, 3.4152],
+            "osUnfairLock": [1.8574, 1.852, 3.3971],
+            "atomic": [0.265, 0.2646, 0.2681],
+            "dispatchSemaphore": [3.7208, 3.7146, 5.5483],
+            "pthreadMutex": [4.5936, 4.5702, 6.6592],
+            "pthreadReadWriteLock": [6.1433, 6.1335, 6.6862],
+            "nsLock": [6.3625, 6.3494, 6.97],
+            "osAllocatedUnfairLockAdaptiveSpin": [8.482, 8.466, 14.5781],
+            "objcSync": [10.8817, 10.847, 11.7755],
+            "nsRecursiveLock": [12.7151, 12.6989, 16.827],
+            "actor": [62.6355, 56.228, 64.645],
+            "serialQueue": [199.4201, 194.2969, 287.246],
+            "barrierQueueAsyncWrite": [204.9378, 199.5869, 212.4662],
+            "barrierQueueSyncWrite": [204.7552, 196.2943, 263.3551]
+          }
+        },
+        "read|iphone11": {
+          "n": 20,
+          "values": {
+            "mutex": [9.0995, 9.0238, 11.1561],
+            "osAllocatedUnfairLock": [9.0832, 9.0145, 9.2041],
+            "osUnfairLock": [9.0905, 9.0139, 9.1376],
+            "atomic": [0.657, 0.6509, 1.3404],
+            "dispatchSemaphore": [10.5619, 10.4522, 10.7403],
+            "pthreadMutex": [10.2191, 10.1405, 10.29],
+            "pthreadReadWriteLock": [14.3833, 14.2746, 14.6581],
+            "nsLock": [10.5906, 10.5217, 10.6577],
+            "osAllocatedUnfairLockAdaptiveSpin": [25.9032, 25.7209, 26.2552],
+            "objcSync": [21.5365, 21.3235, 21.9959],
+            "nsRecursiveLock": [21.1927, 21.0139, 22.2056],
+            "actor": [63.3632, 62.7848, 64.4868],
+            "serialQueue": [400.1622, 393.4571, 412.0424],
+            "barrierQueueAsyncWrite": [406.4163, 400.7908, 411.464],
+            "barrierQueueSyncWrite": [409.2164, 401.3864, 443.7689]
+          }
+        },
+        "write|iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [1.8548, 1.852, 2.5624],
+            "osAllocatedUnfairLock": [1.8579, 1.852, 3.4331],
+            "osUnfairLock": [1.856, 1.8542, 1.946],
+            "atomic": [0.2651, 0.2646, 0.2865],
+            "dispatchSemaphore": [3.721, 3.7168, 3.7379],
+            "pthreadMutex": [4.5992, 4.5881, 6.3508],
+            "pthreadReadWriteLock": [6.074, 6.0549, 7.0255],
+            "nsLock": [6.3583, 6.3541, 7.9798],
+            "osAllocatedUnfairLockAdaptiveSpin": [8.217, 8.2018, 13.6165],
+            "objcSync": [10.8654, 10.86, 14.5567],
+            "nsRecursiveLock": [12.7157, 12.712, 13.418],
+            "actor": [62.0346, 58.6575, 66.5267],
+            "serialQueue": [107.4748, 104.5893, 146.0415],
+            "barrierQueueAsyncWrite": [115.6576, 110.764, 127.5926],
+            "barrierQueueSyncWrite": [210.557, 203.8615, 276.3957]
+          }
+        },
+        "write|iphone11": {
+          "n": 12,
+          "values": {
+            "mutex": [9.4778, 9.4121, 9.7415],
+            "osAllocatedUnfairLock": [9.4852, 9.4201, 9.5069],
+            "osUnfairLock": [9.4877, 9.4357, 9.8121],
+            "atomic": [0.3789, 0.3758, 0.3802],
+            "dispatchSemaphore": [10.4743, 10.4235, 10.6902],
+            "pthreadMutex": [10.2533, 10.1883, 10.4208],
+            "pthreadReadWriteLock": [15.528, 15.4641, 15.7289],
+            "nsLock": [10.6344, 10.5833, 10.7543],
+            "osAllocatedUnfairLockAdaptiveSpin": [25.5437, 25.3911, 25.7805],
+            "objcSync": [21.4968, 21.3496, 21.8784],
+            "nsRecursiveLock": [21.1907, 21.062, 21.3353],
+            "actor": [68.36, 63.7079, 75.9826],
+            "serialQueue": [234.9988, 231.885, 273.1609],
+            "barrierQueueAsyncWrite": [196.2207, 195.3691, 200.3895],
+            "barrierQueueSyncWrite": [455.5152, 423.8042, 468.0817]
+          }
+        }
+      }
+    },
+    "two-threads": {
+      "axis": "Million operations per second",
+      "unit": "M ops/s",
+      "better": "higher",
+      "sort": "none",
+      "baseline": "mutex",
+      "conditions": "Counter increments, all threads together",
+      "series": [
+        { "id": "one", "label": "One thread" },
+        { "id": "two", "label": "Two threads" }
+      ],
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "atomic", "label": "Atomic" }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": {
+              "one": [539.03, 401.09, 539.79],
+              "two": [102.03, 61.28, 172.95]
+            },
+            "osAllocatedUnfairLock": {
+              "one": [538.85, 531.19, 539.81],
+              "two": [98.73, 56.17, 108.67]
+            },
+            "pthreadMutex": {
+              "one": [216.35, 156.81, 371.69],
+              "two": [21.52, 12.85, 70.3]
+            },
+            "nsLock": {
+              "one": [157.27, 130.37, 157.49],
+              "two": [14.88, 11.24, 54.25]
+            },
+            "atomic": {
+              "one": [532.15, 525.44, 533.01],
+              "two": [309.85, 263.79, 326.56]
+            }
+          }
+        },
+        "iphone11": {
+          "n": 12,
+          "values": {
+            "mutex": {
+              "one": [105.43, 86.16, 106.11],
+              "two": [21.26, 17.98, 27.95]
+            },
+            "osAllocatedUnfairLock": {
+              "one": [105.43, 103.49, 105.77],
+              "two": [22.71, 16.98, 26.51]
+            },
+            "pthreadMutex": {
+              "one": [97.55, 96.08, 98.28],
+              "two": [54.82, 51.25, 57.55]
+            },
+            "nsLock": {
+              "one": [93.96, 93.67, 94.25],
+              "two": [51.73, 46.85, 55.85]
+            },
+            "atomic": {
+              "one": [120.02, 118.69, 120.91],
+              "two": [55.97, 55.13, 63.18]
+            }
+          }
+        }
+      },
+      "digits": 0
+    },
+    "dictionary-throughput": {
+      "axis": "Million operations per second",
+      "unit": "M ops/s",
+      "better": "higher",
+      "sort": "desc",
+      "baseline": "mutex",
+      "conditions": "Eight threads without pauses",
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        {
+          "id": "osAllocatedUnfairLockAdaptiveSpin",
+          "label": "OSAllocatedUnfairLock + .adaptiveSpin"
+        },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "objcSync", "label": "objc_sync_enter / objc_sync_exit" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [1.0564, 0.9697, 1.122],
+            "osAllocatedUnfairLock": [1.0759, 0.9498, 1.1066],
+            "osAllocatedUnfairLockAdaptiveSpin": [1.122, 1.0498, 1.1475],
+            "osUnfairLock": [1.0399, 0.9326, 1.0704],
+            "nsLock": [0.8939, 0.8535, 0.9242],
+            "nsRecursiveLock": [0.914, 0.7342, 0.9515],
+            "pthreadMutex": [0.8902, 0.7733, 0.9301],
+            "dispatchSemaphore": [0.1999, 0.1791, 0.2025],
+            "objcSync": [0.9936, 0.8793, 1.0371],
+            "serialQueue": [0.1825, 0.1799, 0.1847]
+          }
+        },
+        "iphone11": {
+          "n": 20,
+          "values": {
+            "mutex": [0.7361, 0.6858, 0.7727],
+            "osAllocatedUnfairLock": [0.7417, 0.687, 0.7602],
+            "osAllocatedUnfairLockAdaptiveSpin": [0.7725, 0.6976, 0.8346],
+            "osUnfairLock": [0.6816, 0.6582, 0.7643],
+            "nsLock": [0.5606, 0.5274, 0.591],
+            "nsRecursiveLock": [0.5183, 0.4877, 0.5507],
+            "pthreadMutex": [0.5714, 0.527, 0.5897],
+            "dispatchSemaphore": [0.1937, 0.1701, 0.2302],
+            "objcSync": [0.6536, 0.6245, 0.7118],
+            "serialQueue": [0.1419, 0.1002, 0.1938]
+          }
+        }
+      },
+      "digits": 2
+    },
+    "dictionary-p99": {
+      "axis": "Call time p99, µs",
+      "unit": "µs",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": "mutex",
+      "conditions": "Eight threads without pauses",
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        {
+          "id": "osAllocatedUnfairLockAdaptiveSpin",
+          "label": "OSAllocatedUnfairLock + .adaptiveSpin"
+        },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "objcSync", "label": "objc_sync_enter / objc_sync_exit" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [19.0558, 4.5417, 50.5983],
+            "osAllocatedUnfairLock": [22.5394, 5.7917, 52.1379],
+            "osAllocatedUnfairLockAdaptiveSpin": [2.0833, 2.0, 2.125],
+            "osUnfairLock": [67.0196, 51.7783, 76.0787],
+            "nsLock": [51.7883, 48.7762, 56.6008],
+            "nsRecursiveLock": [50.4342, 47.5262, 64.6425],
+            "pthreadMutex": [51.6852, 48.4887, 76.785],
+            "dispatchSemaphore": [47.2708, 46.5, 69.0417],
+            "objcSync": [68.6106, 27.5612, 89.5829],
+            "serialQueue": [64.1042, 63.625, 64.3333]
+          }
+        },
+        "iphone11": {
+          "n": 20,
+          "values": {
+            "mutex": [48.4231, 24.3837, 98.945],
+            "osAllocatedUnfairLock": [67.1865, 14.7917, 112.6704],
+            "osAllocatedUnfairLockAdaptiveSpin": [2.9375, 2.75, 3.2917],
+            "osUnfairLock": [116.081, 93.1467, 144.5367],
+            "nsLock": [91.8048, 83.8375, 111.1337],
+            "nsRecursiveLock": [96.2302, 80.2475, 116.3596],
+            "pthreadMutex": [96.8542, 83.4254, 118.7608],
+            "dispatchSemaphore": [65.9792, 52.875, 66.9254],
+            "objcSync": [122.4758, 105.3004, 142.4692],
+            "serialQueue": [99.2917, 91.625, 101.7346]
+          }
+        }
+      }
+    },
+    "flag": {
+      "axis": "Time per read, ns",
+      "unit": "ns",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": "mutex",
+      "conditions": "One reading thread; the main thread changes the flag every 10 ms",
+      "extra": {
+        "label": "Add the queues",
+        "rows": [
+          "serialQueue",
+          "barrierQueueAsyncWrite",
+          "barrierQueueSyncWrite"
+        ]
+      },
+      "rows": [
+        { "id": "atomic", "label": "Atomic" },
+        { "id": "managedAtomic", "label": "ManagedAtomic" },
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "pthreadReadWriteLock", "label": "pthread_rwlock" },
+        { "id": "nsLock", "label": "NSLock" },
+        {
+          "id": "osAllocatedUnfairLockAdaptiveSpin",
+          "label": "OSAllocatedUnfairLock + .adaptiveSpin"
+        },
+        { "id": "objcSync", "label": "objc_sync_enter / objc_sync_exit" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" },
+        {
+          "id": "barrierQueueAsyncWrite",
+          "label": "Concurrent queue, async(flags: .barrier)"
+        },
+        {
+          "id": "barrierQueueSyncWrite",
+          "label": "Concurrent queue, sync(flags: .barrier)"
+        }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 12,
+          "values": {
+            "atomic": [0.3201, 0.3197, 0.3219],
+            "managedAtomic": [0.7962, 0.7947, 0.8033],
+            "mutex": [1.8595, 1.8556, 1.8669],
+            "osAllocatedUnfairLock": [1.8585, 1.8555, 2.0532],
+            "osUnfairLock": [1.8583, 1.8549, 1.8693],
+            "dispatchSemaphore": [3.7413, 3.7372, 3.7572],
+            "pthreadMutex": [4.5565, 4.542, 4.8727],
+            "pthreadReadWriteLock": [6.0999, 6.0881, 6.1107],
+            "nsLock": [6.4719, 6.3698, 7.545],
+            "osAllocatedUnfairLockAdaptiveSpin": [8.8926, 8.4916, 9.0626],
+            "objcSync": [11.2373, 10.8838, 11.6072],
+            "nsRecursiveLock": [13.2009, 12.7316, 13.9751],
+            "serialQueue": [202.7799, 199.5343, 204.5093],
+            "barrierQueueAsyncWrite": [207.314, 203.4235, 219.7116],
+            "barrierQueueSyncWrite": [207.8522, 204.2834, 212.9195]
+          }
+        },
+        "iphone11": {
+          "n": 12,
+          "values": {
+            "atomic": [0.6123, 0.609, 0.6154],
+            "managedAtomic": [1.1379, 1.1279, 1.1402],
+            "mutex": [9.1012, 9.0637, 9.1279],
+            "osAllocatedUnfairLock": [9.0863, 9.0283, 9.1148],
+            "osUnfairLock": [9.0931, 9.0373, 9.1595],
+            "dispatchSemaphore": [11.064, 10.6807, 11.3506],
+            "pthreadMutex": [10.2391, 10.1826, 10.2516],
+            "pthreadReadWriteLock": [14.3931, 14.3293, 14.72],
+            "nsLock": [10.6225, 10.5363, 10.6861],
+            "osAllocatedUnfairLockAdaptiveSpin": [25.9616, 25.8085, 26.0192],
+            "objcSync": [21.2614, 21.0575, 21.5997],
+            "nsRecursiveLock": [21.2328, 21.1199, 21.5852],
+            "serialQueue": [406.8861, 404.5689, 414.607],
+            "barrierQueueAsyncWrite": [417.4546, 413.1579, 421.3328],
+            "barrierQueueSyncWrite": [415.6759, 411.9883, 423.3127]
+          }
+        }
+      }
+    },
+    "store-throughput": {
+      "axis": "Million operations per second",
+      "unit": "M ops/s",
+      "better": "higher",
+      "sort": "desc",
+      "baseline": "mutex",
+      "conditions": "Six threads, 98% reads",
+      "controls": [
+        {
+          "key": "size",
+          "label": "Per operation",
+          "options": [
+            { "id": "twentyRecords", "label": "Twenty records" },
+            { "id": "singleRecord", "label": "One record" }
+          ]
+        }
+      ],
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        {
+          "id": "osAllocatedUnfairLockAdaptiveSpin",
+          "label": "OSAllocatedUnfairLock + .adaptiveSpin"
+        },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "objcSync", "label": "objc_sync_enter / objc_sync_exit" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" },
+        { "id": "pthreadReadWriteLock", "label": "pthread_rwlock" },
+        {
+          "id": "barrierQueueSyncWrite",
+          "label": "Concurrent queue, sync(flags: .barrier)"
+        },
+        {
+          "id": "barrierQueueAsyncWrite",
+          "label": "Concurrent queue, async(flags: .barrier)"
+        }
+      ],
+      "data": {
+        "twentyRecords|iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [9.3656, 7.2627, 11.9672],
+            "osAllocatedUnfairLock": [9.4994, 6.9551, 10.0382],
+            "osAllocatedUnfairLockAdaptiveSpin": [5.8036, 3.1221, 6.2074],
+            "osUnfairLock": [8.6044, 6.9171, 9.004],
+            "nsLock": [8.0527, 6.4279, 8.8649],
+            "nsRecursiveLock": [7.1418, 5.8135, 7.624],
+            "pthreadMutex": [9.2897, 6.2839, 9.9382],
+            "dispatchSemaphore": [1.0545, 0.5689, 1.0987],
+            "objcSync": [2.8888, 2.3906, 3.4772],
+            "serialQueue": [0.4547, 0.2024, 0.4794],
+            "pthreadReadWriteLock": [3.0736, 2.6668, 3.5056],
+            "barrierQueueSyncWrite": [1.6001, 1.1303, 1.663],
+            "barrierQueueAsyncWrite": [1.4691, 1.049, 1.753]
+          }
+        },
+        "twentyRecords|iphone11": {
+          "n": 20,
+          "values": {
+            "mutex": [4.2623, 3.6066, 5.3302],
+            "osAllocatedUnfairLock": [4.4269, 3.5793, 5.9456],
+            "osAllocatedUnfairLockAdaptiveSpin": [2.9127, 2.4261, 4.5348],
+            "osUnfairLock": [4.4186, 3.921, 5.2411],
+            "nsLock": [3.7529, 3.5103, 4.6822],
+            "nsRecursiveLock": [2.7006, 2.3897, 3.7201],
+            "pthreadMutex": [3.9708, 3.7634, 4.2815],
+            "dispatchSemaphore": [0.8476, 0.8204, 0.8538],
+            "objcSync": [2.3405, 2.011, 2.4771],
+            "serialQueue": [0.3913, 0.3849, 0.3949],
+            "pthreadReadWriteLock": [3.4454, 2.7263, 4.8427],
+            "barrierQueueSyncWrite": [1.3514, 1.2006, 1.6418],
+            "barrierQueueAsyncWrite": [1.1899, 0.9701, 1.4932]
+          }
+        },
+        "singleRecord|iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [34.8078, 29.2502, 36.2286],
+            "osAllocatedUnfairLock": [34.6658, 28.2478, 36.2115],
+            "osAllocatedUnfairLockAdaptiveSpin": [10.3971, 5.2602, 11.7969],
+            "osUnfairLock": [33.352, 28.6221, 35.2054],
+            "nsLock": [22.479, 18.1122, 24.636],
+            "nsRecursiveLock": [14.6217, 10.0168, 15.5838],
+            "pthreadMutex": [35.0963, 31.0572, 37.4215],
+            "dispatchSemaphore": [1.0953, 0.4741, 1.1742],
+            "objcSync": [3.119, 2.3797, 4.0612],
+            "serialQueue": [0.4603, 0.264, 0.4856],
+            "pthreadReadWriteLock": [3.8831, 2.3226, 4.7303],
+            "barrierQueueSyncWrite": [1.686, 0.9833, 1.9476],
+            "barrierQueueAsyncWrite": [2.0881, 1.3805, 2.5813]
+          }
+        },
+        "singleRecord|iphone11": {
+          "n": 20,
+          "values": {
+            "mutex": [15.5875, 14.754, 17.9802],
+            "osAllocatedUnfairLock": [15.4602, 14.3889, 17.0834],
+            "osAllocatedUnfairLockAdaptiveSpin": [4.834, 3.652, 6.6866],
+            "osUnfairLock": [15.2344, 14.0764, 16.4999],
+            "nsLock": [14.4322, 13.7395, 16.9072],
+            "nsRecursiveLock": [7.5373, 6.8909, 10.6568],
+            "pthreadMutex": [16.221, 15.0006, 18.1519],
+            "dispatchSemaphore": [0.9186, 0.9027, 0.9231],
+            "objcSync": [2.8838, 2.2747, 3.7021],
+            "serialQueue": [0.405, 0.3987, 0.4085],
+            "pthreadReadWriteLock": [3.9867, 3.232, 5.6619],
+            "barrierQueueSyncWrite": [1.389, 1.2113, 1.729],
+            "barrierQueueAsyncWrite": [1.4512, 1.2989, 1.9619]
+          }
+        }
+      },
+      "digits": 2
+    },
+    "store-write-p99": {
+      "axis": "Write time p99, µs",
+      "unit": "µs",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": "mutex",
+      "conditions": "Six threads, 98% reads",
+      "controls": [
+        {
+          "key": "size",
+          "label": "Per operation",
+          "options": [
+            { "id": "twentyRecords", "label": "Twenty records" },
+            { "id": "singleRecord", "label": "One record" }
+          ]
+        }
+      ],
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        {
+          "id": "osAllocatedUnfairLockAdaptiveSpin",
+          "label": "OSAllocatedUnfairLock + .adaptiveSpin"
+        },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "objcSync", "label": "objc_sync_enter / objc_sync_exit" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" },
+        { "id": "pthreadReadWriteLock", "label": "pthread_rwlock" },
+        {
+          "id": "barrierQueueSyncWrite",
+          "label": "Concurrent queue, sync(flags: .barrier)"
+        },
+        {
+          "id": "barrierQueueAsyncWrite",
+          "label": "Concurrent queue, async(flags: .barrier)"
+        }
+      ],
+      "data": {
+        "twentyRecords|iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [7.9585, 4.5833, 8.5425],
+            "osAllocatedUnfairLock": [8.2917, 5.2917, 9.375],
+            "osAllocatedUnfairLockAdaptiveSpin": [6.2083, 5.1667, 7.5417],
+            "osUnfairLock": [6.4377, 4.4583, 6.7917],
+            "nsLock": [16.5212, 13.8767, 18.875],
+            "nsRecursiveLock": [16.855, 15.7083, 17.9587],
+            "pthreadMutex": [14.9377, 13.4167, 21.0837],
+            "dispatchSemaphore": [8.0208, 7.4583, 15.5833],
+            "objcSync": [10.6667, 9.375, 14.9171],
+            "serialQueue": [27.3131, 14.5, 34.875],
+            "pthreadReadWriteLock": [21.7708, 20.7917, 26.5833],
+            "barrierQueueSyncWrite": [29.5627, 29.0837, 39.0421],
+            "barrierQueueAsyncWrite": [33.6875, 30.5417, 41.7083]
+          }
+        },
+        "twentyRecords|iphone11": {
+          "n": 20,
+          "values": {
+            "mutex": [11.6875, 7.5008, 14.0],
+            "osAllocatedUnfairLock": [12.0, 8.5004, 13.0004],
+            "osAllocatedUnfairLockAdaptiveSpin": [10.5627, 5.7083, 11.8333],
+            "osUnfairLock": [13.7083, 8.2921, 16.8333],
+            "nsLock": [35.1054, 33.3333, 37.9175],
+            "nsRecursiveLock": [44.7712, 37.0837, 52.3354],
+            "pthreadMutex": [33.771, 31.1254, 35.4587],
+            "dispatchSemaphore": [9.8333, 9.125, 10.4583],
+            "objcSync": [19.146, 16.25, 21.0004],
+            "serialQueue": [18.6875, 17.7917, 19.875],
+            "pthreadReadWriteLock": [26.4585, 23.125, 32.7083],
+            "barrierQueueSyncWrite": [37.98, 30.875, 43.1254],
+            "barrierQueueAsyncWrite": [43.1044, 32.5842, 50.2925]
+          }
+        },
+        "singleRecord|iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [6.8333, 4.4583, 7.75],
+            "osAllocatedUnfairLock": [7.0002, 5.625, 7.6667],
+            "osAllocatedUnfairLockAdaptiveSpin": [5.4583, 4.3333, 7.4583],
+            "osUnfairLock": [7.2919, 5.5837, 7.8333],
+            "nsLock": [19.521, 17.5421, 27.1667],
+            "nsRecursiveLock": [23.7708, 21.5004, 30.7508],
+            "pthreadMutex": [17.6677, 15.8333, 19.2092],
+            "dispatchSemaphore": [8.125, 7.2921, 18.4583],
+            "objcSync": [11.9167, 9.3754, 16.7504],
+            "serialQueue": [26.75, 16.75, 38.2087],
+            "pthreadReadWriteLock": [20.3542, 20.125, 30.0],
+            "barrierQueueSyncWrite": [29.0419, 26.2504, 43.2921],
+            "barrierQueueAsyncWrite": [39.396, 37.5833, 56.1667]
+          }
+        },
+        "singleRecord|iphone11": {
+          "n": 20,
+          "values": {
+            "mutex": [9.0631, 7.4587, 11.875],
+            "osAllocatedUnfairLock": [8.9375, 6.9587, 12.0025],
+            "osAllocatedUnfairLockAdaptiveSpin": [9.7294, 6.5833, 13.6667],
+            "osUnfairLock": [10.4171, 7.5837, 13.7921],
+            "nsLock": [34.3133, 29.1667, 39.75],
+            "nsRecursiveLock": [54.2108, 46.3754, 68.2092],
+            "pthreadMutex": [30.4385, 28.0008, 32.875],
+            "dispatchSemaphore": [9.4585, 8.875, 10.3333],
+            "objcSync": [18.6044, 14.3754, 20.6254],
+            "serialQueue": [18.1667, 16.5833, 19.4583],
+            "pthreadReadWriteLock": [25.896, 22.5833, 27.5421],
+            "barrierQueueSyncWrite": [37.8762, 32.5417, 59.0004],
+            "barrierQueueAsyncWrite": [54.8754, 38.7921, 61.3758]
+          }
+        }
+      }
+    },
+    "actor-paths": {
+      "axis": "Time per operation, ns",
+      "unit": "ns",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": "mutex",
+      "conditions": "One task, one counter",
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "onActor", "label": "actor, code already running on it" },
+        {
+          "id": "fromBackground",
+          "label": "actor, called from a background task"
+        },
+        { "id": "fromMainActor", "label": "actor, called from MainActor" },
+        {
+          "id": "toMainActor",
+          "label": "MainActor, called from a background task"
+        }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 20,
+          "values": {
+            "mutex": [1.8603, 1.855, 2.7315],
+            "onActor": [8.7655, 8.7358, 17.7471],
+            "fromBackground": [52.6129, 47.7785, 57.1673],
+            "fromMainActor": [4890.7292, 4788.7708, 5158.1458],
+            "toMainActor": [5723.4062, 5401.4375, 5827.375]
+          }
+        },
+        "iphone11": {
+          "n": "12 to 20",
+          "values": {
+            "mutex": [9.4667, 9.404, 9.7151],
+            "onActor": [12.9795, 12.856, 22.4202],
+            "fromBackground": [64.551, 64.185, 88.2565],
+            "fromMainActor": [6029.1875, 5810.2083, 6150.6042],
+            "toMainActor": [8805.2917, 7155.8333, 9076.9375]
+          }
+        }
+      }
+    },
+    "actor-many-tasks": {
+      "axis": "Call time p99, µs",
+      "unit": "µs",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": "mutex",
+      "conditions": "50 tasks, 1,000 calls each",
+      "rows": [
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "actor", "label": "actor" }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 20,
+          "values": {
+            "osAllocatedUnfairLock": [5.9792, 1.0833, 6.7917],
+            "mutex": [6.2917, 1.2917, 7.5833],
+            "nsLock": [11.4375, 0.2083, 18.7921],
+            "actor": [24.8958, 22.0417, 69.9583]
+          }
+        },
+        "iphone11": {
+          "n": 20,
+          "values": {
+            "osAllocatedUnfairLock": [9.1042, 0.0833, 12.9583],
+            "mutex": [9.3544, 1.0833, 14.2083],
+            "nsLock": [33.4588, 0.375, 47.2508],
+            "actor": [35.4375, 33.75, 136.0442]
+          }
+        }
+      }
+    },
+    "actor-batching": {
+      "axis": "Time per update, ns",
+      "unit": "ns",
+      "better": "lower",
+      "sort": "none",
+      "baseline": "oneLock",
+      "baselineLabel": "Mutex, batched",
+      "conditions": "One background task, 128 counters",
+      "rows": [
+        { "id": "awaitPerUpdate", "label": "actor, an await per update" },
+        { "id": "oneAwait", "label": "actor, 100 updates in one await" },
+        { "id": "oneLock", "label": "Mutex, 100 updates under one lock" }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 12,
+          "values": {
+            "awaitPerUpdate": [58.0811, 57.6942, 63.1673],
+            "oneAwait": [1.2271, 1.0711, 1.4061],
+            "oneLock": [0.6853, 0.4982, 0.8901]
+          }
+        },
+        "iphone11": {
+          "n": 12,
+          "values": {
+            "awaitPerUpdate": [80.1719, 79.8325, 80.63],
+            "oneAwait": [1.6278, 1.6037, 1.8419],
+            "oneLock": [0.963, 0.7921, 1.1555]
+          }
+        }
+      },
+      "digits": 2
+    },
+    "cache-read": {
+      "axis": "Median read time, µs",
+      "unit": "µs",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": "mutex",
+      "conditions": "Four background threads, each writing to the cache once every 700 ms",
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        {
+          "id": "osAllocatedUnfairLockAdaptiveSpin",
+          "label": "OSAllocatedUnfairLock + .adaptiveSpin"
+        },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "objcSync", "label": "objc_sync_enter / objc_sync_exit" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" },
+        { "id": "pthreadReadWriteLock", "label": "pthread_rwlock" },
+        {
+          "id": "barrierQueueSyncWrite",
+          "label": "Concurrent queue, sync(flags: .barrier)"
+        },
+        {
+          "id": "barrierQueueAsyncWrite",
+          "label": "Concurrent queue, async(flags: .barrier)"
+        },
+        { "id": "mainActor", "label": "MainActor, direct read" }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 12,
+          "values": {
+            "mutex": [2.0208, 1.875, 2.25],
+            "osAllocatedUnfairLock": [2.0625, 1.875, 2.2708],
+            "osAllocatedUnfairLockAdaptiveSpin": [2.6458, 2.4167, 2.875],
+            "osUnfairLock": [2.1458, 1.7083, 2.2917],
+            "nsLock": [2.4167, 2.2083, 2.7917],
+            "nsRecursiveLock": [2.6875, 2.5833, 3.1667],
+            "pthreadMutex": [2.2188, 1.75, 2.4167],
+            "dispatchSemaphore": [2.2917, 1.8542, 2.5417],
+            "objcSync": [2.5, 2.25, 2.75],
+            "serialQueue": [7.9375, 7.7083, 8.4167],
+            "pthreadReadWriteLock": [2.2083, 1.75, 2.4167],
+            "barrierQueueSyncWrite": [8.2083, 7.625, 8.5417],
+            "barrierQueueAsyncWrite": [8.2708, 7.2708, 8.6458],
+            "mainActor": [2.1042, 1.9583, 2.25]
+          }
+        },
+        "iphone11": {
+          "n": 12,
+          "values": {
+            "mutex": [3.125, 3.0417, 3.625],
+            "osAllocatedUnfairLock": [3.1458, 1.8333, 3.3333],
+            "osAllocatedUnfairLockAdaptiveSpin": [3.9167, 2.1667, 4.625],
+            "osUnfairLock": [3.3125, 1.9583, 4.5417],
+            "nsLock": [3.875, 3.4583, 5.0],
+            "nsRecursiveLock": [4.3542, 2.25, 5.5417],
+            "pthreadMutex": [3.4583, 2.0, 4.375],
+            "dispatchSemaphore": [3.8021, 3.25, 4.8333],
+            "objcSync": [4.125, 2.125, 5.4792],
+            "serialQueue": [13.7292, 13.3333, 15.125],
+            "pthreadReadWriteLock": [3.5417, 1.9583, 4.5833],
+            "barrierQueueSyncWrite": [14.2708, 7.0, 15.375],
+            "barrierQueueAsyncWrite": [14.0833, 6.1667, 15.7083],
+            "mainActor": [3.1979, 2.4167, 3.9583]
+          }
+        }
+      },
+      "digits": 2
+    },
+    "inversion-wait": {
+      "axis": "Median main-thread wait, ms",
+      "unit": "ms",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": "mutex",
+      "conditions": "Six load threads with userInitiated priority",
+      "controls": [
+        {
+          "key": "qos",
+          "label": "Holder priority",
+          "options": [
+            { "id": "background", "label": "background" },
+            { "id": "utility", "label": "utility" }
+          ]
+        }
+      ],
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        {
+          "id": "osAllocatedUnfairLockAdaptiveSpin",
+          "label": "OSAllocatedUnfairLock + .adaptiveSpin"
+        },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "objcSync", "label": "objc_sync_enter / objc_sync_exit" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" },
+        { "id": "pthreadReadWriteLock", "label": "pthread_rwlock" },
+        {
+          "id": "barrierQueueSyncWrite",
+          "label": "Concurrent queue, sync(flags: .barrier)"
+        },
+        {
+          "id": "barrierQueueAsyncWrite",
+          "label": "Concurrent queue, async(flags: .barrier)"
+        }
+      ],
+      "data": {
+        "background|iphone15": {
+          "n": 3,
+          "values": {
+            "mutex": [12.9497, 12.9467, 12.9587],
+            "osAllocatedUnfairLock": [12.9726, 12.9429, 14.0437],
+            "osAllocatedUnfairLockAdaptiveSpin": [12.9663, 12.9452, 14.2222],
+            "osUnfairLock": [13.645, 12.9648, 13.823],
+            "nsLock": [12.9587, 12.9432, 14.1771],
+            "nsRecursiveLock": [13.0875, 12.9684, 13.7633],
+            "pthreadMutex": [12.9625, 12.9556, 13.0923],
+            "dispatchSemaphore": [65.6286, 60.5341, 69.3755],
+            "objcSync": [12.948, 12.9466, 12.9591],
+            "serialQueue": [13.8598, 13.3071, 14.0421],
+            "pthreadReadWriteLock": [68.5498, 59.1785, 84.5185],
+            "barrierQueueSyncWrite": [61.9366, 57.6422, 68.9331],
+            "barrierQueueAsyncWrite": [12.9955, 12.9582, 13.289]
+          }
+        },
+        "background|iphone11": {
+          "n": 3,
+          "values": {
+            "mutex": [13.0392, 11.8112, 13.9889],
+            "osAllocatedUnfairLock": [14.3968, 11.4542, 14.8914],
+            "osAllocatedUnfairLockAdaptiveSpin": [14.0341, 13.6492, 14.7171],
+            "osUnfairLock": [12.7459, 12.1682, 14.9639],
+            "nsLock": [12.8656, 9.1556, 14.8478],
+            "nsRecursiveLock": [13.8483, 13.6993, 14.0624],
+            "pthreadMutex": [12.2422, 10.5648, 12.4696],
+            "dispatchSemaphore": [21.1227, 20.9055, 21.3364],
+            "objcSync": [13.4842, 8.8191, 13.8875],
+            "serialQueue": [12.4131, 11.6468, 12.6649],
+            "pthreadReadWriteLock": [21.6814, 21.1649, 22.0471],
+            "barrierQueueSyncWrite": [21.7535, 21.4892, 21.8758],
+            "barrierQueueAsyncWrite": [14.4559, 12.9135, 14.7793]
+          }
+        },
+        "utility|iphone15": {
+          "n": 3,
+          "values": {
+            "mutex": [13.4815, 12.9539, 13.5134],
+            "osAllocatedUnfairLock": [13.2125, 13.0265, 13.2161],
+            "osAllocatedUnfairLockAdaptiveSpin": [13.5025, 12.9621, 14.596],
+            "osUnfairLock": [13.1193, 12.9684, 13.5602],
+            "nsLock": [13.2102, 12.9655, 13.5728],
+            "nsRecursiveLock": [13.2169, 13.2136, 13.2225],
+            "pthreadMutex": [13.2153, 13.2131, 13.2161],
+            "dispatchSemaphore": [60.1916, 59.8098, 60.4412],
+            "objcSync": [12.9859, 12.9768, 13.0957],
+            "serialQueue": [13.2431, 13.2053, 13.4265],
+            "pthreadReadWriteLock": [54.6866, 51.7126, 57.5141],
+            "barrierQueueSyncWrite": [58.3561, 57.4916, 58.5414],
+            "barrierQueueAsyncWrite": [13.2209, 13.2162, 13.2212]
+          }
+        },
+        "utility|iphone11": {
+          "n": 3,
+          "values": {
+            "mutex": [13.6929, 12.8588, 14.6347],
+            "osAllocatedUnfairLock": [14.4727, 11.9599, 14.7145],
+            "osAllocatedUnfairLockAdaptiveSpin": [13.6749, 13.3351, 14.0994],
+            "osUnfairLock": [10.6043, 10.0446, 14.3335],
+            "nsLock": [13.2998, 12.3084, 14.3488],
+            "nsRecursiveLock": [12.9177, 11.7585, 13.4627],
+            "pthreadMutex": [14.1795, 13.4434, 14.499],
+            "dispatchSemaphore": [21.3694, 21.1003, 21.4125],
+            "objcSync": [11.2039, 9.9841, 13.9869],
+            "serialQueue": [11.2896, 10.8175, 13.2119],
+            "pthreadReadWriteLock": [21.6164, 20.9093, 21.9139],
+            "barrierQueueSyncWrite": [21.2136, 21.0775, 21.5111],
+            "barrierQueueAsyncWrite": [13.5523, 12.644, 13.6716]
+          }
+        }
+      },
+      "digits": 2
+    },
+    "creation-time": {
+      "axis": "Time to create one object, ns",
+      "unit": "ns",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": "unsynchronized",
+      "conditions": "100,000 objects, one thread",
+      "rows": [
+        { "id": "unsynchronized", "label": "No synchronization" },
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "atomic", "label": "Atomic" },
+        { "id": "mainActor", "label": "@MainActor class" },
+        { "id": "actor", "label": "actor" },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "managedAtomic", "label": "ManagedAtomic" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "pthreadReadWriteLock", "label": "pthread_rwlock" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "barrierQueueSyncWrite", "label": "Concurrent DispatchQueue" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 12,
+          "values": {
+            "actor": [20.72, 19.73, 25.51],
+            "atomic": [15.72, 14.93, 17.48],
+            "barrierQueueSyncWrite": [114.14, 110.84, 124.72],
+            "dispatchSemaphore": [23.76, 23.17, 25.33],
+            "mainActor": [16.24, 15.46, 16.35],
+            "managedAtomic": [23.29, 22.46, 24.8],
+            "mutex": [15.31, 14.72, 16.0],
+            "nsLock": [26.79, 25.99, 31.17],
+            "nsRecursiveLock": [31.43, 30.72, 36.07],
+            "osAllocatedUnfairLock": [24.29, 23.43, 30.16],
+            "osUnfairLock": [22.43, 21.66, 23.45],
+            "pthreadMutex": [24.73, 23.96, 29.45],
+            "pthreadReadWriteLock": [25.31, 24.51, 28.04],
+            "serialQueue": [152.17, 149.81, 162.2],
+            "unsynchronized": [15.71, 14.93, 16.78]
+          }
+        },
+        "iphone11": {
+          "n": 12,
+          "values": {
+            "actor": [45.5, 44.17, 47.91],
+            "atomic": [30.45, 30.16, 31.32],
+            "barrierQueueSyncWrite": [248.36, 246.22, 254.01],
+            "dispatchSemaphore": [51.4, 49.97, 52.24],
+            "mainActor": [32.72, 32.47, 32.92],
+            "managedAtomic": [43.14, 42.46, 43.79],
+            "mutex": [31.09, 30.51, 36.58],
+            "nsLock": [58.26, 56.53, 59.88],
+            "nsRecursiveLock": [73.73, 71.2, 74.71],
+            "osAllocatedUnfairLock": [42.99, 42.3, 43.59],
+            "osUnfairLock": [45.42, 44.82, 45.89],
+            "pthreadMutex": [53.23, 51.85, 53.91],
+            "pthreadReadWriteLock": [66.22, 64.09, 66.88],
+            "serialQueue": [317.77, 316.14, 320.64],
+            "unsynchronized": [30.49, 30.16, 30.55]
+          }
+        }
+      },
+      "baselineLabel": "no synchronization"
+    },
+    "creation-memory": {
+      "axis": "Extra memory per object, bytes",
+      "unit": "bytes",
+      "better": "lower",
+      "sort": "asc",
+      "baseline": null,
+      "conditions": "100,000 objects",
+      "rows": [
+        { "id": "mutex", "label": "Mutex" },
+        { "id": "atomic", "label": "Atomic" },
+        { "id": "mainActor", "label": "@MainActor class" },
+        { "id": "actor", "label": "actor" },
+        { "id": "osUnfairLock", "label": "os_unfair_lock" },
+        { "id": "managedAtomic", "label": "ManagedAtomic" },
+        { "id": "dispatchSemaphore", "label": "DispatchSemaphore" },
+        { "id": "osAllocatedUnfairLock", "label": "OSAllocatedUnfairLock" },
+        { "id": "pthreadMutex", "label": "pthread_mutex" },
+        { "id": "pthreadReadWriteLock", "label": "pthread_rwlock" },
+        { "id": "nsLock", "label": "NSLock" },
+        { "id": "nsRecursiveLock", "label": "NSRecursiveLock" },
+        { "id": "barrierQueueSyncWrite", "label": "Concurrent DispatchQueue" },
+        { "id": "serialQueue", "label": "Serial DispatchQueue" }
+      ],
+      "data": {
+        "iphone15": {
+          "n": 12,
+          "values": {
+            "actor": [96.0, 96.0, 96.0],
+            "atomic": [0.0, -0.0, 0.0],
+            "barrierQueueSyncWrite": [176.0, 176.0, 176.0],
+            "dispatchSemaphore": [96.0, 96.0, 96.0],
+            "mainActor": [-0.0, -0.0, 0.0],
+            "managedAtomic": [32.0, 32.0, 32.0],
+            "mutex": [16.0, 16.0, 16.0],
+            "nsLock": [112.0, 112.0, 112.0],
+            "nsRecursiveLock": [240.0, 240.0, 240.0],
+            "osAllocatedUnfairLock": [32.0, 32.0, 32.0],
+            "osUnfairLock": [32.0, 32.0, 32.0],
+            "pthreadMutex": [80.0, 80.0, 80.0],
+            "pthreadReadWriteLock": [240.0, 240.0, 240.0],
+            "serialQueue": [160.0, 160.0, 160.0]
+          }
+        },
+        "iphone11": {
+          "n": 12,
+          "values": {
+            "actor": [96.0, 96.0, 96.0],
+            "atomic": [0.0, -0.0, 0.0],
+            "barrierQueueSyncWrite": [176.0, 176.0, 176.0],
+            "dispatchSemaphore": [96.0, 96.0, 96.0],
+            "mainActor": [-0.0, -0.0, 0.0],
+            "managedAtomic": [32.0, 32.0, 32.0],
+            "mutex": [16.0, 16.0, 16.0],
+            "nsLock": [112.0, 112.0, 112.0],
+            "nsRecursiveLock": [240.0, 240.0, 240.0],
+            "osAllocatedUnfairLock": [32.0, 32.0, 32.0],
+            "osUnfairLock": [32.0, 32.0, 32.0],
+            "pthreadMutex": [80.0, 80.0, 80.0],
+            "pthreadReadWriteLock": [240.0, 240.0, 240.0],
+            "serialQueue": [160.0, 160.0, 160.0]
+          }
+        }
+      },
+      "digits": 0
+    }
+  },
+  "memory": [
+    { "id": "mainActor", "label": "@MainActor class", "bytes": 0, "blocks": 0 },
+    { "id": "atomic", "label": "Atomic", "bytes": 0, "blocks": 0 },
+    { "id": "mutex", "label": "Mutex", "bytes": 16, "blocks": 0 },
+    {
+      "id": "managedAtomic",
+      "label": "ManagedAtomic",
+      "bytes": 32,
+      "blocks": 1
+    },
+    {
+      "id": "osAllocatedUnfairLock",
+      "label": "OSAllocatedUnfairLock",
+      "bytes": 32,
+      "blocks": 1
+    },
+    {
+      "id": "osUnfairLock",
+      "label": "os_unfair_lock",
+      "bytes": 32,
+      "blocks": 1
+    },
+    {
+      "id": "pthreadMutex",
+      "label": "pthread_mutex",
+      "bytes": 80,
+      "blocks": 1
+    },
+    {
+      "id": "dispatchSemaphore",
+      "label": "DispatchSemaphore",
+      "bytes": 96,
+      "blocks": 1
+    },
+    { "id": "actor", "label": "actor", "bytes": 96, "blocks": 0 },
+    { "id": "nsLock", "label": "NSLock", "bytes": 112, "blocks": 1 },
+    {
+      "id": "serialQueue",
+      "label": "Serial DispatchQueue",
+      "bytes": 160,
+      "blocks": 2
+    },
+    {
+      "id": "barrierQueueSyncWrite",
+      "label": "Concurrent DispatchQueue",
+      "bytes": 176,
+      "blocks": 2
+    },
+    {
+      "id": "nsRecursiveLock",
+      "label": "NSRecursiveLock",
+      "bytes": 240,
+      "blocks": 1
+    },
+    {
+      "id": "pthreadReadWriteLock",
+      "label": "pthread_rwlock",
+      "bytes": 240,
+      "blocks": 1
+    }
+  ]
+}

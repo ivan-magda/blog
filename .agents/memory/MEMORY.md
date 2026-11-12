@@ -10,7 +10,7 @@ source code and accepted specifications remain authoritative.
   visuals, independent draft comparisons,
   documentation language, skill tracking, UI verification, and social copy.
 - [Platform and maintenance](platform.md): current framework, SEO, table of contents,
-  and reading analytics.
+  interactive research figures, and reading analytics.
 - [Content and research](content.md): writing pipeline, synthesis posts, Foundation
   Models cluster, saved article ideas, and optional local research material.
 - [Migration record](migration.md): accounting and qualifications for all source notes.

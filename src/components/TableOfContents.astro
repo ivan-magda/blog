@@ -132,6 +132,10 @@ const { toc } = Astro.props;
     .toc-rail:hover,
     .toc-rail:focus-within {
       width: 14rem;
+      /* A list taller than the rail scrolls instead of being cut off. */
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
       background: var(--background);
       border: 1px solid var(--border);
       border-radius: 0.5rem;
@@ -234,6 +238,30 @@ const { toc } = Astro.props;
       currentIndex = index;
       for (const l of links) l.removeAttribute("aria-current");
       if (linkOf[index]) linkOf[index].setAttribute("aria-current", "true");
+      keepActiveVisible();
+    }
+
+    // When the list is taller than the rail, scroll the rail (not the page) so
+    // the active entry stays in view, collapsed or expanded.
+    function keepActiveVisible() {
+      const link = linkOf[currentIndex];
+      if (!link || rail.scrollHeight <= rail.clientHeight) return;
+      const margin = 24;
+      const top = link.offsetTop;
+      const bottom = top + link.offsetHeight;
+      if (top - margin < rail.scrollTop) {
+        rail.scrollTop = top - margin;
+      } else if (bottom + margin > rail.scrollTop + rail.clientHeight) {
+        rail.scrollTop = bottom + margin - rail.clientHeight;
+      }
+    }
+    // Expanding wraps the labels and changes every entry's position.
+    for (const type of ["mouseenter", "focusin"]) {
+      rail.addEventListener(
+        type,
+        () => requestAnimationFrame(keepActiveVisible),
+        { signal }
+      );
     }
 
     // Active section = the LAST heading whose top has scrolled above a reference
