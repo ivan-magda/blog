@@ -48,7 +48,14 @@ const visibleTags = tags.filter(tag => availableTagSlugs.has(slugifyStr(tag)));
 const { Content, headings } = await render(post);
 
 // On-page TOC: h2/h3 only; render the rail when there's enough structure.
-const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
+// A long post would bury its sections under repeated h3 entries, so past
+// TOC_MAX_ENTRIES the rail lists h2 only.
+const TOC_MAX_ENTRIES = 24;
+const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+const toc =
+  tocHeadings.length > TOC_MAX_ENTRIES
+    ? tocHeadings.filter(h => h.depth === 2)
+    : tocHeadings;
 const showToc = toc.length >= 3;
 
 let ogImageUrl: string | undefined;
