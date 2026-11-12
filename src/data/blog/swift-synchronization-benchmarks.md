@@ -4,7 +4,7 @@ ogTitle: "Swift synchronization benchmarks on real iPhones"
 author: "Ivan Magda"
 pubDatetime: 2026-11-12T00:20:00Z
 slug: "swift-synchronization-benchmarks"
-featured: false
+featured: true
 draft: false
 tags:
   - swift

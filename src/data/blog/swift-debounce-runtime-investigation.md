@@ -4,7 +4,7 @@ ogTitle: "Why my Swift debouncer got 50× faster"
 author: "Ivan Magda"
 pubDatetime: 2026-10-13T21:00:45Z
 slug: "swift-debounce-runtime-investigation"
-featured: true
+featured: false
 draft: false
 tags:
   - swift
