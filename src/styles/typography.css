@@ -97,6 +97,25 @@
     }
   }
 
+  /* Phone heading steps: the 28px title, then 22px and 19px, so a section
+     heading no longer matches the title's size. */
+  @media (max-width: 39.9375rem) {
+    .app-prose h2 {
+      font-size: 1.375rem;
+    }
+
+    .app-prose h3 {
+      font-size: 1.1875rem;
+    }
+  }
+
+  /* The copy button stays small; its tappable area reaches 44px. */
+  .copy-code::after {
+    position: absolute;
+    inset: -0.5625rem -0.25rem;
+    content: "";
+  }
+
   /* Research figures follow the site's explicit theme, including manual toggles. */
   .app-prose .research-figure {
     margin-block: 2rem;
