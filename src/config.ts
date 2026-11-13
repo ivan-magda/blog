@@ -7,7 +7,8 @@ export const SITE = {
   ogImage: "og-image.png",
   lightAndDarkMode: true,
   postPerIndex: 4,
-  postPerPage: 4,
+  // One /posts/ page holds every post, grouped by year.
+  postPerPage: 50,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
   showArchives: true,
   showBackButton: true,
