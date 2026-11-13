@@ -23,6 +23,7 @@ html[data-theme="dark"] {
 @theme inline {
   --font-app: var(--font-google-sans-code);
   --font-mono: var(--font-google-sans-code);
+  --font-prose: var(--font-google-sans);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
@@ -45,6 +46,11 @@ html[data-theme="dark"] {
   a,
   button {
     @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
   }
   button:not(:disabled),
   [role="button"]:not(:disabled) {
