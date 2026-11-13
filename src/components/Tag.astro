@@ -18,7 +18,9 @@ const { tag, tagName, size = "lg" } = Astro.props;
       "relative flex items-center gap-0.5",
       "after:absolute after:inset-x-0 after:-inset-y-[11px] after:content-['']",
       "border-b-2 border-dashed border-foreground",
-      "hover:-mt-0.5 hover:border-accent hover:text-accent",
+      // Lift with a transform, not a margin: a margin changes the row height
+      // and makes everything below jump. The tap area keeps its bottom edge.
+      "hover:-translate-y-0.5 hover:border-accent hover:text-accent hover:after:-bottom-[13px]",
       "focus-visible:border-none focus-visible:text-accent",
       { "text-sm": size === "sm" },
       { "text-lg": size === "lg" },
