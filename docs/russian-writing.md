@@ -51,6 +51,30 @@ stencils. Preserve conversational technical explanation. Do not replace a sound
 phrase with abstract «затраты», bureaucratic language, slogans or formal prose
 just to make a visible edit. Natural dashes, adverbs, impersonal constructions
 and passive voice are allowed; blanket English style rules do not apply.
+Dashes are the exception that needs judgment (Ivan, 2026-11-10): he reads a
+stylistic dash as an AI tell, for example «Нужна X — используйте Y». Some dashes
+are appropriate, but first try rephrasing so the sentence needs none, and do not
+propose a rewrite whose only novelty is a dash.
+
+Preferences observed in one author-led edit pass (2026-11-10, two sections of the
+synchronization article); treat them as tendencies, not bans:
+
+- Conversational words are voice, not filler. Ivan kept «те или иные», «то» in
+  «если…, то» and «Поэтому я решил». Do not propose removing a word or connective
+  only because the sentence is shorter without it.
+- Do not cut an explanatory sentence as obvious. He kept «Чем больше результат,
+  тем выше производительность» and the prose walk-through of a listing. The
+  stop-slop advice to trust the reader does not apply here. Remove only a true
+  repeat, where one idea is stated twice (p99 explained in a bullet and again
+  in a paragraph).
+- A replacement must read lighter than the original. «Типичных для приложений
+  задач» was heavier than his «привычных задач в приложениях». When one word is
+  imprecise, change that word («влияет на выполнение» → «влияет на скорость»)
+  and leave the phrase alone. Do not introduce participial or stacked
+  attributive constructions in place of simple ones.
+- In a numeric example, count in items and keep one idea per sentence: «из ста
+  вызовов примерно 99 уложились в 20 мкс, а один выполнялся дольше» was
+  accepted; a version combining percentages with a conclusion was called complex.
 Use «е» instead of «ё» in authored prose and figure labels, preserving exact
 source quotations and identifiers where spelling matters.
 
