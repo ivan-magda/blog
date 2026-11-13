@@ -32,6 +32,7 @@ pnpm run sync         # Generate Astro TypeScript types
 
 - Blog post frontmatter schema → `src/content.config.ts`
 - SEO / meta tags / JSON-LD / OG / RSS / sitemap details → `docs/seo.md`
+- Before design/UI changes or removing site features → `docs/product.md` (audience, binding constraints, principles)
 - Research reports / deep-research outputs → `docs/research/` (e.g. Habr publishing playbook)
 - Site-wide config (URL, author, title, dynamicOgImage, showArchives) → `src/config.ts`
 - Social and share link arrays → `src/constants.ts`
