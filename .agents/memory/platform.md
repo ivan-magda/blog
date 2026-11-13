@@ -23,6 +23,12 @@ phones and 18px from 640px, capped at 42rem so desktop lines stay near 72
 characters; heading and code sizes are pinned in rem in
 [typography.css](../../src/styles/typography.css) so they do not scale with it.
 
+Code blocks, research figures and data notes share the `--surface` token
+(2026-11-13). The dark syntax overrides in `typography.css` were measured against
+it; re-measure them if the surface changes. Markdown tables get a scroll box from
+`src/utils/rehypeTableScroll.ts`; after changing a rehype plugin, build with
+`astro build --force`, since the content cache keeps the old rendered HTML.
+
 Tag pages are noindexed and excluded from the sitemap. New posts need reviewed
 cross-links and an entry in `public/llms.txt`. Old Search Console/Bing submission
 counts and predictions of indexing dates are historical; check the services before

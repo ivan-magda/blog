@@ -10,6 +10,7 @@ html[data-theme="light"] {
   --accent: #b25936;
   --muted: #ede9e3;
   --border: #ddd8d0;
+  --surface: #ffffff;
 }
 
 html[data-theme="dark"] {
@@ -18,6 +19,7 @@ html[data-theme="dark"] {
   --accent: #e09040;
   --muted: #2a2e3d;
   --border: #3d4155;
+  --surface: #242834;
 }
 
 @theme inline {
@@ -29,6 +31,7 @@ html[data-theme="dark"] {
   --color-accent: var(--accent);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-surface: var(--surface);
 }
 
 @layer base {

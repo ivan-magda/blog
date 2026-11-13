@@ -11,7 +11,7 @@ memory-blocks {
   container-type: inline-size;
   font-size: 0.8125rem;
   line-height: 1.4;
-  --sb-surface: #ffffff;
+  --sb-surface: var(--surface);
   --sb-ink-2: #69645e;
   --sb-a: var(--accent);
   --sb-b: #336b9f;
@@ -22,7 +22,6 @@ memory-blocks {
 
 html[data-theme="dark"]
   :is(bench-chart, time-ruler, inversion-timeline, actor-hops, memory-blocks) {
-  --sb-surface: #242834;
   --sb-ink-2: #b0aaa1;
   --sb-b: #4f97e6;
 }

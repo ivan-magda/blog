@@ -135,10 +135,7 @@ const layoutProps = {
       <EditPost {hideEditPost} {post} class="max-sm:hidden" />
     </div>
     {showToc && <InlineToc toc={toc} />}
-    <article
-      id="article"
-      class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
-    >
+    <article id="article" class="app-prose mt-8 w-full max-w-app">
       <Content />
     </article>
 
@@ -238,6 +235,47 @@ const layoutProps = {
   }
   addHeadingLinks();
 
+  /** Marks a scroller while content is hidden to its right, so CSS can
+   *  fade that edge as a cue to scroll sideways. */
+  function watchOverflow(block, onChange) {
+    const update = () => {
+      const hidden = block.scrollWidth - block.clientWidth - block.scrollLeft;
+      block.toggleAttribute("data-more", hidden > 4);
+      onChange?.(block.scrollWidth - block.clientWidth > 4);
+    };
+    block.addEventListener("scroll", update, { passive: true });
+    new ResizeObserver(update).observe(block);
+    update();
+  }
+
+  /** Every table box fades its clipped edge. Boxes added at build time also
+   *  become keyboard-scrollable regions, but only while the table is wider
+   *  than the column, so narrow tables add no tab stop. Boxes written by hand
+   *  in a post keep their own attributes. */
+  function watchTables() {
+    for (const box of document.querySelectorAll(
+      "#article [data-table-scroll]"
+    )) {
+      if (box.hasAttribute("tabindex")) {
+        watchOverflow(box);
+        continue;
+      }
+      const label = box.querySelector("th")?.textContent?.trim();
+      watchOverflow(box, scrolls => {
+        if (scrolls) {
+          box.setAttribute("tabindex", "0");
+          box.setAttribute("role", "region");
+          box.setAttribute("aria-label", label ? `Table: ${label}` : "Table");
+        } else {
+          box.removeAttribute("tabindex");
+          box.removeAttribute("role");
+          box.removeAttribute("aria-label");
+        }
+      });
+    }
+  }
+  watchTables();
+
   /** Attaches copy buttons to code blocks in the document,
    * allowing users to copy code easily. */
   function attachCopyButtons() {
@@ -281,18 +319,6 @@ const layoutProps = {
       copyButton.addEventListener("click", async () => {
         await copyCode(codeBlock, copyButton);
       });
-    }
-
-    /** Marks a block while more code is hidden to its right, so CSS can
-     *  fade that edge as a cue to scroll sideways. */
-    function watchOverflow(block) {
-      const update = () => {
-        const hidden = block.scrollWidth - block.clientWidth - block.scrollLeft;
-        block.toggleAttribute("data-more", hidden > 4);
-      };
-      block.addEventListener("scroll", update, { passive: true });
-      new ResizeObserver(update).observe(block);
-      update();
     }
 
     async function copyCode(block, button) {
