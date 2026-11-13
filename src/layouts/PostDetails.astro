@@ -301,8 +301,15 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 
       // Check if --file-name-offset custom property exists
       const computedStyle = getComputedStyle(codeBlock);
-      const hasFileNameOffset =
-        computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
+      const fileNameOffset = computedStyle
+        .getPropertyValue("--file-name-offset")
+        .trim();
+      const hasFileNameOffset = fileNameOffset !== "";
+      // The button reads the offset by inheritance; it now lives on the
+      // wrapper, so hand the block's value down to it.
+      if (hasFileNameOffset) {
+        wrapper.style.setProperty("--file-name-offset", fileNameOffset);
+      }
 
       // Determine the top positioning class
       const topClass = hasFileNameOffset
@@ -313,25 +320,43 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
       copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
       copyButton.innerHTML = copyButtonLabel;
       codeBlock.setAttribute("tabindex", "0");
-      codeBlock.appendChild(copyButton);
 
-      // wrap codebock with relative parent element
+      // wrap codebock with relative parent element; the button sits beside
+      // the block, not inside it, so the overflow fade never dims it
       codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
       wrapper.appendChild(codeBlock);
+      wrapper.appendChild(copyButton);
+
+      watchOverflow(codeBlock);
 
       copyButton.addEventListener("click", async () => {
         await copyCode(codeBlock, copyButton);
       });
     }
 
+    /** Marks a block while more code is hidden to its right, so CSS can
+     *  fade that edge as a cue to scroll sideways. */
+    function watchOverflow(block) {
+      const update = () => {
+        const hidden = block.scrollWidth - block.clientWidth - block.scrollLeft;
+        block.toggleAttribute("data-more", hidden > 4);
+      };
+      block.addEventListener("scroll", update, { passive: true });
+      new ResizeObserver(update).observe(block);
+      update();
+    }
+
     async function copyCode(block, button) {
       const code = block.querySelector("code");
       const text = code?.innerText;
 
-      await navigator.clipboard.writeText(text ?? "");
-
-      // visual feedback that task is completed
-      button.innerText = "Copied";
+      try {
+        await navigator.clipboard.writeText(text ?? "");
+        // visual feedback that task is completed
+        button.innerText = "Copied";
+      } catch {
+        button.innerText = "Copy failed";
+      }
 
       setTimeout(() => {
         button.innerText = copyButtonLabel;
