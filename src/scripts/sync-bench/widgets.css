@@ -86,6 +86,15 @@ html[data-theme="dark"]
   cursor: pointer;
 }
 
+@media (pointer: coarse) {
+  .sb-seg-btn,
+  .sb-toggle,
+  .sb-button {
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+  }
+}
+
 .sb-seg-btn + .sb-seg-btn {
   margin-left: -1px;
 }

@@ -36,7 +36,11 @@ focus, wraps long labels, and uses uniform tick spacing and native anchor links.
 [PostDetails.astro](../../src/layouts/PostDetails.astro) supplies h2/h3 headings and
 renders the rail when at least three are present; past 24 entries it lists h2 only
 (2026-11-12, the 58-heading benchmarks post was cut off). The expanded rail scrolls
-and keeps the active entry in view. A mobile sheet is not implemented.
+and keeps the active entry in view. Below 1280px
+[InlineToc.astro](../../src/components/InlineToc.astro) renders the same entries
+as a collapsed "On this page" disclosure under the post date (2026-11-13); it
+closes when an entry is followed. Reading time beside the date comes from
+[readingTime.ts](../../src/utils/readingTime.ts).
 
 Current scroll-spy derives the active heading from geometry, throttled with
 `requestAnimationFrame`, with a bottom-of-page fallback and `ResizeObserver` for
