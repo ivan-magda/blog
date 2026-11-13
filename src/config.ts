@@ -6,6 +6,7 @@ export const SITE = {
   title: "Ivan Magda",
   ogImage: "og-image.png",
   lightAndDarkMode: true,
+  postPerIndex: 4,
   postPerPage: 4,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
   showArchives: true,
