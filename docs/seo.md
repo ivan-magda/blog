@@ -71,7 +71,8 @@ Requests whose `Accept` header weights `text/markdown` at least as high as HTML 
 - Markdown twins are built next to the HTML as `<path>index.md` by `src/pages/posts/[...slug]/index.md.ts` (frontmatter + raw post body), `src/pages/about/index.md.ts` (`about.md`) and `src/pages/index.md.ts` (home = `public/llms.txt`). Helpers live in `src/utils/markdownDocument.ts`.
 - `functions/_middleware.ts` (a Cloudflare Pages Function, deployed by `wrangler pages deploy` from the repo root) serves the twin with `Content-Type: text/markdown; charset=utf-8`, `Vary: Accept`, an `x-markdown-tokens` estimate (characters / 4) and a canonical `Link` header. Pages without a twin (listings, tags, search) fall back to HTML. HTML page responses also get `Vary: Accept`.
 - `public/_routes.json` keeps static assets (`/_astro/*`, images, Pagefind, `.md`/`.txt`/`.xml`/`.png`/`.svg`) out of the Function so they don't count against the Functions request quota.
-- `public/_headers` gives the direct `.md` URLs a `Link: rel="canonical"` to the HTML page.
+- `public/_headers` gives the direct `.md` URLs a `Link: rel="canonical"` to the HTML page, and the home page `Link` headers (RFC 8288) to `llms.txt` (`describedby`), `/index.md` and the RSS feed for agent discovery.
+- `robots.txt` declares `Content-Signal: search=yes, ai-input=yes, ai-train=yes` (author's choice, 2026-11-13).
 - Test locally: `pnpm build`, then `pnpm dlx wrangler@4 pages dev dist` and `curl -H "Accept: text/markdown" http://localhost:8788/posts/<slug>/`. `astro preview` does not run the Function.
 - Cloudflare's zone-level "Markdown for Agents" toggle (Pro plan and up) is not used; leave it off so the hand-built twins aren't bypassed.
 

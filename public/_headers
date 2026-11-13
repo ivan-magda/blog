@@ -8,6 +8,13 @@
   # Disallow framing this site anywhere (anti-clickjacking).
   X-Frame-Options: DENY
 
+# Agent discovery (RFC 8288): the home page points to the site's
+# machine-readable resources.
+/
+  Link: </llms.txt>; rel="describedby"; type="text/markdown"
+  Link: </index.md>; rel="alternate"; type="text/markdown"
+  Link: </rss.xml>; rel="alternate"; type="application/rss+xml"
+
 # Markdown twins of pages (for agents; see functions/_middleware.ts) point
 # search engines at the HTML page as the canonical copy.
 /index.md
