@@ -55,6 +55,12 @@
       font-size: 0.85em;
     }
 
+    /* Table cells and data notes are already small; keep code legible there. */
+    table code,
+    details.research-data code {
+      font-size: 0.9em;
+    }
+
     p,
     li {
       text-wrap: pretty;
@@ -180,6 +186,11 @@
   }
 
   /* The copy button stays small; its tappable area reaches 44px. */
+  /* Controls inside an article stay in the interface face. */
+  .copy-code {
+    font-family: var(--font-app);
+  }
+
   .copy-code::after {
     position: absolute;
     inset: -0.5625rem -0.25rem;
