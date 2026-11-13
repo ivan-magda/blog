@@ -12,7 +12,8 @@ source code and accepted specifications remain authoritative.
 - [Platform and maintenance](platform.md): current framework, SEO, table of contents,
   interactive research figures, and reading analytics.
 - [Content and research](content.md): writing pipeline, synthesis posts, Foundation
-  Models cluster, saved article ideas, and optional local research material.
+  Models cluster, Swift synchronization benchmark analysis, saved article ideas,
+  and optional local research material.
 - [Migration record](migration.md): accounting and qualifications for all source notes.
 
 ## Maintenance
