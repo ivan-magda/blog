@@ -108,6 +108,21 @@ survives a head swap more reliably than injected CSS.
 
 ## Distribution preferences
 
+### Habr cover illustration preference
+
+2026-11-11: Ivan wants to reuse the visual style of the debounce Habr cover.
+Reference is specifically Stepik Careers: flat geometric editorial illustration,
+elongated stylized people, large unoutlined shapes, asymmetry and negative space;
+dusty pink, navy/cobalt, lavender and peach palette, restrained soft gradients.
+No text/logos or literal technical infographic. Adapt the story to each article;
+do not copy Stepik characters or reuse the debounce runtime scene automatically.
+Approved visual reference: `workspace/posts/swift-debounce-habr/cover/runtime-discovery-v2-780x440.png`.
+Research and reusable prompt: `workspace/posts/swift-debounce-habr/cover/stepik-style.md`.
+The 2026-10-27 generation used imagegen with a Stepik Careers screenshot, followed
+by a localized face correction (two eyes, slight smile, simplified fringe).
+780 × 440 PNG was the export used then, not a permanent platform-size guarantee.
+Source chat: `01a14e0d-9305-7043-9d3b-eea92fad0555`, “Research Habr adaptation practices”.
+
 The author handles distribution. When asked for copy, the prior launch pattern was
 one LinkedIn overview post with a native landscape image and a link in the first
 comment, followed by separate deep-dive posts spaced over time. X used a hook and a
