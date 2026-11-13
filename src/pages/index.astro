@@ -5,18 +5,65 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import LinkButton from "@/components/LinkButton.astro";
-import Card from "@/components/Card.astro";
 import Avatar from "@/components/Avatar.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
+import { getPath } from "@/utils/getPath";
 import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
+import { HOME_SECTIONS, MORE_POSTS_TITLE } from "@/homeSections";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
-const posts = await getCollection("blog");
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
-const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+/* ========== The index: every listed post, grouped into sections ========== */
+
+const posts = getSortedPosts(await getCollection("blog"));
+const byId = new Map(posts.map(post => [post.id, post]));
+const placed = new Set(HOME_SECTIONS.flatMap(section => section.slugs));
+
+const sections = [
+  ...HOME_SECTIONS.map(section => ({
+    ...section,
+    posts: section.slugs
+      .map(slug => byId.get(slug))
+      .filter(post => post !== undefined),
+  })),
+  {
+    title: MORE_POSTS_TITLE,
+    description: "",
+    numbered: false,
+    posts: posts.filter(post => !placed.has(post.id)),
+  },
+]
+  .filter(section => section.posts.length > 0)
+  // The section holding the latest article comes first.
+  .map(section => ({
+    ...section,
+    newest: Math.max(
+      ...section.posts.map(post => post.data.pubDatetime.getTime())
+    ),
+  }))
+  .sort((a, b) => b.newest - a.newest)
+  .map(section => ({
+    ...section,
+    list: (section.numbered ? "ol" : "ul") as "ol" | "ul",
+  }));
+
+const sectionId = (title: string) =>
+  "section-" + title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+/** A series part's title repeats the series name; the index shows the rest. */
+const rowTitle = (title: string, sectionTitle: string) =>
+  title.replace(new RegExp(`^${sectionTitle}, Part \\d+:\\s*`), "");
+
+const formatDate = (date: Date, postTimezone?: string) =>
+  dayjs(date)
+    .tz(postTimezone || SITE.timezone)
+    .format("D MMM YYYY");
 ---
 
 <Layout
@@ -60,39 +107,67 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
     </section>
 
     {
-      featuredPosts.length > 0 && (
-        <section
-          id="featured"
-          class:list={[
-            "pt-12 pb-6",
-            { "border-b border-border": recentPosts.length > 0 },
-          ]}
-        >
-          <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
-          <ul>
-            {featuredPosts.map(data => (
-              <Card variant="h3" {...data} />
+      sections.map(section => (
+        <section aria-labelledby={sectionId(section.title)} class="pt-12">
+          <div class="flex items-baseline justify-between gap-4 border-b border-border pb-2">
+            <h2
+              id={sectionId(section.title)}
+              class="text-xl font-semibold text-balance sm:text-2xl"
+            >
+              {section.title}
+            </h2>
+            <span class="text-sm whitespace-nowrap opacity-75">
+              {section.posts.length}{" "}
+              {section.numbered
+                ? "parts"
+                : section.posts.length === 1
+                  ? "post"
+                  : "posts"}
+            </span>
+          </div>
+          {section.description && (
+            <p class="mt-3 max-w-2xl font-prose text-pretty opacity-85">
+              {section.description}
+            </p>
+          )}
+          <section.list class="mt-2">
+            {section.posts.map((post, index) => (
+              <li>
+                <a
+                  href={getPath(post.id, post.filePath)}
+                  class:list={[
+                    "home-row group grid items-baseline gap-x-4 py-2.5",
+                    section.numbered && "is-numbered",
+                  ]}
+                >
+                  {section.numbered && (
+                    <span class="tabular-nums opacity-60" aria-hidden="true">
+                      {String(index).padStart(2, "0")}
+                    </span>
+                  )}
+                  <span class="font-medium text-pretty text-accent decoration-dashed underline-offset-4 group-hover:underline">
+                    {section.numbered
+                      ? rowTitle(post.data.title, section.title)
+                      : post.data.title}
+                    {section.numbered && (
+                      <span class="sr-only">, part {index}</span>
+                    )}
+                  </span>
+                  <time
+                    datetime={post.data.pubDatetime.toISOString()}
+                    class="text-sm whitespace-nowrap tabular-nums opacity-75"
+                  >
+                    {formatDate(post.data.pubDatetime, post.data.timezone)}
+                  </time>
+                </a>
+              </li>
             ))}
-          </ul>
+          </section.list>
         </section>
-      )
+      ))
     }
 
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
-          </ul>
-        </section>
-      )
-    }
-
-    <div class="my-8 text-center">
+    <div class="my-12 text-center">
       <LinkButton href="/posts/">
         All Posts
         <IconArrowRight class="inline-block rtl:-rotate-180" />
@@ -101,6 +176,36 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
   </main>
   <Footer />
 </Layout>
+
+<style>
+  /* A row is the whole link: title and date, plus the part number in a
+     series. On phones the date drops under the title. */
+  .home-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-row.is-numbered {
+    grid-template-columns: 1.75rem minmax(0, 1fr);
+  }
+
+  .home-row.is-numbered time {
+    grid-column: 2;
+  }
+
+  @media (min-width: 40rem) {
+    .home-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .home-row.is-numbered {
+      grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+    }
+
+    .home-row.is-numbered time {
+      grid-column: auto;
+    }
+  }
+</style>
 
 <script>
   document.addEventListener("astro:page-load", () => {
