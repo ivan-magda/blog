@@ -52,3 +52,6 @@ docs/superpowers/
 docs/research/
 # private project-local agent settings
 .claude/settings.local.json
+
+# wrangler pages dev (local Pages Function testing)
+.wrangler/

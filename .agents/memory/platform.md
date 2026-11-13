@@ -34,6 +34,11 @@ cross-links and an entry in `public/llms.txt`. Old Search Console/Bing submissio
 counts and predictions of indexing dates are historical; check the services before
 claiming current indexing or requesting indexing actions.
 
+Markdown for agents (2026-11-13): requests preferring `text/markdown` get a
+build-time Markdown twin through a Pages Function, chosen over Cloudflare's
+zone-level "Markdown for Agents" toggle (Pro plan only, converts rendered HTML).
+Contract and local testing are in [SEO reference](../../docs/seo.md).
+
 ## Table of contents
 
 [TableOfContents.astro](../../src/components/TableOfContents.astro) implements a

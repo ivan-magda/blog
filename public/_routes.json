@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "include": ["/*"],
+  "exclude": [
+    "/_astro/*",
+    "/assets/*",
+    "/images/*",
+    "/pagefind/*",
+    "/*.md",
+    "/*.txt",
+    "/*.xml",
+    "/*.png",
+    "/*.svg"
+  ]
+}

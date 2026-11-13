@@ -10,6 +10,7 @@ Detailed reference for the SEO machinery in `src/layouts/Layout.astro` and suppo
 - `description` — renders `<meta name="description">`, `og:description`, `twitter:description` from a single source. Defaults to `SITE.desc`. Each page must pass an explicit `description` to avoid duplicates.
 - `pageType` — `"website"` (homepage), `"article"` (blog posts), or `"webpage"` (default). Controls `og:type`, article meta tags, and JSON-LD schema type.
 - `noindex` (boolean) — renders `<meta name="robots" content="noindex, follow">`. Used on tag index and tag listing pages.
+- `hasMarkdown` (boolean) — renders `<link rel="alternate" type="text/markdown" href="<path>index.md">`. Set on posts, About and the home page, the pages that have a Markdown twin (see below).
 
 ## Canonicals
 
@@ -63,7 +64,18 @@ Uses `name=` (not `property=`) per spec. `twitter:creator` reads from `SITE.twit
 
 Blog posts in the series link to each other via Markdown links on existing "next guide" / "previous guide" references and concept mentions.
 
+## Markdown for agents
+
+Requests whose `Accept` header weights `text/markdown` at least as high as HTML get a Markdown copy of the page; browsers keep getting HTML.
+
+- Markdown twins are built next to the HTML as `<path>index.md` by `src/pages/posts/[...slug]/index.md.ts` (frontmatter + raw post body), `src/pages/about/index.md.ts` (`about.md`) and `src/pages/index.md.ts` (home = `public/llms.txt`). Helpers live in `src/utils/markdownDocument.ts`.
+- `functions/_middleware.ts` (a Cloudflare Pages Function, deployed by `wrangler pages deploy` from the repo root) serves the twin with `Content-Type: text/markdown; charset=utf-8`, `Vary: Accept`, an `x-markdown-tokens` estimate (characters / 4) and a canonical `Link` header. Pages without a twin (listings, tags, search) fall back to HTML. HTML page responses also get `Vary: Accept`.
+- `public/_routes.json` keeps static assets (`/_astro/*`, images, Pagefind, `.md`/`.txt`/`.xml`/`.png`/`.svg`) out of the Function so they don't count against the Functions request quota.
+- `public/_headers` gives the direct `.md` URLs a `Link: rel="canonical"` to the HTML page.
+- Test locally: `pnpm build`, then `pnpm dlx wrangler@4 pages dev dist` and `curl -H "Accept: text/markdown" http://localhost:8788/posts/<slug>/`. `astro preview` does not run the Function.
+- Cloudflare's zone-level "Markdown for Agents" toggle (Pro plan and up) is not used; leave it off so the hand-built twins aren't bypassed.
+
 ## Static vs dynamic files
 
-- Dynamic generation: `src/pages/*.ts` produces `robots.txt`, `rss.xml`, `og.png`
+- Dynamic generation: `src/pages/*.ts` produces `robots.txt`, `rss.xml`, `og.png`, and the `index.md` Markdown twins
 - Plain static: files in `public/`

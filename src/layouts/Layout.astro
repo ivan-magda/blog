@@ -22,6 +22,8 @@ type Props = {
   tags?: string[];
   /** If true, adds noindex, follow robots meta tag */
   noindex?: boolean;
+  /** If true, links the page's Markdown twin (`<path>index.md`) for agents */
+  hasMarkdown?: boolean;
 };
 
 const {
@@ -38,6 +40,7 @@ const {
   pageType = "webpage",
   tags = [],
   noindex = false,
+  hasMarkdown = false,
 } = Astro.props;
 
 const socialTitle = ogTitle ?? title;
@@ -187,6 +190,16 @@ const structuredData = buildStructuredData();
       title={SITE.title}
       href={new URL("rss.xml", Astro.site)}
     />
+
+    {
+      hasMarkdown && (
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={`${Astro.url.pathname}index.md`}
+        />
+      )
+    }
 
     <meta
       name="theme-color"

@@ -7,3 +7,12 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   # Disallow framing this site anywhere (anti-clickjacking).
   X-Frame-Options: DENY
+
+# Markdown twins of pages (for agents; see functions/_middleware.ts) point
+# search engines at the HTML page as the canonical copy.
+/index.md
+  Link: <https://ivanmagda.dev/>; rel="canonical"
+/about/index.md
+  Link: <https://ivanmagda.dev/about/>; rel="canonical"
+/posts/:slug/index.md
+  Link: <https://ivanmagda.dev/posts/:slug/>; rel="canonical"
