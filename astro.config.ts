@@ -77,5 +77,17 @@ export default defineConfig({
       formats: ["woff2"],
       subsets: ["latin", "symbols", "symbols2"],
     },
+    // Running text of articles; the monospaced face above stays on headings,
+    // navigation, code and figures.
+    {
+      name: "Google Sans",
+      cssVariable: "--font-google-sans",
+      provider: fontProviders.google(),
+      fallbacks: ["sans-serif"],
+      weights: [400, 500, 600, 700],
+      styles: ["normal", "italic"],
+      formats: ["woff2"],
+      subsets: ["latin"],
+    },
   ],
 });

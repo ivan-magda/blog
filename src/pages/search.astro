@@ -133,6 +133,11 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
       outline-style: dashed;
     }
 
+    /* Excerpts are running text from the articles, so they match prose. */
+    .pagefind-ui__result-excerpt {
+      font-family: var(--font-prose);
+    }
+
     .pagefind-ui__result:last-of-type {
       border-bottom: 0;
     }
