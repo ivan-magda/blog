@@ -12,6 +12,8 @@ import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
+import InlineToc from "@/components/InlineToc.astro";
+import { getReadingMinutes } from "@/utils/readingTime";
 import { getPath } from "@/utils/getPath";
 import getUniqueTags from "@/utils/getUniqueTags";
 import { slugifyStr } from "@/utils/slugify";
@@ -57,6 +59,8 @@ const toc =
     ? tocHeadings.filter(h => h.depth === 2)
     : tocHeadings;
 const showToc = toc.length >= 3;
+
+const readingMinutes = getReadingMinutes(post.body);
 
 let ogImageUrl: string | undefined;
 
@@ -129,8 +133,15 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
     >
       {title}
     </h1>
-    <div class="my-2 flex items-center gap-2">
+    <div class="my-2 flex flex-wrap items-center gap-x-2">
       <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+      {
+        readingMinutes > 0 && (
+          <span class="text-sm opacity-80 sm:text-base" data-pagefind-ignore>
+            <span aria-hidden="true">·</span> {readingMinutes} min read
+          </span>
+        )
+      }
       <span
         aria-hidden="true"
         class:list={[
@@ -140,6 +151,7 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
       >
       <EditPost {hideEditPost} {post} class="max-sm:hidden" />
     </div>
+    {showToc && <InlineToc toc={toc} />}
     <article
       id="article"
       class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
