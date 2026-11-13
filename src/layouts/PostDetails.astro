@@ -6,6 +6,7 @@ import "@/styles/phone-mockup.css";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Tag from "@/components/Tag.astro";
+import ContinueReading from "@/components/ContinueReading.astro";
 import Datetime from "@/components/Datetime.astro";
 import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
@@ -17,8 +18,6 @@ import { getReadingMinutes } from "@/utils/readingTime";
 import { getPath } from "@/utils/getPath";
 import getUniqueTags from "@/utils/getUniqueTags";
 import { slugifyStr } from "@/utils/slugify";
-import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
-import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
 import { SITE } from "@/config";
 
 type Props = {
@@ -100,22 +99,6 @@ const layoutProps = {
   pageType: "article" as const,
   tags,
 };
-
-/* ========== Prev/Next Posts ========== */
-
-const allPosts = posts.map(({ data: { title }, id, filePath }) => ({
-  id,
-  title,
-  filePath,
-}));
-
-const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
-
-const prevPost =
-  currentPostIndex !== allPosts.length - 1
-    ? allPosts[currentPostIndex + 1]
-    : null;
-const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 ---
 
 <Layout {...layoutProps}>
@@ -181,41 +164,7 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
 
     <hr class="my-6 border-dashed" />
 
-    <!-- Previous/Next Post Buttons -->
-    <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-      {
-        prevPost && (
-          <a
-            href={getPath(prevPost.id, prevPost.filePath)}
-            class="group flex w-full gap-1"
-          >
-            <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
-            <div>
-              <span>Previous Post</span>
-              <div class="text-sm text-accent group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4">
-                {prevPost.title}
-              </div>
-            </div>
-          </a>
-        )
-      }
-      {
-        nextPost && (
-          <a
-            href={getPath(nextPost.id, nextPost.filePath)}
-            class="group flex w-full justify-end gap-1 text-end sm:col-start-2"
-          >
-            <div>
-              <span>Next Post</span>
-              <div class="text-sm text-accent group-hover:underline group-hover:decoration-dashed group-hover:underline-offset-4">
-                {nextPost.title}
-              </div>
-            </div>
-            <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
-          </a>
-        )
-      }
-    </div>
+    <ContinueReading {post} {posts} />
   </main>
   <Footer />
 </Layout>
@@ -266,7 +215,7 @@ const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
    *  allowing sharing of sections easily */
   function addHeadingLinks() {
     const headings = Array.from(
-      document.querySelectorAll("h2, h3, h4, h5, h6")
+      document.querySelectorAll("#article :is(h2, h3, h4, h5, h6)")
     );
     for (const heading of headings) {
       heading.classList.add("group");

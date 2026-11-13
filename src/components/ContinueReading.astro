@@ -1,0 +1,118 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPath } from "@/utils/getPath";
+import { SERIES } from "@/series";
+import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
+import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
+
+type Post = CollectionEntry<"blog">;
+
+type Props = {
+  post: Post;
+  /** Listed posts, newest first. */
+  posts: Post[];
+};
+
+const { post, posts } = Astro.props;
+
+const RELATED_COUNT = 3;
+
+/* ========== Series: neighbouring parts ========== */
+
+const series = SERIES.find(s => s.slugs.includes(post.id));
+const parts = series
+  ? series.slugs
+      .map(slug => posts.find(p => p.id === slug))
+      .filter((p): p is Post => p !== undefined)
+  : [];
+const partIndex = parts.findIndex(p => p.id === post.id);
+const prevPart = partIndex > 0 ? parts[partIndex - 1] : undefined;
+const nextPart = partIndex >= 0 ? parts[partIndex + 1] : undefined;
+const inSeries = series !== undefined && (prevPart || nextPart);
+
+/* ========== Otherwise: posts sharing the most tags ========== */
+
+const sharedTags = (other: Post) =>
+  other.data.tags.filter(tag => post.data.tags.includes(tag)).length;
+
+// `posts` is newest first and sort is stable, so ties stay newest first.
+const others = posts.filter(p => p.id !== post.id);
+const related = inSeries
+  ? []
+  : [...others]
+      .sort((a, b) => sharedTags(b) - sharedTags(a))
+      .slice(0, RELATED_COUNT);
+
+const titleClass =
+  "font-medium text-accent decoration-dashed underline-offset-4 group-hover:underline";
+---
+
+{
+  (inSeries || related.length > 0) && (
+    <section aria-labelledby="continue-reading" data-pagefind-ignore>
+      <h2 id="continue-reading" class="text-xl font-semibold">
+        Continue reading
+      </h2>
+
+      {inSeries && series && (
+        <>
+          <p class="mt-1 flex flex-wrap gap-x-2 text-sm opacity-80">
+            {series.href ? (
+              <a
+                href={series.href}
+                class="underline decoration-dashed underline-offset-4 hover:text-accent"
+              >
+                {series.title}
+              </a>
+            ) : (
+              <span>{series.title}</span>
+            )}
+            <span aria-hidden="true">·</span>
+            <span>{parts.length} parts</span>
+          </p>
+          <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {prevPart && (
+              <a
+                href={getPath(prevPart.id, prevPart.filePath)}
+                class="group flex w-full gap-1"
+              >
+                <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
+                <div>
+                  <span class="text-sm">Previous part</span>
+                  <div class={titleClass}>{prevPart.data.title}</div>
+                </div>
+              </a>
+            )}
+            {nextPart && (
+              <a
+                href={getPath(nextPart.id, nextPart.filePath)}
+                class="group flex w-full justify-end gap-1 text-end sm:col-start-2"
+              >
+                <div>
+                  <span class="text-sm">Next part</span>
+                  <div class={titleClass}>{nextPart.data.title}</div>
+                </div>
+                <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
+              </a>
+            )}
+          </div>
+        </>
+      )}
+
+      {related.length > 0 && (
+        <ul class="mt-2">
+          {related.map(p => (
+            <li class="my-4">
+              <a href={getPath(p.id, p.filePath)} class="group block">
+                <span class={titleClass}>{p.data.title}</span>
+                <p class="mt-1 line-clamp-2 text-sm opacity-80">
+                  {p.data.description}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  )
+}
