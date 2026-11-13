@@ -270,6 +270,25 @@
     --shiki-dark: #da5f5b !important; /* template  4.03:1 -> 5.04:1 */
   }
 
+  /* More code to the right: fade that edge as a cue to scroll sideways.
+     PostDetails sets data-more while content is hidden there. */
+  .app-prose pre[data-more] {
+    mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent);
+  }
+
+  /* On phones a block gets the full screen width and slightly smaller type,
+     which shows about 46 characters per line where 38 fit before. */
+  @media (max-width: 39.9375rem) {
+    .app-prose > pre,
+    .app-prose > div > pre {
+      margin-inline: -1rem;
+      padding-inline: 1rem;
+      border-inline-width: 0;
+      border-radius: 0;
+      font-size: 0.8125rem;
+    }
+  }
+
   /* Styles for Shiki transformers */
   /* https://shiki.style/packages/transformers */
   .astro-code {
