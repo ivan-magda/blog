@@ -23,6 +23,7 @@ const { title, description, ...props } = data;
     ]}
   >
     <Heading
+      class="text-pretty"
       style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
     >
       {title}
