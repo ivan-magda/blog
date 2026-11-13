@@ -15,7 +15,7 @@ pnpm run sync         # Generate Astro TypeScript types
 
 ## Critical gotchas
 
-- **Tailwind v4, CSS-first config** — theme variables live in `src/styles/global.css` (5 vars: background, foreground, accent, muted, border). No `tailwind.config.*`.
+- **Tailwind v4, CSS-first config** — theme variables live in `src/styles/global.css` (6 vars: background, foreground, accent, muted, border, surface — the raised box behind code, figures and data notes). No `tailwind.config.*`.
 - **Font config spans 3 files** — Google Sans Code (interface, headings, code) and Google Sans (article prose, `--font-prose`) via the Astro fonts API (top-level `fonts`); changes must touch `astro.config.ts`, `src/layouts/Layout.astro`, AND `src/styles/global.css`.
 - **Navigation is hardcoded** in `src/components/Header.astro` — not driven by `src/config.ts`.
 - **End-of-post links come from `ContinueReading.astro`** — neighbouring parts for posts listed in `src/series.ts`, otherwise the posts sharing the most tags. Add a new series part to `src/series.ts`.
