@@ -1,5 +1,6 @@
 ---
 title: "A Server LLM With No API Keys: Private Cloud Compute in the Foundation Models Framework"
+seoTitle: "PrivateCloudComputeLanguageModel: Server LLM Without API Keys"
 author: "Ivan Magda"
 pubDatetime: 2026-06-12T14:17:48Z
 slug: "foundation-models-private-cloud-compute"
@@ -10,7 +11,7 @@ tags:
   - foundation-models
   - apple-intelligence
   - swift
-description: "Private Cloud Compute gives apps a 32K-context server model with reasoning and no API keys and makes the per-user daily quota a UI design problem."
+description: "PrivateCloudComputeLanguageModel gives apps a 32K-context server model with reasoning and no API keys and makes the per-user daily quota a UI design problem."
 ---
 
 Adding a server-side LLM to an app has a well-known shape: pick a provider, create an account, generate an API key, figure out where to hide that key (not in the binary), set up a proxy server so it never touches the client, wire up billing alerts, and then watch the per-token costs scale with your user count. The model is the easy part; the keys and the bill are most of the project.

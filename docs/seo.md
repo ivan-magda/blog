@@ -7,10 +7,15 @@ Detailed reference for the SEO machinery in `src/layouts/Layout.astro` and suppo
 `Layout.astro` accepts these SEO-relevant props:
 
 - `title` — renders `<title>`. Defaults to `SITE.title`. Paginated pages should append ` — Page N` for uniqueness using `page.currentPage`.
+- `headline` — JSON-LD `headline` for articles; defaults to `title`. `PostDetails.astro` passes the bare post title (no " | Ivan Magda").
 - `description` — renders `<meta name="description">`, `og:description`, `twitter:description` from a single source. Defaults to `SITE.desc`. Each page must pass an explicit `description` to avoid duplicates.
 - `pageType` — `"website"` (homepage), `"article"` (blog posts), or `"webpage"` (default). Controls `og:type`, article meta tags, and JSON-LD schema type.
 - `noindex` (boolean) — renders `<meta name="robots" content="noindex, follow">`. Used on tag index and tag listing pages.
 - `hasMarkdown` (boolean) — renders `<link rel="alternate" type="text/markdown" href="<path>index.md">`. Set on posts, About and the home page, the pages that have a Markdown twin (see below).
+
+## Post `seoTitle`
+
+Optional frontmatter field: when set, it is the post's whole `<title>` (no site suffix appended). The h1, `og:title` and JSON-LD `headline` keep `title`. Use it when the article title is long or does not lead with what people search for; keep it near 60 characters. Added 2026-11-14 for the three Foundation Models posts (positions 6-8, CTR under 1%).
 
 ## Canonicals
 

@@ -7,6 +7,8 @@ import "@/styles/global.css";
 
 type Props = {
   title?: string;
+  /** JSON-LD `headline` for articles; defaults to `title` */
+  headline?: string;
   ogTitle?: string;
   author?: string;
   profile?: string;
@@ -28,6 +30,7 @@ type Props = {
 
 const {
   title = SITE.title,
+  headline = title,
   ogTitle,
   author = SITE.author,
   profile = SITE.profile,
@@ -57,7 +60,7 @@ function buildStructuredData() {
     return {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      headline: title,
+      headline,
       description,
       image: `${socialImageURL}`,
       mainEntityOfPage: { "@type": "WebPage", "@id": `${canonicalURL}` },

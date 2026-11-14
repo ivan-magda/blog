@@ -1,5 +1,6 @@
 ---
 title: "An Agent Framework Hiding Inside a Session: Dynamic Profiles in Foundation Models"
+seoTitle: "Dynamic Profiles in Foundation Models: Agents in One Session"
 author: "Ivan Magda"
 pubDatetime: 2026-06-12T14:25:23Z
 slug: "foundation-models-dynamic-profiles"
