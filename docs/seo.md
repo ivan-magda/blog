@@ -45,9 +45,14 @@ Uses `name=` (not `property=`) per spec. `twitter:creator` reads from `SITE.twit
 
 ## Favicons
 
-- SVG primary: `favicon.svg`
-- PNG fallback: `favicon-32x32.png`
-- Apple touch icon: `apple-touch-icon.png`
+The icon is the author's avatar (the same photo as on the author's social profiles),
+cropped head-and-shoulders. There is no SVG: a photo gains nothing from vector.
+
+- `favicon.ico` (16/32/48): what `/favicon.ico` probes from crawlers and RSS
+  readers get
+- `favicon-32x32.png`: browser tabs
+- `favicon-192x192.png`: Google search results (needs a multiple of 48 px) and Android
+- `apple-touch-icon.png` (180x180): iOS home screen and Safari favourites
 
 ## RSS
 
