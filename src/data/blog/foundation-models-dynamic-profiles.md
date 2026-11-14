@@ -3,6 +3,7 @@ title: "An Agent Framework Hiding Inside a Session: Dynamic Profiles in Foundati
 seoTitle: "Dynamic Profiles in Foundation Models: Agents in One Session"
 author: "Ivan Magda"
 pubDatetime: 2026-06-12T14:25:23Z
+modDatetime: 2026-11-14T14:00:00Z
 slug: "foundation-models-dynamic-profiles"
 featured: false
 draft: false
@@ -318,7 +319,24 @@ actor FinalAnswerTool: Tool {
 }
 ```
 
-At the call site, we catch the `CancellationError` and read the answer off the tool, the throw is the loop's exit, not a failure. If you've read [the agent loop post](/posts/s01-the-agent-loop/), this should feel like meeting an old friend in unexpected clothes. Our hand-rolled loop's exit was a single `stopReason` check, loop while the model calls tools, return when it answers. Required mode removes the "model answers" branch, so the exit condition has to come back as a tool.
+At the call site, the error doesn't arrive as a bare `CancellationError`. The session wraps anything a tool throws in a [`LanguageModelSession.ToolCallError`](https://developer.apple.com/documentation/foundationmodels/languagemodelsession/toolcallerror) and keeps the original in `underlyingError`, so that's what we catch before reading the answer off the tool:
+
+```swift
+let finalAnswer = FinalAnswerTool()
+let session = LanguageModelSession(tools: [finalAnswer])
+
+do {
+    _ = try await session.respond(
+        to: prompt,
+        options: GenerationOptions(toolCallingMode: .required)
+    )
+} catch let error as LanguageModelSession.ToolCallError
+    where error.underlyingError is CancellationError {
+    let answer = await finalAnswer.output
+}
+```
+
+The throw is the loop's exit, not a failure. If you've read [the agent loop post](/posts/s01-the-agent-loop/), this should feel like meeting an old friend in unexpected clothes. Our hand-rolled loop's exit was a single `stopReason` check, loop while the model calls tools, return when it answers. Required mode removes the "model answers" branch, so the exit condition has to come back as a tool.
 
 One cost to watch when the loop runs on Private Cloud Compute: every pass through it is a server request, and requests spend from the user's daily allowance (the [PCC post](/posts/foundation-models-private-cloud-compute/) covers the quota machinery). Apple hasn't said whether the framework caps tool round-trips per `respond`, so a defensive iteration counter in an `onToolCall` hook is cheap insurance against a loop burning a budget that only resets tomorrow.
 

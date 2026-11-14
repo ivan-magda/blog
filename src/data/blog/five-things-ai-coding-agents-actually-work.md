@@ -1,5 +1,6 @@
 ---
 title: "Five Things I Learned About Making AI Coding Agents Actually Work"
+seoTitle: "Five Things That Make AI Coding Agents Actually Work"
 author: "Ivan Magda"
 pubDatetime: 2026-04-15T14:39:11Z
 modDatetime: 2026-05-20T10:15:00Z

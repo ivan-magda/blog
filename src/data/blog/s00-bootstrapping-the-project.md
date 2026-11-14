@@ -1,5 +1,6 @@
 ---
 title: "Building a Coding Agent in Swift, Part 0: Bootstrapping the Project"
+seoTitle: "Bootstrapping a Swift Coding Agent Project (Part 0)"
 author: "Ivan Magda"
 pubDatetime: 2026-03-10T10:00:00Z
 modDatetime: 2026-05-20T10:20:00Z

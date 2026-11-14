@@ -15,7 +15,7 @@ Detailed reference for the SEO machinery in `src/layouts/Layout.astro` and suppo
 
 ## Post `seoTitle`
 
-Optional frontmatter field: when set, it is the post's whole `<title>` (no site suffix appended). The h1, `og:title` and JSON-LD `headline` keep `title`. Use it when the article title is long or does not lead with what people search for; keep it near 60 characters. Added 2026-11-14 for the three Foundation Models posts (positions 6-8, CTR under 1%).
+Optional frontmatter field: when set, it is the post's whole `<title>` (no site suffix appended). The h1, `og:title` and JSON-LD `headline` keep `title`. Use it when the article title is long or does not lead with what people search for; keep it near 60 characters. Added 2026-11-14; every post whose title runs past 60 characters now has one (the series parts follow "<Topic> in a Swift Coding Agent (Part N)"). Compare CTR per page at similar positions, not site-wide.
 
 ## Canonicals
 

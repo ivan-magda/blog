@@ -1,5 +1,6 @@
 ---
 title: "Building a Coding Agent in Swift, Part 5: Skill Loading"
+seoTitle: "Skill Loading in a Swift Coding Agent (Part 5)"
 author: "Ivan Magda"
 pubDatetime: 2026-03-15T10:00:00Z
 slug: "s05-skill-loading"

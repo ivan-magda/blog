@@ -1,5 +1,6 @@
 ---
 title: "Building a Coding Agent in Swift, Part 6: Context Compaction"
+seoTitle: "Context Compaction in a Swift Coding Agent (Part 6)"
 author: "Ivan Magda"
 pubDatetime: 2026-03-16T10:00:00Z
 slug: "s06-context-compaction"

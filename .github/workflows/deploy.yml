@@ -7,6 +7,13 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Serialize deploys per ref and keep every waiting run (the default would cancel
+# all but one pending run, which a rerun of an old commit could take). GitHub does
+# not guarantee run order, so production also skips commits main has moved past.
+concurrency:
+  group: deploy-${{ github.ref }}
+  queue: max
+
 permissions:
   contents: read
   deployments: write
@@ -34,8 +41,24 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Skip superseded production commits
+        id: fresh
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          head=$(git ls-remote origin "${{ github.ref }}" | cut -f1)
+          if [ "$head" = "${{ github.sha }}" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping deploy: ${{ github.ref }} is now at $head"
+          fi
+
       - name: Deploy to Cloudflare Pages
         id: deploy
+        if: steps.fresh.outputs.deploy == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

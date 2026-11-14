@@ -1,5 +1,6 @@
 ---
 title: "Building a Coding Agent in Swift, Part 4: Subagents"
+seoTitle: "Subagents in a Swift Coding Agent (Part 4)"
 author: "Ivan Magda"
 pubDatetime: 2026-03-14T10:00:00Z
 slug: "s04-subagents"

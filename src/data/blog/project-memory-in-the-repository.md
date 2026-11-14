@@ -1,5 +1,6 @@
 ---
 title: "Keeping Project Memory Shared Between Claude Code and Codex"
+seoTitle: "Shared Project Memory for Claude Code and Codex"
 author: "Ivan Magda"
 pubDatetime: 2026-10-06T09:22:12Z
 slug: "project-memory-in-the-repository"

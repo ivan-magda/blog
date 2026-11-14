@@ -1,5 +1,6 @@
 ---
 title: "Building a Coding Agent in Swift, Part 2: Tool Dispatch"
+seoTitle: "Tool Dispatch in a Swift Coding Agent (Part 2)"
 author: "Ivan Magda"
 pubDatetime: 2026-03-12T10:00:00Z
 slug: "s02-tool-dispatch"

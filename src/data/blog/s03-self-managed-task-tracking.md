@@ -1,5 +1,6 @@
 ---
 title: "Building a Coding Agent in Swift, Part 3: Self-Managed Task Tracking"
+seoTitle: "Self-Managed Task Tracking in a Swift Coding Agent (Part 3)"
 author: "Ivan Magda"
 pubDatetime: 2026-03-13T10:00:00Z
 slug: "s03-self-managed-task-tracking"
