@@ -38,6 +38,10 @@ Blog posts get `article:published_time`, `article:author`, `article:tag`, `artic
 
 Uses `name=` (not `property=`) per spec. `twitter:creator` reads from `SITE.twitterHandle`.
 
+## Redirects
+
+`public/_redirects` holds 301s for retired URLs. `public/_routes.json` sends every page through the Pages Function, and Cloudflare does not apply `_redirects` to Function-served requests, so each redirect source must also be listed in `_routes.json` `exclude`. Test with `wrangler pages dev dist`.
+
 ## OG images
 
 - Default site OG: `public/og-image.png` (1200x630, minimal monospace design)
