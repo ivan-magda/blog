@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects. Pages under the Function (public/_routes.json
+# "include": ["/*"]) skip this file, so every source path here must also be
+# listed in _routes.json "exclude".
+/posts/s03-todo-persistence/* /posts/s03-self-managed-task-tracking/ 301
+/posts/s03-todo-persistence /posts/s03-self-managed-task-tracking/ 301

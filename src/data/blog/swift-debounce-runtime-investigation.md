@@ -211,7 +211,7 @@ Side Effect's worker-based implementation uses `NSRecursiveLock`. I compared it 
 
 _[Earlier prototype experiment](https://github.com/ivan-magda/swift-debounce/blob/990cf04587cf922748c13876d2843071c22873fa/Benchmarks/results/prototype-locks.md), with one million emits for the full-method comparison. Its 188 ns baseline belongs to a separate workload from the 216 ns result above._
 
-The isolated operation fell from 17.1 to 8.0 ns. The complete method fell from 188.0 to 177.7 ns: a **10.3 ns saving**, or about 5.5%.
+The isolated operation fell from 17.1 to 8.0 ns. The complete method fell from 188.0 to 177.7 ns: a **10.3 ns saving**, or about 5.5%. I later measured both locks against `Mutex`, `OSAllocatedUnfairLock`, actors, and queues on two iPhones in [Swift synchronization benchmarks](/posts/swift-synchronization-benchmarks/).
 
 The lock change mattered more to CPU usage under contention, but it did little to explain the single-thread result. I moved on to the clock read and state update around the lock.
 

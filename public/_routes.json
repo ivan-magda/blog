@@ -6,6 +6,8 @@
     "/assets/*",
     "/images/*",
     "/pagefind/*",
+    "/posts/s03-todo-persistence",
+    "/posts/s03-todo-persistence/*",
     "/*.md",
     "/*.txt",
     "/*.xml",
