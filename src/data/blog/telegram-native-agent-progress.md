@@ -1,5 +1,6 @@
 ---
 title: "Add Native Progress UI to Your Telegram AI Agent"
+seoTitle: "Add Native Progress UI to Your Telegram AI Agent"
 author: "Ivan Magda"
 pubDatetime: 2026-10-04T12:51:38Z
 slug: "telegram-native-agent-progress"

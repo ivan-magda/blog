@@ -1,5 +1,6 @@
 ---
 title: "Building a Coding Agent in Swift, Part 1: The Agent Loop"
+seoTitle: "The Agent Loop in a Swift Coding Agent (Part 1)"
 author: "Ivan Magda"
 pubDatetime: 2026-03-11T10:00:00Z
 slug: "s01-the-agent-loop"

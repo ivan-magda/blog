@@ -1,5 +1,6 @@
 ---
 title: "Building a Coding Agent in Swift, Part 8: Background Tasks"
+seoTitle: "Background Tasks in a Swift Coding Agent (Part 8)"
 author: "Ivan Magda"
 pubDatetime: 2026-03-18T10:00:00Z
 slug: "s08-background-tasks"

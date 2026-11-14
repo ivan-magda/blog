@@ -1,5 +1,6 @@
 ---
 title: "Swift synchronization benchmarks: Mutex, locks, queues, atomics, and actors on real iPhones"
+seoTitle: "Swift Mutex vs Locks vs Actors: Benchmarks on Real iPhones"
 ogTitle: "Swift synchronization benchmarks on real iPhones"
 author: "Ivan Magda"
 pubDatetime: 2026-11-12T00:20:00Z

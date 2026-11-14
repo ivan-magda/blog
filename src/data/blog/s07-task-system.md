@@ -1,5 +1,6 @@
 ---
 title: "Building a Coding Agent in Swift, Part 7: Task System"
+seoTitle: "A Task System for a Swift Coding Agent (Part 7)"
 author: "Ivan Magda"
 pubDatetime: 2026-03-17T10:00:00Z
 slug: "s07-task-system"

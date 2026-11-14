@@ -1,5 +1,6 @@
 ---
 title: "I Built a Coding Agent From Scratch in Swift. Here's What I Missed Until I Read Koog."
+seoTitle: "Koog vs a Hand-Built Swift Coding Agent: What I Missed"
 ogTitle: "I Built a Coding Agent From Scratch in Swift. What I Missed Until I Read Koog."
 ogImageVersion: "2"
 author: "Ivan Magda"
@@ -14,7 +15,7 @@ tags:
   - koog
   - swift
   - architecture
-description: "After nine posts building a Claude Code-style agent by hand in Swift, I opened up JetBrains Koog framework and realized how much of what I'd hand-rolled was already someone else's problem. Here's what the framework gave me for free, and what it changed about how I think about agents."
+description: "After nine posts hand-building a Claude Code-style agent in Swift, I read JetBrains Koog and found how much a framework hands you for free."
 ---
 
 Earlier this year I wrapped up a nine-part series that rebuilds Claude Code in Swift, from scratch, stage by stage. By the end of the series we had a real coding agent: an agent loop, file tools, shell execution, task tracking, context compaction, background processes. All of it written by hand, all of it working.
