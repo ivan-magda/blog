@@ -22,9 +22,17 @@ export default defineConfig({
   compressHTML: true,
   integrations: [
     sitemap({
-      filter: page =>
-        (SITE.showArchives || !page.endsWith("/archives")) &&
-        !page.includes("/tags/"),
+      // Only pages worth landing on from search: no noindexed tags or search,
+      // no /posts/N/ pagination (still crawlable through its links).
+      filter: page => {
+        const { pathname } = new URL(page);
+        return (
+          (SITE.showArchives || pathname !== "/archives/") &&
+          !pathname.startsWith("/tags/") &&
+          pathname !== "/search/" &&
+          !/^\/posts\/\d+\/$/.test(pathname)
+        );
+      },
     }),
   ],
   markdown: {

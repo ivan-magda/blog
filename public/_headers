@@ -15,6 +15,10 @@
   Link: </index.md>; rel="alternate"; type="text/markdown"
   Link: </rss.xml>; rel="alternate"; type="application/rss+xml"
 
+# Raw data files linked from posts: readable, but not search results.
+/images/swift-debounce-runtime-investigation/historical-observations.txt
+  X-Robots-Tag: noindex
+
 # Markdown twins of pages (for agents; see functions/_middleware.ts) point
 # search engines at the HTML page as the canonical copy.
 /index.md

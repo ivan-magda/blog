@@ -25,11 +25,15 @@ Self-referencing, handled automatically by `Layout.astro` via `Astro.url.pathnam
 
 Conditional by page type:
 
-- Homepage (`pageType="website"`) — `WebSite` + `SearchAction`
+- Homepage (`pageType="website"`) — `WebSite` (no `SearchAction`: Google retired the sitelinks search box, and the template URL `/search?q={search_term_string}` was showing up in Search Console as a crawled page)
 - Blog posts (`pageType="article"`) — `BlogPosting` with `mainEntityOfPage`, `publisher`, `keywords`
 - Other pages — none
 
 `BreadcrumbList` schema is rendered separately by `src/components/Breadcrumb.astro`.
+
+## Author
+
+The site author in JSON-LD (`BlogPosting.author`, `WebSite.author`) points to `/about/` with `sameAs` built from the https links in `SOCIALS` (`src/constants.ts`).
 
 ## Article meta
 
@@ -68,7 +72,9 @@ cropped head-and-shoulders. There is no SVG: a photo gains nothing from vector.
 `astro.config.ts` sitemap filter excludes:
 
 - `/tags/` pages — noindexed, near-duplicate content
-- `/archives` — when `SITE.showArchives` is false
+- `/archives/` — when `SITE.showArchives` is false
+- `/search/` — noindexed
+- `/posts/N/` pagination — stays crawlable through its links, but is not a landing page
 
 ## Cross-linking
 
@@ -87,6 +93,10 @@ Requests whose `Accept` header weights `text/markdown` at least as high as HTML 
 - `robots.txt` declares `Content-Signal: search=yes, ai-input=yes, ai-train=yes` (author's choice, 2026-11-13).
 - Test locally: `pnpm build`, then `pnpm dlx wrangler@4 pages dev dist` and `curl -H "Accept: text/markdown" http://localhost:8788/posts/<slug>/`. `astro preview` does not run the Function.
 - Cloudflare's zone-level "Markdown for Agents" toggle (Pro plan and up) is not used; leave it off so the hand-built twins aren't bypassed.
+
+## Raw files under `public/images/`
+
+Data files linked from posts (e.g. `historical-observations.txt`) get `X-Robots-Tag: noindex` in `public/_headers`, one path per file.
 
 ## Static vs dynamic files
 
