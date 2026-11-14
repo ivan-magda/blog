@@ -1,5 +1,6 @@
 ---
 title: "Foundation Models, Year Two: From On-Device API to General LLM Runtime"
+seoTitle: "WWDC26 Foundation Models: What's New in Year Two"
 author: "Ivan Magda"
 pubDatetime: 2026-06-12T14:03:22Z
 slug: "wwdc26-foundation-models-year-two"
