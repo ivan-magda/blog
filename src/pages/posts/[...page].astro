@@ -17,6 +17,11 @@ export const getStaticPaths = (async ({ paginate }) => {
 
 const { page } = Astro.props;
 const pageNum = page.currentPage;
+
+// Newest first, so years come out in descending order.
+const years = Map.groupBy(page.data, post =>
+  post.data.pubDatetime.getFullYear()
+);
 const description =
   pageNum > 1
     ? `All articles — page ${pageNum}.`
@@ -29,9 +34,26 @@ const description =
 >
   <Header />
   <Main pageTitle="Posts" pageDesc="All the articles I've posted.">
-    <ul>
-      {page.data.map(data => <Card {...data} />)}
-    </ul>
+    {
+      [...years].map(([year, posts]) => (
+        <section aria-labelledby={`year-${year}`} class="mt-10 first:mt-4">
+          <h2
+            id={`year-${year}`}
+            class="flex items-baseline gap-2 border-b border-border pb-2 text-2xl font-semibold"
+          >
+            {year}
+            <span class="text-sm font-normal opacity-75">
+              {posts.length} {posts.length === 1 ? "post" : "posts"}
+            </span>
+          </h2>
+          <ul>
+            {posts.map(data => (
+              <Card variant="h3" {...data} />
+            ))}
+          </ul>
+        </section>
+      ))
+    }
   </Main>
 
   <Pagination {page} />

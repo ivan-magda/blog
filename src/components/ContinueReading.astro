@@ -35,11 +35,15 @@ const inSeries = series !== undefined && (prevPart || nextPart);
 const sharedTags = (other: Post) =>
   other.data.tags.filter(tag => post.data.tags.includes(tag)).length;
 
+// One shared tag ("swift", "ai-agents") is too broad to call a post related,
+// so a post needs two; showing fewer picks beats padding with weak ones.
+const MIN_SHARED_TAGS = 2;
+
 // `posts` is newest first and sort is stable, so ties stay newest first.
-const others = posts.filter(p => p.id !== post.id);
 const related = inSeries
   ? []
-  : [...others]
+  : posts
+      .filter(p => p.id !== post.id && sharedTags(p) >= MIN_SHARED_TAGS)
       .sort((a, b) => sharedTags(b) - sharedTags(a))
       .slice(0, RELATED_COUNT);
 

@@ -7,7 +7,11 @@ const rawSegments = currentUrlPath.split("/").slice(1);
 const breadcrumbList = [...rawSegments];
 
 if (breadcrumbList[0] === "posts") {
-  breadcrumbList.splice(0, 2, `Posts (page ${breadcrumbList[1] || 1})`);
+  breadcrumbList.splice(
+    0,
+    2,
+    breadcrumbList[1] ? `Posts (page ${breadcrumbList[1]})` : "Posts"
+  );
 }
 
 if (breadcrumbList[0] === "tags" && !isNaN(Number(breadcrumbList[2]))) {

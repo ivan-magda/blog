@@ -1,0 +1,6 @@
+# /posts/ became a single page (2026-11-13); the old paginated listing pages
+# point back to it.
+/posts/2/ /posts/ 301
+/posts/3/ /posts/ 301
+/posts/4/ /posts/ 301
+/posts/5/ /posts/ 301
