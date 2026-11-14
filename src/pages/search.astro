@@ -12,6 +12,7 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
 <Layout
   title={`Search | ${SITE.title}`}
   description="Search through all articles on the blog."
+  noindex
 >
   <Header />
   <Main pageTitle="Search" pageDesc="Search any article ...">

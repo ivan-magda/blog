@@ -3,6 +3,7 @@ import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
 import { SITE } from "@/config";
+import { SOCIALS } from "@/constants";
 import "@/styles/global.css";
 
 type Props = {
@@ -52,6 +53,14 @@ function personSchema(name: string, url?: string) {
   return { "@type": "Person", name, ...(url && { url }) };
 }
 
+// The site author: the About page as the profile, social accounts as sameAs.
+const siteAuthorSchema = {
+  ...personSchema(SITE.author, new URL("about/", SITE.website).href),
+  sameAs: SOCIALS.filter(({ href }) => href.startsWith("https://")).map(
+    ({ href }) => href
+  ),
+};
+
 function buildStructuredData() {
   if (isArticle) {
     return {
@@ -64,7 +73,11 @@ function buildStructuredData() {
       ...(pubDatetime && { datePublished: pubDatetime.toISOString() }),
       ...(modDatetime && { dateModified: modDatetime.toISOString() }),
       ...(tags.length > 0 && { keywords: tags.join(", ") }),
-      author: [personSchema(author, profile)],
+      author: [
+        author === SITE.author
+          ? siteAuthorSchema
+          : personSchema(author, profile),
+      ],
       publisher: personSchema(SITE.author, SITE.website),
     };
   }
@@ -76,12 +89,7 @@ function buildStructuredData() {
       name: SITE.title,
       url: SITE.website,
       description,
-      author: personSchema(SITE.author, SITE.profile),
-      potentialAction: {
-        "@type": "SearchAction",
-        target: `${SITE.website}search?q={search_term_string}`,
-        "query-input": "required name=search_term_string",
-      },
+      author: siteAuthorSchema,
     };
   }
 
