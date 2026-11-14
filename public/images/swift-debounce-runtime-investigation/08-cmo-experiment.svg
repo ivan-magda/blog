@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="470pt" viewBox="0 0 720 470" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="08-cmo-experiment-title 08-cmo-experiment-desc" xml:lang="en"><title id="08-cmo-experiment-title">Cross-module optimization experiment</title><desc id="08-cmo-experiment-desc">Completed emits in one run per configuration, with a three-second target. Fast prototype: CMO off 27.58 million, on 257.9 million. Original reference: off 15.77 million, on 15.68 million. Clock checked every 10,000 emits; quiet period 3,600 seconds.</desc>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="470pt" viewBox="0 0 720 470" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="08-cmo-experiment-title 08-cmo-experiment-desc" xml:lang="en"><title id="08-cmo-experiment-title">Cross-module optimization experiment</title><desc id="08-cmo-experiment-desc">Completed emits in one run per configuration, with a three-second target. Fast prototype: CMO off 27.58 million, on 257.9 million. Original reference: off 15.77 million, on 15.68 million. Clock checked every 10,000 emits; quiet period 3,600 seconds.</desc><style id="embedded-site-font">@font-face{font-family:"Google Sans Code";src:url(data:font/woff2;base64,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) format("woff2");font-weight:400 700;font-style:normal}</style>
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -54,7 +54,7 @@ L 0 4
       </g>
      </g>
      <g id="text_1">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="165.6" y="409.4" transform="rotate(-0 165.6 409.4)">0</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="165.6" y="410.856" transform="rotate(-0 165.6 410.856)">0</text>
      </g>
     </g>
     <g id="xtick_2">
@@ -69,7 +69,7 @@ L 251.023729 42.3
       </g>
      </g>
      <g id="text_2">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="251.023729" y="409.4" transform="rotate(-0 251.023729 409.4)">50</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="251.023729" y="410.856" transform="rotate(-0 251.023729 410.856)">50</text>
      </g>
     </g>
     <g id="xtick_3">
@@ -84,7 +84,7 @@ L 336.447458 42.3
       </g>
      </g>
      <g id="text_3">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="336.447458" y="409.4" transform="rotate(-0 336.447458 409.4)">100</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="336.447458" y="410.856" transform="rotate(-0 336.447458 410.856)">100</text>
      </g>
     </g>
     <g id="xtick_4">
@@ -99,7 +99,7 @@ L 421.871186 42.3
       </g>
      </g>
      <g id="text_4">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="421.871186" y="409.4" transform="rotate(-0 421.871186 409.4)">150</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="421.871186" y="410.856" transform="rotate(-0 421.871186 410.856)">150</text>
      </g>
     </g>
     <g id="xtick_5">
@@ -114,7 +114,7 @@ L 507.294915 42.3
       </g>
      </g>
      <g id="text_5">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="507.294915" y="409.4" transform="rotate(-0 507.294915 409.4)">200</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="507.294915" y="410.856" transform="rotate(-0 507.294915 410.856)">200</text>
      </g>
     </g>
     <g id="xtick_6">
@@ -129,36 +129,36 @@ L 592.718644 42.3
       </g>
      </g>
      <g id="text_6">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="592.718644" y="409.4" transform="rotate(-0 592.718644 409.4)">250</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="592.718644" y="410.856" transform="rotate(-0 592.718644 410.856)">250</text>
      </g>
     </g>
     <g id="text_7">
-     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #2c2825" x="417.6" y="437.61875" transform="rotate(-0 417.6 437.61875)">Completed emits (millions)</text>
+     <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #2c2825" x="417.6" y="438.82" transform="rotate(-0 417.6 438.82)">Completed emits (millions)</text>
     </g>
    </g>
    <g id="matplotlib.axis_2">
     <g id="ytick_1">
      <g id="line2d_13"/>
      <g id="text_8">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="153.6" y="116.955208" transform="rotate(-0 153.6 116.955208)">CMO off</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #2c2825" x="153.6" y="118.899208" transform="rotate(-0 153.6 118.899208)">CMO off</text>
      </g>
     </g>
     <g id="ytick_2">
      <g id="line2d_14"/>
      <g id="text_9">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="153.6" y="174.138542" transform="rotate(-0 153.6 174.138542)">CMO on</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #2c2825" x="153.6" y="176.082542" transform="rotate(-0 153.6 176.082542)">CMO on</text>
      </g>
     </g>
     <g id="ytick_3">
      <g id="line2d_15"/>
      <g id="text_10">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="153.6" y="295.653125" transform="rotate(-0 153.6 295.653125)">CMO off</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #2c2825" x="153.6" y="297.597125" transform="rotate(-0 153.6 297.597125)">CMO off</text>
      </g>
     </g>
     <g id="ytick_4">
      <g id="line2d_16"/>
      <g id="text_11">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #2c2825" x="153.6" y="352.836458" transform="rotate(-0 153.6 352.836458)">CMO on</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #2c2825" x="153.6" y="354.780458" transform="rotate(-0 153.6 354.780458)">CMO on</text>
      </g>
     </g>
    </g>
@@ -176,7 +176,7 @@ z
 " clip-path="url(#pe29c82f4ef)" style="fill: #ffffff; stroke: #69645e; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_12">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="221.719729" y="115.425911" transform="rotate(-0 221.719729 115.425911)">27.58</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="221.719729" y="116.325208" transform="rotate(-0 221.719729 116.325208)">27.58</text>
    </g>
    <g id="patch_5">
     <path d="M 165.6 182.756562
@@ -187,7 +187,7 @@ z
 " clip-path="url(#pe29c82f4ef)" style="fill: #b25936; stroke: #b25936; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_13">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="615.215593" y="172.609245" transform="rotate(-0 615.215593 172.609245)">257.9</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="615.215593" y="173.508542" transform="rotate(-0 615.215593 173.508542)">257.9</text>
    </g>
    <g id="patch_6">
     <path d="M 165.6 304.271146
@@ -198,7 +198,7 @@ z
 " clip-path="url(#pe29c82f4ef)" style="fill: #ffffff; stroke: #69645e; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_14">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="201.542644" y="294.123828" transform="rotate(-0 201.542644 294.123828)">15.77</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="201.542644" y="295.023125" transform="rotate(-0 201.542644 295.023125)">15.77</text>
    </g>
    <g id="patch_7">
     <path d="M 165.6 361.454479
@@ -209,13 +209,13 @@ z
 " clip-path="url(#pe29c82f4ef)" style="fill: #b25936; stroke: #b25936; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_15">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="201.388881" y="351.307161" transform="rotate(-0 201.388881 351.307161)">15.68</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="201.388881" y="352.206458" transform="rotate(-0 201.388881 352.206458)">15.68</text>
    </g>
    <g id="text_16">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="165.6" y="75.712292" transform="rotate(-0 165.6 75.712292)">Fast prototype</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="165.6" y="77.011667" transform="rotate(-0 165.6 77.011667)">Fast prototype</text>
    </g>
    <g id="text_17">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="165.6" y="254.348333" transform="rotate(-0 165.6 254.348333)">Original reference</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="165.6" y="255.709583" transform="rotate(-0 165.6 255.709583)">Original reference</text>
    </g>
   </g>
  </g>

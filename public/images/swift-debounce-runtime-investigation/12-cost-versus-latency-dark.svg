@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="1100pt" viewBox="0 0 720 1100" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="12-cost-versus-latency-dark-title 12-cost-versus-latency-dark-desc" xml:lang="en"><title id="12-cost-versus-latency-dark-title">Callback overshoot across three input patterns</title><desc id="12-cost-versus-latency-dark-desc">Overshoot beyond a 50 ms quiet period, 30 interleaved bursts per input pattern; filled points are medians, hollow points are p95, not uncertainty intervals. One value medians 1.01, 1.04, 1.38 ms and p95 2.07, 2.16, 2.60; 20 at once medians 0.96, 1.18, 1.19 and p95 2.07, 3.32, 1.70; 60 every 5 ms medians 1.02, 0.77, 1.08 and p95 2.03, 1.91, 2.38. Order: task per value, long-lived task, swift-debounce. All panels use the same 0–4 ms scale.</desc>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="1100pt" viewBox="0 0 720 1100" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="12-cost-versus-latency-dark-title 12-cost-versus-latency-dark-desc" xml:lang="en"><title id="12-cost-versus-latency-dark-title">Callback overshoot across three input patterns</title><desc id="12-cost-versus-latency-dark-desc">Overshoot beyond a 50 ms quiet period, 30 interleaved bursts per input pattern; filled points are medians, hollow points are p95, not uncertainty intervals. One value medians 1.01, 1.04, 1.38 ms and p95 2.07, 2.16, 2.60; 20 at once medians 0.96, 1.18, 1.19 and p95 2.07, 3.32, 1.70; 60 every 5 ms medians 1.02, 0.77, 1.08 and p95 2.03, 1.91, 2.38. Order: task per value, long-lived task, swift-debounce. All panels use the same 0–4 ms scale.</desc><style id="embedded-site-font">@font-face{font-family:"Google Sans Code";src:url(data:font/woff2;base64,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) format("woff2");font-weight:400 700;font-style:normal}</style>
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -54,7 +54,7 @@ L 0 4
       </g>
      </g>
      <g id="text_1">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="208.8" y="310" transform="rotate(-0 208.8 310)">0</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="208.8" y="311.456" transform="rotate(-0 208.8 311.456)">0</text>
      </g>
     </g>
     <g id="xtick_2">
@@ -69,7 +69,7 @@ L 325.8 90
       </g>
      </g>
      <g id="text_2">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="325.8" y="310" transform="rotate(-0 325.8 310)">1</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="325.8" y="311.456" transform="rotate(-0 325.8 311.456)">1</text>
      </g>
     </g>
     <g id="xtick_3">
@@ -84,7 +84,7 @@ L 442.8 90
       </g>
      </g>
      <g id="text_3">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="442.8" y="310" transform="rotate(-0 442.8 310)">2</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="442.8" y="311.456" transform="rotate(-0 442.8 311.456)">2</text>
      </g>
     </g>
     <g id="xtick_4">
@@ -99,7 +99,7 @@ L 559.8 90
       </g>
      </g>
      <g id="text_4">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="559.8" y="310" transform="rotate(-0 559.8 310)">3</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="559.8" y="311.456" transform="rotate(-0 559.8 311.456)">3</text>
      </g>
     </g>
     <g id="xtick_5">
@@ -114,30 +114,30 @@ L 676.8 90
       </g>
      </g>
      <g id="text_5">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="676.8" y="310" transform="rotate(-0 676.8 310)">4</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="676.8" y="311.456" transform="rotate(-0 676.8 311.456)">4</text>
      </g>
     </g>
     <g id="text_6">
-     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="442.8" y="338.21875" transform="rotate(-0 442.8 338.21875)">Callback overshoot (ms)</text>
+     <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="442.8" y="339.42" transform="rotate(-0 442.8 339.42)">Callback overshoot (ms)</text>
     </g>
    </g>
    <g id="matplotlib.axis_2">
     <g id="ytick_1">
      <g id="line2d_11"/>
      <g id="text_7">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="196.8" y="135.307377" transform="rotate(-0 196.8 135.307377)">Task per value</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="196.8" y="137.251377" transform="rotate(-0 196.8 137.251377)">Task per value</text>
      </g>
     </g>
     <g id="ytick_2">
      <g id="line2d_12"/>
      <g id="text_8">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="196.8" y="199.569672" transform="rotate(-0 196.8 199.569672)">Long-lived task</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="196.8" y="201.513672" transform="rotate(-0 196.8 201.513672)">Long-lived task</text>
      </g>
     </g>
     <g id="ytick_3">
      <g id="line2d_13"/>
      <g id="text_9">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="196.8" y="263.831967" transform="rotate(-0 196.8 263.831967)">swift-debounce</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="196.8" y="265.775967" transform="rotate(-0 196.8 265.775967)">swift-debounce</text>
      </g>
     </g>
    </g>
@@ -165,7 +165,7 @@ z
     </g>
    </g>
    <g id="text_10">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="326.97" y="113.498783" transform="rotate(-0 326.97 113.498783)">1.01</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="326.97" y="111.409377" transform="rotate(-0 326.97 111.409377)">1.01</text>
    </g>
    <g id="line2d_15">
     <defs>
@@ -186,7 +186,7 @@ z
     </g>
    </g>
    <g id="text_11">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="450.99" y="113.498783" transform="rotate(-0 450.99 113.498783)">2.07</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="450.99" y="111.409377" transform="rotate(-0 450.99 111.409377)">2.07</text>
    </g>
    <g id="line2d_16">
     <g clip-path="url(#pf2f678141f)">
@@ -194,7 +194,7 @@ z
     </g>
    </g>
    <g id="text_12">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="330.48" y="177.761078" transform="rotate(-0 330.48 177.761078)">1.04</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="330.48" y="175.671672" transform="rotate(-0 330.48 175.671672)">1.04</text>
    </g>
    <g id="line2d_17">
     <g clip-path="url(#pf2f678141f)">
@@ -202,7 +202,7 @@ z
     </g>
    </g>
    <g id="text_13">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="461.52" y="177.761078" transform="rotate(-0 461.52 177.761078)">2.16</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="461.52" y="175.671672" transform="rotate(-0 461.52 175.671672)">2.16</text>
    </g>
    <g id="line2d_18">
     <defs>
@@ -223,7 +223,7 @@ z
     </g>
    </g>
    <g id="text_14">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="370.26" y="242.023373" transform="rotate(-0 370.26 242.023373)">1.38</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="370.26" y="239.933967" transform="rotate(-0 370.26 239.933967)">1.38</text>
    </g>
    <g id="line2d_19">
     <defs>
@@ -244,7 +244,7 @@ z
     </g>
    </g>
    <g id="text_15">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="513" y="242.023373" transform="rotate(-0 513 242.023373)">2.60</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="513" y="239.933967" transform="rotate(-0 513 239.933967)">2.60</text>
    </g>
   </g>
   <g id="axes_2">
@@ -269,7 +269,7 @@ L 208.8 420
       </g>
      </g>
      <g id="text_16">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="208.8" y="640" transform="rotate(-0 208.8 640)">0</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="208.8" y="641.456" transform="rotate(-0 208.8 641.456)">0</text>
      </g>
     </g>
     <g id="xtick_7">
@@ -284,7 +284,7 @@ L 325.8 420
       </g>
      </g>
      <g id="text_17">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="325.8" y="640" transform="rotate(-0 325.8 640)">1</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="325.8" y="641.456" transform="rotate(-0 325.8 641.456)">1</text>
      </g>
     </g>
     <g id="xtick_8">
@@ -299,7 +299,7 @@ L 442.8 420
       </g>
      </g>
      <g id="text_18">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="442.8" y="640" transform="rotate(-0 442.8 640)">2</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="442.8" y="641.456" transform="rotate(-0 442.8 641.456)">2</text>
      </g>
     </g>
     <g id="xtick_9">
@@ -314,7 +314,7 @@ L 559.8 420
       </g>
      </g>
      <g id="text_19">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="559.8" y="640" transform="rotate(-0 559.8 640)">3</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="559.8" y="641.456" transform="rotate(-0 559.8 641.456)">3</text>
      </g>
     </g>
     <g id="xtick_10">
@@ -329,30 +329,30 @@ L 676.8 420
       </g>
      </g>
      <g id="text_20">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="676.8" y="640" transform="rotate(-0 676.8 640)">4</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="676.8" y="641.456" transform="rotate(-0 676.8 641.456)">4</text>
      </g>
     </g>
     <g id="text_21">
-     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="442.8" y="668.21875" transform="rotate(-0 442.8 668.21875)">Callback overshoot (ms)</text>
+     <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="442.8" y="669.42" transform="rotate(-0 442.8 669.42)">Callback overshoot (ms)</text>
     </g>
    </g>
    <g id="matplotlib.axis_4">
     <g id="ytick_4">
      <g id="line2d_30"/>
      <g id="text_22">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="196.8" y="465.307377" transform="rotate(-0 196.8 465.307377)">Task per value</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="196.8" y="467.251377" transform="rotate(-0 196.8 467.251377)">Task per value</text>
      </g>
     </g>
     <g id="ytick_5">
      <g id="line2d_31"/>
      <g id="text_23">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="196.8" y="529.569672" transform="rotate(-0 196.8 529.569672)">Long-lived task</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="196.8" y="531.513672" transform="rotate(-0 196.8 531.513672)">Long-lived task</text>
      </g>
     </g>
     <g id="ytick_6">
      <g id="line2d_32"/>
      <g id="text_24">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="196.8" y="593.831967" transform="rotate(-0 196.8 593.831967)">swift-debounce</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="196.8" y="595.775967" transform="rotate(-0 196.8 595.775967)">swift-debounce</text>
      </g>
     </g>
    </g>
@@ -367,7 +367,7 @@ L 676.8 616
     </g>
    </g>
    <g id="text_25">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="321.12" y="443.498783" transform="rotate(-0 321.12 443.498783)">0.96</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="321.12" y="441.409377" transform="rotate(-0 321.12 441.409377)">0.96</text>
    </g>
    <g id="line2d_34">
     <g clip-path="url(#p1bb9c54b34)">
@@ -375,7 +375,7 @@ L 676.8 616
     </g>
    </g>
    <g id="text_26">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="450.99" y="443.498783" transform="rotate(-0 450.99 443.498783)">2.07</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="450.99" y="441.409377" transform="rotate(-0 450.99 441.409377)">2.07</text>
    </g>
    <g id="line2d_35">
     <g clip-path="url(#p1bb9c54b34)">
@@ -383,7 +383,7 @@ L 676.8 616
     </g>
    </g>
    <g id="text_27">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="346.86" y="507.761078" transform="rotate(-0 346.86 507.761078)">1.18</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="346.86" y="505.671672" transform="rotate(-0 346.86 505.671672)">1.18</text>
    </g>
    <g id="line2d_36">
     <g clip-path="url(#p1bb9c54b34)">
@@ -391,7 +391,7 @@ L 676.8 616
     </g>
    </g>
    <g id="text_28">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="597.24" y="507.761078" transform="rotate(-0 597.24 507.761078)">3.32</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="597.24" y="505.671672" transform="rotate(-0 597.24 505.671672)">3.32</text>
    </g>
    <g id="line2d_37">
     <g clip-path="url(#p1bb9c54b34)">
@@ -399,7 +399,7 @@ L 676.8 616
     </g>
    </g>
    <g id="text_29">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="348.03" y="572.023373" transform="rotate(-0 348.03 572.023373)">1.19</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="348.03" y="569.933967" transform="rotate(-0 348.03 569.933967)">1.19</text>
    </g>
    <g id="line2d_38">
     <g clip-path="url(#p1bb9c54b34)">
@@ -407,7 +407,7 @@ L 676.8 616
     </g>
    </g>
    <g id="text_30">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="407.7" y="572.023373" transform="rotate(-0 407.7 572.023373)">1.70</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="407.7" y="569.933967" transform="rotate(-0 407.7 569.933967)">1.70</text>
    </g>
   </g>
   <g id="axes_3">
@@ -432,7 +432,7 @@ L 208.8 750
       </g>
      </g>
      <g id="text_31">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="208.8" y="970" transform="rotate(-0 208.8 970)">0</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="208.8" y="971.456" transform="rotate(-0 208.8 971.456)">0</text>
      </g>
     </g>
     <g id="xtick_12">
@@ -447,7 +447,7 @@ L 325.8 750
       </g>
      </g>
      <g id="text_32">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="325.8" y="970" transform="rotate(-0 325.8 970)">1</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="325.8" y="971.456" transform="rotate(-0 325.8 971.456)">1</text>
      </g>
     </g>
     <g id="xtick_13">
@@ -462,7 +462,7 @@ L 442.8 750
       </g>
      </g>
      <g id="text_33">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="442.8" y="970" transform="rotate(-0 442.8 970)">2</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="442.8" y="971.456" transform="rotate(-0 442.8 971.456)">2</text>
      </g>
     </g>
     <g id="xtick_14">
@@ -477,7 +477,7 @@ L 559.8 750
       </g>
      </g>
      <g id="text_34">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="559.8" y="970" transform="rotate(-0 559.8 970)">3</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="559.8" y="971.456" transform="rotate(-0 559.8 971.456)">3</text>
      </g>
     </g>
     <g id="xtick_15">
@@ -492,30 +492,30 @@ L 676.8 750
       </g>
      </g>
      <g id="text_35">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="676.8" y="970" transform="rotate(-0 676.8 970)">4</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="676.8" y="971.456" transform="rotate(-0 676.8 971.456)">4</text>
      </g>
     </g>
     <g id="text_36">
-     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="442.8" y="998.21875" transform="rotate(-0 442.8 998.21875)">Callback overshoot (ms)</text>
+     <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="442.8" y="999.42" transform="rotate(-0 442.8 999.42)">Callback overshoot (ms)</text>
     </g>
    </g>
    <g id="matplotlib.axis_6">
     <g id="ytick_7">
      <g id="line2d_49"/>
      <g id="text_37">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="196.8" y="795.307377" transform="rotate(-0 196.8 795.307377)">Task per value</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="196.8" y="797.251377" transform="rotate(-0 196.8 797.251377)">Task per value</text>
      </g>
     </g>
     <g id="ytick_8">
      <g id="line2d_50"/>
      <g id="text_38">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="196.8" y="859.569672" transform="rotate(-0 196.8 859.569672)">Long-lived task</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="196.8" y="861.513672" transform="rotate(-0 196.8 861.513672)">Long-lived task</text>
      </g>
     </g>
     <g id="ytick_9">
      <g id="line2d_51"/>
      <g id="text_39">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="196.8" y="923.831967" transform="rotate(-0 196.8 923.831967)">swift-debounce</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="196.8" y="925.775967" transform="rotate(-0 196.8 925.775967)">swift-debounce</text>
      </g>
     </g>
    </g>
@@ -530,7 +530,7 @@ L 676.8 946
     </g>
    </g>
    <g id="text_40">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="328.14" y="773.498783" transform="rotate(-0 328.14 773.498783)">1.02</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="328.14" y="771.409377" transform="rotate(-0 328.14 771.409377)">1.02</text>
    </g>
    <g id="line2d_53">
     <g clip-path="url(#p60533bf75a)">
@@ -538,7 +538,7 @@ L 676.8 946
     </g>
    </g>
    <g id="text_41">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="446.31" y="773.498783" transform="rotate(-0 446.31 773.498783)">2.03</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="446.31" y="771.409377" transform="rotate(-0 446.31 771.409377)">2.03</text>
    </g>
    <g id="line2d_54">
     <g clip-path="url(#p60533bf75a)">
@@ -546,7 +546,7 @@ L 676.8 946
     </g>
    </g>
    <g id="text_42">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="298.89" y="837.761078" transform="rotate(-0 298.89 837.761078)">0.77</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="298.89" y="835.671672" transform="rotate(-0 298.89 835.671672)">0.77</text>
    </g>
    <g id="line2d_55">
     <g clip-path="url(#p60533bf75a)">
@@ -554,7 +554,7 @@ L 676.8 946
     </g>
    </g>
    <g id="text_43">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="432.27" y="837.761078" transform="rotate(-0 432.27 837.761078)">1.91</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="432.27" y="835.671672" transform="rotate(-0 432.27 835.671672)">1.91</text>
    </g>
    <g id="line2d_56">
     <g clip-path="url(#p60533bf75a)">
@@ -562,7 +562,7 @@ L 676.8 946
     </g>
    </g>
    <g id="text_44">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="335.16" y="902.023373" transform="rotate(-0 335.16 902.023373)">1.08</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="335.16" y="899.933967" transform="rotate(-0 335.16 899.933967)">1.08</text>
    </g>
    <g id="line2d_57">
     <g clip-path="url(#p60533bf75a)">
@@ -570,26 +570,26 @@ L 676.8 946
     </g>
    </g>
    <g id="text_45">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="487.26" y="902.023373" transform="rotate(-0 487.26 902.023373)">2.38</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="487.26" y="899.933967" transform="rotate(-0 487.26 899.933967)">2.38</text>
    </g>
   </g>
   <g id="text_46">
-   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="28.8" y="40" transform="rotate(-0 28.8 40)">a</text>
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="28.8" y="40" transform="rotate(-0 28.8 40)">a</text>
   </g>
   <g id="text_47">
-   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="61.2" y="40" transform="rotate(-0 61.2 40)">One value</text>
+   <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="61.2" y="40" transform="rotate(-0 61.2 40)">One value</text>
   </g>
   <g id="text_48">
-   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="28.8" y="370" transform="rotate(-0 28.8 370)">b</text>
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="28.8" y="370" transform="rotate(-0 28.8 370)">b</text>
   </g>
   <g id="text_49">
-   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="61.2" y="370" transform="rotate(-0 61.2 370)">20 values at once</text>
+   <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="61.2" y="370" transform="rotate(-0 61.2 370)">20 values at once</text>
   </g>
   <g id="text_50">
-   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="28.8" y="700" transform="rotate(-0 28.8 700)">c</text>
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="28.8" y="700" transform="rotate(-0 28.8 700)">c</text>
   </g>
   <g id="text_51">
-   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="61.2" y="700" transform="rotate(-0 61.2 700)">60 values · one every 5 ms</text>
+   <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="61.2" y="700" transform="rotate(-0 61.2 700)">60 values · one every 5 ms</text>
   </g>
   <g id="legend_1">
    <g id="line2d_58">
@@ -607,11 +607,11 @@ z
 " style="stroke: #b0aaa1"/>
     </defs>
     <g>
-     <use xlink:href="#md3ea3b86ae" x="216.8" y="1049.165" style="fill: #b0aaa1; stroke: #b0aaa1"/>
+     <use xlink:href="#md3ea3b86ae" x="216.8" y="1047.924" style="fill: #b0aaa1; stroke: #b0aaa1"/>
     </g>
    </g>
    <g id="text_52">
-    <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="237.6" y="1054.765" transform="rotate(-0 237.6 1054.765)">Median</text>
+    <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="237.6" y="1053.524" transform="rotate(-0 237.6 1053.524)">Median</text>
    </g>
    <g id="line2d_59">
     <defs>
@@ -628,11 +628,11 @@ z
 " style="stroke: #b0aaa1; stroke-width: 1.5"/>
     </defs>
     <g>
-     <use xlink:href="#mdf2f7f6803" x="320.4725" y="1049.165" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.5"/>
+     <use xlink:href="#mdf2f7f6803" x="325.6" y="1047.924" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.5"/>
     </g>
    </g>
    <g id="text_53">
-    <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="341.2725" y="1054.765" transform="rotate(-0 341.2725 1054.765)">p95</text>
+    <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="346.4" y="1053.524" transform="rotate(-0 346.4 1053.524)">p95</text>
    </g>
   </g>
  </g>
