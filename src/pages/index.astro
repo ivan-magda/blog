@@ -11,12 +11,14 @@ import getSortedPosts from "@/utils/getSortedPosts";
 import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
+import { SERIES, seriesPath } from "@/series";
 
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const seriesHubs = SERIES.filter(series => series.slug);
 ---
 
 <Layout
@@ -88,6 +90,27 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
               (data, index) =>
                 index < SITE.postPerIndex && <Card variant="h3" {...data} />
             )}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      seriesHubs.length > 0 && (
+        <section id="series" class="border-t border-border pt-12 pb-6">
+          <h2 class="text-2xl font-semibold tracking-wide">Series</h2>
+          <ul>
+            {seriesHubs.map(series => (
+              <li class="my-6">
+                <a
+                  href={seriesPath(series)}
+                  class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 hover:underline"
+                >
+                  <h3 class="text-pretty">{series.title}</h3>
+                </a>
+                <p class="font-prose text-pretty">{series.description}</p>
+              </li>
+            ))}
           </ul>
         </section>
       )

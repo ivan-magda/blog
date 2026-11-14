@@ -5,15 +5,22 @@
  */
 export type Series = {
   title: string;
-  /** Page listing the whole series, when one exists. */
-  href?: string;
+  /**
+   * When set, the series gets an indexable hub page at `/series/<slug>/`
+   * (src/pages/series/[series].astro) listing every part in order.
+   */
+  slug?: string;
+  /** Hub page intro and meta description. Required when `slug` is set. */
+  description?: string;
   slugs: string[];
 };
 
 export const SERIES: Series[] = [
   {
     title: "Building a Coding Agent in Swift",
-    href: "/tags/swift-claude-code/",
+    slug: "swift-coding-agent",
+    description:
+      "Build a Claude Code-style CLI coding agent in Swift over nine posts: project setup, the agent loop, tool dispatch, task tracking, subagents, skill loading, context compaction, a task DAG, and background tasks.",
     slugs: [
       "s00-bootstrapping-the-project",
       "s01-the-agent-loop",
@@ -35,3 +42,7 @@ export const SERIES: Series[] = [
     ],
   },
 ];
+
+/** Link to a series hub page, or undefined when the series has none. */
+export const seriesPath = (series: Series) =>
+  series.slug ? `/series/${series.slug}/` : undefined;

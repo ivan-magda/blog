@@ -8,7 +8,7 @@
 
 ## Blog Series: Building a Coding Agent in Swift
 
-A 9-part series documenting a Swift reimplementation of a Claude Code-style CLI agent.
+A 9-part series documenting a Swift reimplementation of a Claude Code-style CLI agent. Series overview: https://ivanmagda.dev/series/swift-coding-agent/
 
 - [Part 0: Bootstrapping the Project](https://ivanmagda.dev/posts/s00-bootstrapping-the-project/): Setting up a two-target SPM package, strict concurrency, and AsyncHTTPClient
 - [Part 1: The Agent Loop](https://ivanmagda.dev/posts/s01-the-agent-loop/): The agent loop that drives everything — how a single stopReason check turns an API client into an autonomous agent

@@ -1,0 +1,42 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Main from "@/layouts/Main.astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
+import { SERIES, type Series } from "@/series";
+import { SITE } from "@/config";
+
+type Post = CollectionEntry<"blog">;
+
+export async function getStaticPaths() {
+  const posts = getSortedPosts(await getCollection("blog"));
+
+  return SERIES.filter(series => series.slug).map(series => ({
+    params: { series: series.slug },
+    props: {
+      series,
+      parts: series.slugs
+        .map(slug => posts.find(p => p.id === slug))
+        .filter((p): p is Post => p !== undefined),
+    },
+  }));
+}
+
+type Props = { series: Series; parts: Post[] };
+
+const { series, parts } = Astro.props;
+const description = series.description ?? series.title;
+---
+
+<Layout title={`${series.title} | ${SITE.title}`} description={description}>
+  <Header />
+  <Main pageTitle={series.title} pageDesc={description}>
+    <ol>
+      {parts.map(post => <Card variant="h2" {...post} />)}
+    </ol>
+  </Main>
+  <Footer />
+</Layout>
