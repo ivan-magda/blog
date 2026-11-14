@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="360pt" height="612pt" viewBox="0 0 360 612" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="14-task-reuse-comparison-mobile-title 14-task-reuse-comparison-mobile-desc" xml:lang="en"><title id="14-task-reuse-comparison-mobile-title">Input cost and total process CPU</title><desc id="14-task-reuse-comparison-mobile-desc">Separate zero-based panels compare synchronous send cost and total process CPU for a 100,000-value burst. Medians of 15 rounds; CPU includes output and settling. Task per value versus long-lived task: 798 versus 216 ns/send, about 73% lower, and 280.81 versus 21.91 ms CPU, about 92% lower.</desc>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="360pt" height="612pt" viewBox="0 0 360 612" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="14-task-reuse-comparison-mobile-title 14-task-reuse-comparison-mobile-desc" xml:lang="en"><title id="14-task-reuse-comparison-mobile-title">Input cost and total process CPU</title><desc id="14-task-reuse-comparison-mobile-desc">Separate zero-based panels compare synchronous send cost and total process CPU for a 100,000-value burst. Medians of 15 rounds; CPU includes output and settling. Task per value versus long-lived task: 798 versus 216 ns/send, about 73% lower, and 280.81 versus 21.91 ms CPU, about 92% lower.</desc><style id="embedded-site-font">@font-face{font-family:"Google Sans Code";src:url(data:font/woff2;base64,d09GMgABAAAAABbkABMAAAAAMyQAABZ8AAcAQgAAAAAAAAAAAAAAAAAAAAAAAAAAGUgaQBucPhwqP01WQVIzBmA/U1RBVHoAgSQvTBEICp48mGgwl2IBNgIkA14LXgAEIAWIbgcgG6QuBezYCx4HYLJXFuD/MoEeERa/xFmIIbtmQ5EYiBrysm5zu50MKFvw6itUK1PC95QXZtCwNtKffkFoCfk7vKzt0UJjzrGh83ecj5Bklof6sfZ2z3D/N50hZLVGIlEh4SUQmSsBj5oyEUqxn3Cz/s1kJgkUUihQ8FJxar5iUjnR3n09tfZyZtYV1e7WWCriQJIh2rQmApGq0OvHRGtxQ3SRKBDHosSIOFBDLOKfVNW21jL5cvLAqmAkwfjy7RYQ70+VSHpASXtcAqMaAPkfDtAfRpi0/pp+s+8dvSXUZJgdLo7qEbYIiTGbTG5/WT4TevJDuesJrRWPRIJvm6uh545SqxEIW7pRbTzW4LoGSofsrygmcbhCS5kmY2mjlm4/oOa5hLDu1wig7edTpYZO7iNBQOv49iII6NMIh/aXJhoBNxBYCOjDAtH2CMCpgfi5Ras9FRDQBUDi6RkgJhaIjQ3i4IREiIREi4HESYQkS4EgoEOMbHh50bZEsBTJ9EsRwEcpzdHdNAjoJ7PUgZ1wqqyL8IVAfAL2cTwNuvxgco1UsISgSqRHRgtqdFCaIazm2LF7Hr0fTEUthAZCaBHu1WMOVQt3Fv9oAp2HIfshTtyAfr8MAKA5E4KlgP7BPCysbFhqJvav29CVcH8wqiTQKVQMjk7642XoxSLCIBoG4RCEwTDTMuJRAkploc9qZk70OogGh+I7Z2pqjl7I8LU4HMExwgkMWLFCe8r4FWSvcRJqrV+oqhsSbYwzXmExRcdd0NUzfbBg3ptnQgPUkOo/qBVgoDYU5QPQKpr8AEkiJ+6kKoZi0pgJRie1thcTCfZze7LRJB0DaN9gxHxydZR+4jYx4TlXHgMMocBsaB+7B1uktRRgZ29HjNYaQP/Hocpa6wBTs4mTaRYGyNChd9AwzeOjH43BfqsBXMwH+eg5xCMtAFQggXWXgfpNiHc6NrmRC4uVKFuBuUJtEysJCg5FKcY/rk4JUuSKEuTBIKCh6+1ld9xy3TXnnXPMYQdNmTRh3FhaKoPMhDPwcXV0oDXmu3Htl8ekqCJqRGGyqCMOoORHG1JxlxAdgKB/RajaHB7AxvhqC0ADT622UTWoHsHAeyl8hB1LoaUG5qRlPEYfmEU02NUwwVOXTTSErEQccabr7QLvFrSKqxMC1pJCiMETLkT8rBh3rcUZuoBoeKIjsSadJq+n4snxmZqMTOlYLrVLQ2wcWRaiTdvm100TVCglj+2RY9FryrbFnOK5DIZQzo4rNMvztn1/VNr+rifbTdfdcpx+jMHs0SOSlUXvY4TBG912vd8stP3XvZ8AbH33hJ+RPXrNOaw7XzAgx1mfwRgwTtvmNtYkCIE2AhGYPfqU7ckUAxqlRoa2iMAQDQRPIsKU5AmagFBpCOJosD7r3G5qHxcjZ6oq5eXcg9LAMMbgQ2ZIO8rGrCz5ZdW3QC0Efz45fmnXphUh4IKL+RLGT7FOGUnaRnd7RMze6CV9dJbQDmWFiWZy2oVS5XZ+BFr/kP4C0mAIxkBNvocLxyhHys+sfzSVMWQNhIiHxhA946XLcS4iY0ffZpHSDzdsAHovNDbGNgaqhMS/2yQBGZzNKZOlk6FZ+NXwa1XFksM5rD98qdUYmbVdYRQjHGaAkqt89EXDIXcqwHNUkga7hRZKxm1RmcxOTqeRC0fsj+nlwJzt86Or83mcm6A7ZjAEXfkdHJvCcV7B1ajBur7nqjjfeG6TUIo/zsnBwL4NTdtqTZsL7TDGRTlSH3BTpxu3ttWcJFeS4o/ZAIvLq3HDeQwc9GoXeTmAESdgdtFEMa0tmQy/WH44teIec367lLOP6wHPH7ByQk9yr+D2ft7YY8dKoD5JWs/okWwfc6ebuzfooWrdacb1iRZ1JQLb/+MV9cIN9vIKAylIfGntqtc388ULGvANB5oW85uF69+fs7p0CVmypmz27Fk3mtm2mksS9uqyOWZSGHj9dPf/3un/vfUNvvX1/j/GxFXPj8Q/ufmjyR9JgNis7fgfe5T4G1WUNlsqhxOiDcfDZ8Y9T+6B5NCmwrOzIsJyssIis2aI0ALSkzMXuW8mOHzjMeD+4Mo7bNMY7y332OptMXrFA4PsI0FILLxk4NfhXSsNVoXv0hlWxvJ/RBiYv5eVOp301StSCbD1rJhx9jjoun+flkfa0ha7YTfMhfDIOdQZaVx09+u+3tKxHKScujjSloUSpObzxvTrNYDkOrj4sL1C7vq/YnlVOb29Gr+xsK+qpVVTXtPOIK7KYxYS8J14kwK5l1vvN5mEOZONkVINGfQ9JWZwFqJzgbOqmDZxHAPO3Kas256eoCmH/b1klC3tsTTtOwxggWRn41Um/Xrz6gRbUa56Gxpzr5e8KnHX1pjdEdhtXPpsKeEsa3UD48pVeuMIa0hYu5k1IGLVDotYm2sHhUBa5DFmn9WwI+PCYXCxXMSXzZQsZXCPU2xhmfa4PUhDCC+Zy/140cuDDFG43Rtx2DYtsRlLS4pDLuA5cmY/n7KW2t/MZM42dS0lI3q4UFWctzq3shiHDSC3pKoSENs52XSFQb8Bs3c56u0Ny+ZaXKM32IOiWkBs0BPpg7jScwQx0XN41WpLyz64Vd/Kz5ZIcd2zxW0PaCrS7yPciPsWj1gRn1WyPS/HPOXyYJvKehpROoXQd4Iv/Ke+se29ItBD/n4cHAVr9rlMA8REPMw9RiIfZW9ik48cg7gZiuSK+sYKi8X/w/oKvdegurBvZgwqremKAAfeQmM9q70QvSKJSq21PxzmgFusV0xRn8zjjH0c9uyXB0WdeV7aSs5eHJ2FRJseDpsIlJzo0S8rHD2bDwLUWQDTTPBcc10DzpWzZbRr/BuzZ9vaJJVVrZK2s7M3+LRrZ8qABsLOxIyu/GWimwvjCW3m1CZcaAeVg882TKMh8+LoO8Ia035BtIqivsJiSmn74JuDly+NaaQ9evZJvXngjUKSEBxz9BQSAHvSC+6eIs4nlU9xUB/EpiLch3nunp01HSc0iJH247W1/adV65X9Z4FopvsRr+KTeKOY8fHOy+1tR2r86V1JlvHlyWn8XYdkNnuUR9rSOPHOKW2Z9jEVUJ8nSNpcdZBL/Cg0FePeL7Ar8QO5zslwj0kAW6LQc8jeSQjfWd1zRrle2X26htV1bGSjuvskKI7ovs9lftxpIWS8vcMWcA7TiOebLHQjgq3bqnTrm4RlfMlxzSaN6kzXRKa4LTOk6FIRWFM08DCJOUCEKsU0C9tkVSA2BK8gyHcfYOL7Drz0OR4MrdlxZtmeaWFLWY36TY7BWEbJAhoagQxpBM18AaN0HgNpDoSo55H0DlIDG7Mc28AiWTYLuxzzvc2Ji8NNTXjSlqrjajAD9oStHlN5cWjs3JRmQqB9p6Jb1pwNUnxvjd5a7SvAC9wLWIJTAj9GYFpaYHBa4lylpKTggKQ0sKzPCX7l3ovV6ygOUF3sdR4X4HTfaM/CQTl6PIGQTchyT7eyx9QF+fX6OCZ5DAmGANq8h6e3MQabHJ1QUAonvtiILacmYEnCoe9j35OdI519tuKQx8e+hfWinC4XmBmVCvV8M5X5FLH60phmQlBFriWV9+ztTAMnyk0e/bMIIaZ/6gmTOPuTGCFKUm6c7t7hE+o1muHj64THNWvUwhPA6rJn1TwX90FkKkJ9nOKUk8T57ilwr9Hr3DFHQgjbWdt/9vFW9Z+urW0/PoLQdJwAtKJbwhsGjiWqGkocI8AjrLbtWo5jQAlnQfJU5tvxr8NhjN3h1wH4RfWtNaihN8omU46iZRGigwx9UyLwiFZzlklTB0Wbf3b3SNcxkgelShzK+X82NjwQ7o7JlcGpa/uT2G/V2lVOGi/8Bpyb7h0nz2w/u3P/I3dAGM9c2znUy3Nd/o7r+wfqB4B2+XLmeNX8xCD9vko8tV3amLt9nVSk57JZiIWflsPmY77yRa+4hb315UcylwNQj9H8e/U1/SOwlY/U525tzNKXwZc/XnX5l6Vm5h08pLEKPtFlAPi/thNLM5p2zPafkIANi7O0EWWeN8sPO40Xs17upj+djkgsOdRYvuSVC3a3Uhrm/LixK7nhzh+/fuHRa3LCoRlnPuuy8p8HJr4u884ZQ8loPipENegQGsU89uA8vAHXYQFW4QdMCJPBlDFc5jLTR1hiIVnkFkInA+QY6aZ2mkvXURTlUQmdmgPVAXilQE+kJxkQQhghhjhTlrgEJ6/q7zO0eRsavG1B4vYfbL9+vWNapfJTKRiUqNNc98jJTk6ydpske3KX09omA9HoVuh1GgJyjEHq7ZUMMYPD4xLCGEnjw4MmMuD1DhATJnB/AKAd8RQuWVLoGfFdra6+6hO1cTebBg2RCd6eKZmozSzgDhGqT+zadaJaiLT3eFIidRhfUrRpuMWbYNWw4O+7AJvEToxpt6M1tUfB4UEIGqpx0iAKs+k8TAzB2G43a3PBLI8dywI3BzD+T9l7xJcLLpglIry324imekyeQqpwWTV17Qe5gU/ODIkVI9oSHLWyDNoRwBLCiBbJ5ehUpJz+TOOuKCgfbQHCHI5FAD4O9mzwUufMc9lzlEr6PQeucuCDuZOCxeu9tPtHijs3lLD2+pkeVm+cePFiXHOhzoegVAexwrYoWddx+cJfryPtr+3AJSqBiemJ8dGhB8j3vaAN7wpKM0011c6ZaaMtO9D26Do6SNPWwNoRXf6i2uoBEmaWKjXa5UpJFyVHiGmSxNlCN/5fymy3begIeBSloW7Xe+rf54cnmdqULSPgn56c9CM5KPkHcdcLdIcOnTv36+miojGta3NLy5HsbLECaUxBSp5KFOOio9PSzp6Nf0kGN/kJymhLre3vRvfEqcSSW++6687VOXkZCVIjNKjpL7lRiYi3IsXycIU1bNTZkueuFU6FOZIzM/RYBmMkMLDKfffNcxmHDjNuyOiadx8m0BwPJYAQg8li79stLiKnvwPK8/DkOCgcbqpdsFq9MaSL9tRPTFDdodA8KjeDe3UTd8s+uQVcCyrhEgtlCagkBSRQkDItY0WTpxWEQAoEJQqSfHteUaQdNUiE7MZFt7uVNt/xH7TT47422S3GII00LoMHiDar86/9/O0XX3xZdfbURVi5zWOK2/mUOxSRxASEpgc6hjqvHfx7JH+g7dqFi4PO6u+LBAN+9O67B1v69LMZp+trOfiuDYysrPb69eTEKipLgWV3J4JW8YU5yg704ourKSuY7/v7vxe5cZbvIPJIVwscDoIh0vzz7jZIv0sHzFSO/hweoRMdsoyQxMjeej01x35+B+UMI+XdX7Ag3SlbBd5hMKqyvZuSkoMfhDOQPjmY6+s7FKe3kzuVjqio9tN+hZxu37BBFMMCfQ3Nlw/tcxCn4Kb6XR/1e0Eabwn0MMP11d5l+WZa9xNNj3l9QV2TjMnYVXUWxyVLnZmcGO0SWjSiR5ZDopxmbCiXuMisHT536tKNrvZ+P5bUX3fms/KPdw1wSXYxrnCdLoTBDuq6hCmBOTKrxQX7K4F/w6TssJHmWoN1Uiw0qIzsFAoiIzMaQw2r87+fGWbqKhnDYn3WTVCTj5w4f1mqaaw7I7cJsVvUJGOw5kjnl9sC0pVudaxn2KFDBw7uE2NlWQoG/f6gJC60r1YZxrIh1Xcog903DjnnAhzTDVcyg4NjlnBZJaIXrCm7qbTU59u0qaR46czseDdqYgE0KOR6JS4xJE4ksjwxNCTaBCGUE8340xoeyZvZBDdV2bh6iUtM1Ivz8lx9rXUTImggGLEke9+lvin7IotkHuk5949nRjovuiRJIbyEWF5Kzd/btvyp1EmqlNRdlG4onmOWMOacvtbYxIF91acP/P7zb79FRf300w+/7Eb11LwOxQu0koQ4zZREeEIFrVbUDw1NSOsT4jnJu0XjGhETnUC4wo9Go03XyW2ZwNrJ48XHYnwKuZd1h0RwBGt3J6QZxGhZVhh2IsBwEuKp4b6ewUFBIK07pdRN0rgdIwuSbdHE973ZbKDlCkrb6LixQIrlBy50zjU39zk8GWmpmlgDP9V0RVPfM8m5HdQ4EwyekQdBnxlZz3K9XapUh1CxcjanWxluVHd2C/FeC9Q4krkqBzjeKbaHsTA6OhFQAkA5WRQigX9sdHGkgwk076T05gDjiGwLEBoSUlc3NzFeEHb58rJlK5bNzUkE/mk87liWSXye5Xkuk8Gokvr/GOlTvXAvl6fVIEzXAhGEMNKcneuN9a4eqEYmh1SThhq3A2xn02R2tnOyCV7QbpHq5LE2rJgLMpCROUeOFBaKFRQTShHzCh96sg3qjiMNZkZNceilkYRIS3X14sUiI8uO/Ep1UcwdmrdkDQF5WyWMRxdXCmLOn4+JiUv1pKXjJ2ekZWSs49eReoKCB65IHZN8fOdihY5SWSacgqVRmcusTFay1/b/bp3uCOpc3Tf4TLufkFIaGC9fXrx46ZJFczMCk64et1/TFSpaARc33Q7rv/yu3yDADB/sU51eUzuneIuZbOHrtjSpi1v1suJEu8ywFGTMcVgGyjLybS6scuXHH68obGZuFuYsKEh0c8j47JlLi0s2bfL5SktvKlsDU44rCR5vaOZ0A446eWJykhZjWhPKVVV5ZT6ZuYBBTVUrFkaw7dhhMFjM4XabPWZoSOGNtjbQ622DOjtFWyalAwNBDgnv3vJrWfX+TFi9B5OU7tCDpUFJE821PSsLtBN122h2qak+YFDWRxmrLo4aC9U6UjCuEVAxSVG0FtO8lRKnmfUBX0NTa09//yQnaaj52v4XqR+d0sRZx0abdTpOETPBDjadBGaVmGIVglNRNr6vLzqa1JmV2vkbe9y8xh+U91O6H1OzjYfONgLFUo6+558IiYlbt/6zda8oyPJEL6U69xJZsUowvpJRFDw30VlF1bELyzjEyDszZ4gViNI5wEfl5W+DKR1bLDpWk691ntPmsLbHDw8M9p91Rl3wg0IypEaTez7w1NV26JK4GncgN8zlC16tF+jB/DMcaXReU6tocKhvUKs9MbNku8XZhnVaw0Wi4Y9pvswJY0Kjo4MAvwGjMy1ZBicLLwjPXb2GEMYI06Yf7kTdYgQr/gem3AgggIZ5L+d2UW5d5jfOM9wlAL4qBh6A7xnuJdj0e4x8wGIBqMMAAX4qZFWfK2pzGJKLVonY/aZQAabi3zCtP8YAkq9TF6ptmOrwMPm4y1HfSUfEJ9ZDqlytZDNO+UsRtBk0PcpIFFGAGJltNy1gzmIwgEDeZCwDHepUVfhi7hMk2y6CCfoIY4OfhFgQOwhli/cIa1b8QQS50bOyTm9P+mkQQFe6iRDwpIdQ0GQxYSEp7yIc6PItwkNqfkVUwOc5ooa4rF5Za69nYWXduZX1tHKYjZUNeokJjOknZtBUhDOzgLpig0uGkil0Gg6DLTJycZp9D6PELKL8SDK5hhOPTJqQBxViaODI1yaxtATeeIGeSYOLi7BwGvcYKwzuqF+c71C5czLJEaNdiyZDRYs5lyq02cK+YF2tUfHtGpHsUPJMRcWjnGLimJTm6eDktc6+kTE8ci+mmxVWllRWY0/LH9nqjG5uMipuHMe9khHWFYnPGF/qtZRCH0eHTKE/FHkdjpM1XijcYfTGY1JQ2bGUGJZk0dmOsgQutw4k2UW5EwkXkpwQ8ol1QEovnpZ9ZbSkqPnI6KJhRoPHZ6n+BFen6pt8SAIAAA==) format("woff2");font-weight:400 700;font-style:normal}</style>
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -54,7 +54,7 @@ L 0 4
       </g>
      </g>
      <g id="text_1">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="24" y="268.5" transform="rotate(-0 24 268.5)">0</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="24" y="269.524" transform="rotate(-0 24 269.524)">0</text>
      </g>
     </g>
     <g id="xtick_2">
@@ -69,7 +69,7 @@ L 83.428571 89
       </g>
      </g>
      <g id="text_2">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="83.428571" y="268.5" transform="rotate(-0 83.428571 268.5)">200</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="83.428571" y="269.524" transform="rotate(-0 83.428571 269.524)">200</text>
      </g>
     </g>
     <g id="xtick_3">
@@ -84,7 +84,7 @@ L 142.857143 89
       </g>
      </g>
      <g id="text_3">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="142.857143" y="268.5" transform="rotate(-0 142.857143 268.5)">400</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="142.857143" y="269.524" transform="rotate(-0 142.857143 269.524)">400</text>
      </g>
     </g>
     <g id="xtick_4">
@@ -99,7 +99,7 @@ L 202.285714 89
       </g>
      </g>
      <g id="text_4">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="202.285714" y="268.5" transform="rotate(-0 202.285714 268.5)">600</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="202.285714" y="269.524" transform="rotate(-0 202.285714 269.524)">600</text>
      </g>
     </g>
     <g id="xtick_5">
@@ -114,7 +114,7 @@ L 261.714286 89
       </g>
      </g>
      <g id="text_5">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="261.714286" y="268.5" transform="rotate(-0 261.714286 268.5)">800</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="261.714286" y="269.524" transform="rotate(-0 261.714286 269.524)">800</text>
      </g>
     </g>
     <g id="xtick_6">
@@ -129,11 +129,11 @@ L 321.142857 89
       </g>
      </g>
      <g id="text_6">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="321.142857" y="268.5" transform="rotate(-0 321.142857 268.5)">1000</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="321.142857" y="269.524" transform="rotate(-0 321.142857 269.524)">1000</text>
      </g>
     </g>
     <g id="text_7">
-     <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #2c2825" x="180" y="291.378906" transform="rotate(-0 180 291.378906)">Amortized cost (ns/send)</text>
+     <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #2c2825" x="180" y="292.052" transform="rotate(-0 180 292.052)">Amortized cost (ns/send)</text>
     </g>
    </g>
    <g id="matplotlib.axis_2"/>
@@ -143,7 +143,7 @@ L 336 247
 " style="fill: none; stroke: #69645e; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_8">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="24" y="115.187138" transform="rotate(-0 24 115.187138)">Task per value</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="24" y="114.101263" transform="rotate(-0 24 114.101263)">Task per value</text>
    </g>
    <g id="patch_4">
     <path d="M 24 157.951754
@@ -154,10 +154,10 @@ z
 " clip-path="url(#p97983bc1fd)" style="fill: #69645e; stroke: #69645e; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_9">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="268.12" y="151.964056" transform="rotate(-0 268.12 151.964056)">798</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="268.12" y="152.663509" transform="rotate(-0 268.12 152.663509)">798</text>
    </g>
    <g id="text_10">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="24" y="184.306009" transform="rotate(-0 24 184.306009)">Long-lived task</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="24" y="183.399509" transform="rotate(-0 24 183.399509)">Long-lived task</text>
    </g>
    <g id="patch_5">
     <path d="M 24 227.25
@@ -168,7 +168,7 @@ z
 " clip-path="url(#p97983bc1fd)" style="fill: #b25936; stroke: #b25936; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_11">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="95.182857" y="221.262301" transform="rotate(-0 95.182857 221.262301)">216</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="95.182857" y="221.961754" transform="rotate(-0 95.182857 221.961754)">216</text>
    </g>
   </g>
   <g id="axes_2">
@@ -193,7 +193,7 @@ L 24 385
       </g>
      </g>
      <g id="text_12">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="24" y="564.5" transform="rotate(-0 24 564.5)">0</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="24" y="565.524" transform="rotate(-0 24 565.524)">0</text>
      </g>
     </g>
     <g id="xtick_8">
@@ -208,7 +208,7 @@ L 108.324324 385
       </g>
      </g>
      <g id="text_13">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="108.324324" y="564.5" transform="rotate(-0 108.324324 564.5)">100</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="108.324324" y="565.524" transform="rotate(-0 108.324324 565.524)">100</text>
      </g>
     </g>
     <g id="xtick_9">
@@ -223,7 +223,7 @@ L 192.648649 385
       </g>
      </g>
      <g id="text_14">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="192.648649" y="564.5" transform="rotate(-0 192.648649 564.5)">200</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="192.648649" y="565.524" transform="rotate(-0 192.648649 565.524)">200</text>
      </g>
     </g>
     <g id="xtick_10">
@@ -238,11 +238,11 @@ L 276.972973 385
       </g>
      </g>
      <g id="text_15">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #69645e" x="276.972973" y="564.5" transform="rotate(-0 276.972973 564.5)">300</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #69645e" x="276.972973" y="565.524" transform="rotate(-0 276.972973 565.524)">300</text>
      </g>
     </g>
     <g id="text_16">
-     <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #2c2825" x="180" y="587.378906" transform="rotate(-0 180 587.378906)">CPU time across all threads (ms)</text>
+     <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #2c2825" x="180" y="588.052" transform="rotate(-0 180 588.052)">CPU time across all threads (ms)</text>
     </g>
    </g>
    <g id="matplotlib.axis_4"/>
@@ -252,7 +252,7 @@ L 336 543
 " style="fill: none; stroke: #69645e; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_17">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="24" y="411.187138" transform="rotate(-0 24 411.187138)">Task per value</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="24" y="410.101263" transform="rotate(-0 24 410.101263)">Task per value</text>
    </g>
    <g id="patch_8">
     <path d="M 24 453.951754
@@ -263,10 +263,10 @@ z
 " clip-path="url(#p94c21b7703)" style="fill: #69645e; stroke: #69645e; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_18">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="267.791135" y="447.964056" transform="rotate(-0 267.791135 447.964056)">280.81</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="267.791135" y="448.663509" transform="rotate(-0 267.791135 448.663509)">280.81</text>
    </g>
    <g id="text_19">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="24" y="480.306009" transform="rotate(-0 24 480.306009)">Long-lived task</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="24" y="479.399509" transform="rotate(-0 24 479.399509)">Long-lived task</text>
    </g>
    <g id="patch_9">
     <path d="M 24 523.25
@@ -277,20 +277,20 @@ z
 " clip-path="url(#p94c21b7703)" style="fill: #b25936; stroke: #b25936; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_20">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="49.475459" y="517.262301" transform="rotate(-0 49.475459 517.262301)">21.91</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="49.475459" y="517.961754" transform="rotate(-0 49.475459 517.961754)">21.91</text>
    </g>
   </g>
   <g id="text_21">
-   <text style="font-weight: 700; font-size: 16px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="24" y="34" transform="rotate(-0 24 34)">a  Synchronous send cost</text>
+   <text style="font-weight: 700; font-size: 16px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="24" y="37.456" transform="rotate(-0 24 37.456)">a  Synchronous send cost</text>
   </g>
   <g id="text_22">
-   <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #69645e" x="24" y="59.5" transform="rotate(-0 24 59.5)">73% lower</text>
+   <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #69645e" x="24" y="62.524" transform="rotate(-0 24 62.524)">73% lower</text>
   </g>
   <g id="text_23">
-   <text style="font-weight: 700; font-size: 16px; font-family: 'Helvetica'; text-anchor: start; fill: #2c2825" x="24" y="330" transform="rotate(-0 24 330)">b  Total process CPU</text>
+   <text style="font-weight: 700; font-size: 16px; font-family: 'Google Sans Code'; text-anchor: start; fill: #2c2825" x="24" y="333.456" transform="rotate(-0 24 333.456)">b  Total process CPU</text>
   </g>
   <g id="text_24">
-   <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #69645e" x="24" y="355.5" transform="rotate(-0 24 355.5)">92% lower</text>
+   <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #69645e" x="24" y="358.524" transform="rotate(-0 24 358.524)">92% lower</text>
   </g>
  </g>
  <defs>

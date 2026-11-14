@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="840pt" viewBox="0 0 720 840" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="10-storage-tradeoff-dark-title 10-storage-tradeoff-dark-desc" xml:lang="en"><title id="10-storage-tradeoff-dark-title">Padding changes the three measurements differently</title><desc id="10-storage-tradeoff-dark-desc">Adjacent versus padded storage: raw contended lock 24.9 versus 37.1 ns; useful contended send 79.7 versus 54.2 ns; heap use 160 versus 288 bytes. Median of nine interleaved rounds for the two wall costs, with eight threads. Each panel has its own zero-based scale and units.</desc>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="720pt" height="840pt" viewBox="0 0 720 840" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="10-storage-tradeoff-dark-title 10-storage-tradeoff-dark-desc" xml:lang="en"><title id="10-storage-tradeoff-dark-title">Padding changes the three measurements differently</title><desc id="10-storage-tradeoff-dark-desc">Adjacent versus padded storage: raw contended lock 24.9 versus 37.1 ns; useful contended send 79.7 versus 54.2 ns; heap use 160 versus 288 bytes. Median of nine interleaved rounds for the two wall costs, with eight threads. Each panel has its own zero-based scale and units.</desc><style id="embedded-site-font">@font-face{font-family:"Google Sans Code";src:url(data:font/woff2;base64,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) format("woff2");font-weight:400 700;font-style:normal}</style>
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -54,7 +54,7 @@ L 0 4
       </g>
      </g>
      <g id="text_1">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="187.2" y="250.8" transform="rotate(-0 187.2 250.8)">0</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="187.2" y="252.256" transform="rotate(-0 187.2 252.256)">0</text>
      </g>
     </g>
     <g id="xtick_2">
@@ -69,7 +69,7 @@ L 294.4 75.6
       </g>
      </g>
      <g id="text_2">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="294.4" y="250.8" transform="rotate(-0 294.4 250.8)">10</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="294.4" y="252.256" transform="rotate(-0 294.4 252.256)">10</text>
      </g>
     </g>
     <g id="xtick_3">
@@ -84,7 +84,7 @@ L 401.6 75.6
       </g>
      </g>
      <g id="text_3">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="401.6" y="250.8" transform="rotate(-0 401.6 250.8)">20</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="401.6" y="252.256" transform="rotate(-0 401.6 252.256)">20</text>
      </g>
     </g>
     <g id="xtick_4">
@@ -99,7 +99,7 @@ L 508.8 75.6
       </g>
      </g>
      <g id="text_4">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="508.8" y="250.8" transform="rotate(-0 508.8 250.8)">30</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="508.8" y="252.256" transform="rotate(-0 508.8 252.256)">30</text>
      </g>
     </g>
     <g id="xtick_5">
@@ -114,24 +114,24 @@ L 616 75.6
       </g>
      </g>
      <g id="text_5">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="616" y="250.8" transform="rotate(-0 616 250.8)">40</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="616" y="252.256" transform="rotate(-0 616 252.256)">40</text>
      </g>
     </g>
     <g id="text_6">
-     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="428.4" y="279.01875" transform="rotate(-0 428.4 279.01875)">Wall cost (ns/operation)</text>
+     <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="428.4" y="280.22" transform="rotate(-0 428.4 280.22)">Wall cost (ns/operation)</text>
     </g>
    </g>
    <g id="matplotlib.axis_2">
     <g id="ytick_1">
      <g id="line2d_11"/>
      <g id="text_7">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="175.2" y="123.586364" transform="rotate(-0 175.2 123.586364)">Adjacent</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="175.2" y="125.530364" transform="rotate(-0 175.2 125.530364)">Adjacent</text>
      </g>
     </g>
     <g id="ytick_2">
      <g id="line2d_12"/>
      <g id="text_8">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="175.2" y="192.313636" transform="rotate(-0 175.2 192.313636)">Padded</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="175.2" y="194.257636" transform="rotate(-0 175.2 194.257636)">Padded</text>
      </g>
     </g>
    </g>
@@ -149,7 +149,7 @@ z
 " clip-path="url(#p7a5d675cc6)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_9">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="463.128" y="122.057067" transform="rotate(-0 463.128 122.057067)">24.9</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="463.128" y="122.956364" transform="rotate(-0 463.128 122.956364)">24.9</text>
    </g>
    <g id="patch_5">
     <path d="M 187.2 200.34
@@ -160,7 +160,7 @@ z
 " clip-path="url(#p7a5d675cc6)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_10">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="593.912" y="190.784339" transform="rotate(-0 593.912 190.784339)">37.1</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="593.912" y="191.683636" transform="rotate(-0 593.912 191.683636)">37.1</text>
    </g>
   </g>
   <g id="axes_2">
@@ -185,7 +185,7 @@ L 187.2 336
       </g>
      </g>
      <g id="text_11">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="187.2" y="511.2" transform="rotate(-0 187.2 511.2)">0</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="187.2" y="512.656" transform="rotate(-0 187.2 512.656)">0</text>
      </g>
     </g>
     <g id="xtick_7">
@@ -200,7 +200,7 @@ L 288.757895 336
       </g>
      </g>
      <g id="text_12">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="288.757895" y="511.2" transform="rotate(-0 288.757895 511.2)">20</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="288.757895" y="512.656" transform="rotate(-0 288.757895 512.656)">20</text>
      </g>
     </g>
     <g id="xtick_8">
@@ -215,7 +215,7 @@ L 390.315789 336
       </g>
      </g>
      <g id="text_13">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="390.315789" y="511.2" transform="rotate(-0 390.315789 511.2)">40</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="390.315789" y="512.656" transform="rotate(-0 390.315789 512.656)">40</text>
      </g>
     </g>
     <g id="xtick_9">
@@ -230,7 +230,7 @@ L 491.873684 336
       </g>
      </g>
      <g id="text_14">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="491.873684" y="511.2" transform="rotate(-0 491.873684 511.2)">60</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="491.873684" y="512.656" transform="rotate(-0 491.873684 512.656)">60</text>
      </g>
     </g>
     <g id="xtick_10">
@@ -245,24 +245,24 @@ L 593.431579 336
       </g>
      </g>
      <g id="text_15">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="593.431579" y="511.2" transform="rotate(-0 593.431579 511.2)">80</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="593.431579" y="512.656" transform="rotate(-0 593.431579 512.656)">80</text>
      </g>
     </g>
     <g id="text_16">
-     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="428.4" y="539.41875" transform="rotate(-0 428.4 539.41875)">Wall cost (ns/send)</text>
+     <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="428.4" y="540.62" transform="rotate(-0 428.4 540.62)">Wall cost (ns/send)</text>
     </g>
    </g>
    <g id="matplotlib.axis_4">
     <g id="ytick_3">
      <g id="line2d_23"/>
      <g id="text_17">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="175.2" y="383.986364" transform="rotate(-0 175.2 383.986364)">Adjacent</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="175.2" y="385.930364" transform="rotate(-0 175.2 385.930364)">Adjacent</text>
      </g>
     </g>
     <g id="ytick_4">
      <g id="line2d_24"/>
      <g id="text_18">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="175.2" y="452.713636" transform="rotate(-0 175.2 452.713636)">Padded</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="175.2" y="454.657636" transform="rotate(-0 175.2 454.657636)">Padded</text>
      </g>
     </g>
    </g>
@@ -280,7 +280,7 @@ z
 " clip-path="url(#p784a1c519d)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_19">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="600.908211" y="382.457067" transform="rotate(-0 600.908211 382.457067)">79.7</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="600.908211" y="383.356364" transform="rotate(-0 600.908211 383.356364)">79.7</text>
    </g>
    <g id="patch_9">
     <path d="M 187.2 460.74
@@ -291,7 +291,7 @@ z
 " clip-path="url(#p784a1c519d)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_20">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="471.421895" y="451.184339" transform="rotate(-0 471.421895 451.184339)">54.2</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="471.421895" y="452.083636" transform="rotate(-0 471.421895 452.083636)">54.2</text>
    </g>
   </g>
   <g id="axes_3">
@@ -316,7 +316,7 @@ L 187.2 596.4
       </g>
      </g>
      <g id="text_21">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="187.2" y="771.6" transform="rotate(-0 187.2 771.6)">0</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="187.2" y="773.056" transform="rotate(-0 187.2 773.056)">0</text>
      </g>
     </g>
     <g id="xtick_12">
@@ -331,7 +331,7 @@ L 299.06087 596.4
       </g>
      </g>
      <g id="text_22">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="299.06087" y="771.6" transform="rotate(-0 299.06087 771.6)">80</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="299.06087" y="773.056" transform="rotate(-0 299.06087 773.056)">80</text>
      </g>
     </g>
     <g id="xtick_13">
@@ -346,7 +346,7 @@ L 410.921739 596.4
       </g>
      </g>
      <g id="text_23">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="410.921739" y="771.6" transform="rotate(-0 410.921739 771.6)">160</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="410.921739" y="773.056" transform="rotate(-0 410.921739 773.056)">160</text>
      </g>
     </g>
     <g id="xtick_14">
@@ -361,7 +361,7 @@ L 522.782609 596.4
       </g>
      </g>
      <g id="text_24">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="522.782609" y="771.6" transform="rotate(-0 522.782609 771.6)">240</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="522.782609" y="773.056" transform="rotate(-0 522.782609 773.056)">240</text>
      </g>
     </g>
     <g id="xtick_15">
@@ -376,24 +376,24 @@ L 634.643478 596.4
       </g>
      </g>
      <g id="text_25">
-      <text style="font-size: 16px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="634.643478" y="771.6" transform="rotate(-0 634.643478 771.6)">320</text>
+      <text style="font-size: 16px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="634.643478" y="773.056" transform="rotate(-0 634.643478 773.056)">320</text>
      </g>
     </g>
     <g id="text_26">
-     <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="428.4" y="799.81875" transform="rotate(-0 428.4 799.81875)">Allocated bytes per instance</text>
+     <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="428.4" y="801.02" transform="rotate(-0 428.4 801.02)">Allocated bytes per instance</text>
     </g>
    </g>
    <g id="matplotlib.axis_6">
     <g id="ytick_5">
      <g id="line2d_35"/>
      <g id="text_27">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="175.2" y="644.386364" transform="rotate(-0 175.2 644.386364)">Adjacent</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="175.2" y="646.330364" transform="rotate(-0 175.2 646.330364)">Adjacent</text>
      </g>
     </g>
     <g id="ytick_6">
      <g id="line2d_36"/>
      <g id="text_28">
-      <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: end; fill: #e4dfd7" x="175.2" y="713.113636" transform="rotate(-0 175.2 713.113636)">Padded</text>
+      <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: end; fill: #e4dfd7" x="175.2" y="715.057636" transform="rotate(-0 175.2 715.057636)">Padded</text>
      </g>
     </g>
    </g>
@@ -411,7 +411,7 @@ z
 " clip-path="url(#p15cca5fbc0)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_29">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="419.921739" y="642.857067" transform="rotate(-0 419.921739 642.857067)">160</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="419.921739" y="643.756364" transform="rotate(-0 419.921739 643.756364)">160</text>
    </g>
    <g id="patch_13">
     <path d="M 187.2 721.14
@@ -422,26 +422,26 @@ z
 " clip-path="url(#p15cca5fbc0)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.4; stroke-linejoin: miter"/>
    </g>
    <g id="text_30">
-    <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="598.89913" y="711.584339" transform="rotate(-0 598.89913 711.584339)">288</text>
+    <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="598.89913" y="712.483636" transform="rotate(-0 598.89913 712.483636)">288</text>
    </g>
   </g>
   <g id="text_31">
-   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="28.8" y="38.64" transform="rotate(-0 28.8 38.64)">a</text>
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="28.8" y="38.64" transform="rotate(-0 28.8 38.64)">a</text>
   </g>
   <g id="text_32">
-   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="61.2" y="38.64" transform="rotate(-0 61.2 38.64)">Lock + counter</text>
+   <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="61.2" y="38.64" transform="rotate(-0 61.2 38.64)">Lock + counter</text>
   </g>
   <g id="text_33">
-   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="28.8" y="299.04" transform="rotate(-0 28.8 299.04)">b</text>
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="28.8" y="299.04" transform="rotate(-0 28.8 299.04)">b</text>
   </g>
   <g id="text_34">
-   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="61.2" y="299.04" transform="rotate(-0 61.2 299.04)">Useful send work</text>
+   <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="61.2" y="299.04" transform="rotate(-0 61.2 299.04)">Useful send work</text>
   </g>
   <g id="text_35">
-   <text style="font-weight: 700; font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="28.8" y="559.44" transform="rotate(-0 28.8 559.44)">c</text>
+   <text style="font-weight: 700; font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="28.8" y="559.44" transform="rotate(-0 28.8 559.44)">c</text>
   </g>
   <g id="text_36">
-   <text style="font-size: 18px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="61.2" y="559.44" transform="rotate(-0 61.2 559.44)">Heap use</text>
+   <text style="font-size: 18px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="61.2" y="559.44" transform="rotate(-0 61.2 559.44)">Heap use</text>
   </g>
  </g>
  <defs>

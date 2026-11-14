@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="360pt" height="588pt" viewBox="0 0 360 588" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="04-lock-hypothesis-mobile-dark-title 04-lock-hypothesis-mobile-dark-desc" xml:lang="en"><title id="04-lock-hypothesis-mobile-dark-title">Replacing the lock: two different operations</title><desc id="04-lock-hypothesis-mobile-dark-desc">Historical single-thread prototype. NSRecursiveLock versus os_unfair_lock: raw lock plus counter 17.1 versus 8.0 ns; complete emit 188.0 versus 177.7 ns. Independent zero-based scales.</desc>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="360pt" height="588pt" viewBox="0 0 360 588" xmlns="http://www.w3.org/2000/svg" version="1.1" role="img" aria-labelledby="04-lock-hypothesis-mobile-dark-title 04-lock-hypothesis-mobile-dark-desc" xml:lang="en"><title id="04-lock-hypothesis-mobile-dark-title">Replacing the lock: two different operations</title><desc id="04-lock-hypothesis-mobile-dark-desc">Historical single-thread prototype. NSRecursiveLock versus os_unfair_lock: raw lock plus counter 17.1 versus 8.0 ns; complete emit 188.0 versus 177.7 ns. Independent zero-based scales.</desc><style id="embedded-site-font">@font-face{font-family:"Google Sans Code";src:url(data:font/woff2;base64,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) format("woff2");font-weight:400 700;font-style:normal}</style>
  <metadata>
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
@@ -54,7 +54,7 @@ L 0 4
       </g>
      </g>
      <g id="text_1">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="24" y="249.5" transform="rotate(-0 24 249.5)">0</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="24" y="250.524" transform="rotate(-0 24 250.524)">0</text>
      </g>
     </g>
     <g id="xtick_2">
@@ -69,7 +69,7 @@ L 91.826087 68
       </g>
      </g>
      <g id="text_2">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="91.826087" y="249.5" transform="rotate(-0 91.826087 249.5)">5</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="91.826087" y="250.524" transform="rotate(-0 91.826087 250.524)">5</text>
      </g>
     </g>
     <g id="xtick_3">
@@ -84,7 +84,7 @@ L 159.652174 68
       </g>
      </g>
      <g id="text_3">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="159.652174" y="249.5" transform="rotate(-0 159.652174 249.5)">10</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="159.652174" y="250.524" transform="rotate(-0 159.652174 250.524)">10</text>
      </g>
     </g>
     <g id="xtick_4">
@@ -99,7 +99,7 @@ L 227.478261 68
       </g>
      </g>
      <g id="text_4">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="227.478261" y="249.5" transform="rotate(-0 227.478261 249.5)">15</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="227.478261" y="250.524" transform="rotate(-0 227.478261 250.524)">15</text>
      </g>
     </g>
     <g id="xtick_5">
@@ -114,11 +114,11 @@ L 295.304348 68
       </g>
      </g>
      <g id="text_5">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="295.304348" y="249.5" transform="rotate(-0 295.304348 249.5)">20</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="295.304348" y="250.524" transform="rotate(-0 295.304348 250.524)">20</text>
      </g>
     </g>
     <g id="text_6">
-     <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="180" y="272.378906" transform="rotate(-0 180 272.378906)">Wall cost (ns/operation)</text>
+     <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="180" y="273.052" transform="rotate(-0 180 273.052)">Wall cost (ns/operation)</text>
     </g>
    </g>
    <g id="matplotlib.axis_2"/>
@@ -128,7 +128,7 @@ L 336 228
 " style="fill: none; stroke: #b0aaa1; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_7">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="95.094778" transform="rotate(-0 24 95.094778)">NSRecursiveLock</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="24" y="93.469684" transform="rotate(-0 24 93.469684)">NSRecursiveLock</text>
    </g>
    <g id="patch_4">
     <path d="M 24 137.824561
@@ -139,10 +139,10 @@ z
 " clip-path="url(#p5efd079b97)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_8">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="262.965217" y="131.70967" transform="rotate(-0 262.965217 131.70967)">17.1</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="262.965217" y="132.409123" transform="rotate(-0 262.965217 132.409123)">17.1</text>
    </g>
    <g id="text_9">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="165.270217" transform="rotate(-0 24 165.270217)">os_unfair_lock</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="24" y="163.645123" transform="rotate(-0 24 163.645123)">os_unfair_lock</text>
    </g>
    <g id="patch_5">
     <path d="M 24 208
@@ -153,7 +153,7 @@ z
 " clip-path="url(#p5efd079b97)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_10">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="139.521739" y="201.885108" transform="rotate(-0 139.521739 201.885108)">8.0</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="139.521739" y="202.584561" transform="rotate(-0 139.521739 202.584561)">8.0</text>
    </g>
   </g>
   <g id="axes_2">
@@ -178,7 +178,7 @@ L 24 354
       </g>
      </g>
      <g id="text_11">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="24" y="535.5" transform="rotate(-0 24 535.5)">0</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="24" y="536.524" transform="rotate(-0 24 536.524)">0</text>
      </g>
     </g>
     <g id="xtick_7">
@@ -193,7 +193,7 @@ L 91.826087 354
       </g>
      </g>
      <g id="text_12">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="91.826087" y="535.5" transform="rotate(-0 91.826087 535.5)">50</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="91.826087" y="536.524" transform="rotate(-0 91.826087 536.524)">50</text>
      </g>
     </g>
     <g id="xtick_8">
@@ -208,7 +208,7 @@ L 159.652174 354
       </g>
      </g>
      <g id="text_13">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="159.652174" y="535.5" transform="rotate(-0 159.652174 535.5)">100</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="159.652174" y="536.524" transform="rotate(-0 159.652174 536.524)">100</text>
      </g>
     </g>
     <g id="xtick_9">
@@ -223,7 +223,7 @@ L 227.478261 354
       </g>
      </g>
      <g id="text_14">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="227.478261" y="535.5" transform="rotate(-0 227.478261 535.5)">150</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="227.478261" y="536.524" transform="rotate(-0 227.478261 536.524)">150</text>
      </g>
     </g>
     <g id="xtick_10">
@@ -238,11 +238,11 @@ L 295.304348 354
       </g>
      </g>
      <g id="text_15">
-      <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #b0aaa1" x="295.304348" y="535.5" transform="rotate(-0 295.304348 535.5)">200</text>
+      <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #b0aaa1" x="295.304348" y="536.524" transform="rotate(-0 295.304348 536.524)">200</text>
      </g>
     </g>
     <g id="text_16">
-     <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: middle; fill: #e4dfd7" x="180" y="558.378906" transform="rotate(-0 180 558.378906)">Wall cost (ns/emit)</text>
+     <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: middle; fill: #e4dfd7" x="180" y="559.052" transform="rotate(-0 180 559.052)">Wall cost (ns/emit)</text>
     </g>
    </g>
    <g id="matplotlib.axis_4"/>
@@ -252,7 +252,7 @@ L 336 514
 " style="fill: none; stroke: #b0aaa1; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_17">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="381.094778" transform="rotate(-0 24 381.094778)">NSRecursiveLock</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="24" y="379.469684" transform="rotate(-0 24 379.469684)">NSRecursiveLock</text>
    </g>
    <g id="patch_8">
     <path d="M 24 423.824561
@@ -263,10 +263,10 @@ z
 " clip-path="url(#p8f096b3484)" style="fill: #242834; stroke: #b0aaa1; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_18">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="286.026087" y="417.70967" transform="rotate(-0 286.026087 417.70967)">188.0</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="286.026087" y="418.409123" transform="rotate(-0 286.026087 418.409123)">188.0</text>
    </g>
    <g id="text_19">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="451.270217" transform="rotate(-0 24 451.270217)">os_unfair_lock</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="24" y="449.645123" transform="rotate(-0 24 449.645123)">os_unfair_lock</text>
    </g>
    <g id="patch_9">
     <path d="M 24 494
@@ -277,14 +277,14 @@ z
 " clip-path="url(#p8f096b3484)" style="fill: #e09040; stroke: #e09040; stroke-width: 1.2; stroke-linejoin: miter"/>
    </g>
    <g id="text_20">
-    <text style="font-size: 14px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="272.053913" y="487.885108" transform="rotate(-0 272.053913 487.885108)">177.7</text>
+    <text style="font-size: 14px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="272.053913" y="488.584561" transform="rotate(-0 272.053913 488.584561)">177.7</text>
    </g>
   </g>
   <g id="text_21">
-   <text style="font-weight: 700; font-size: 16px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="34" transform="rotate(-0 24 34)">a  Lock + counter</text>
+   <text style="font-weight: 700; font-size: 16px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="24" y="37.456" transform="rotate(-0 24 37.456)">a  Lock + counter</text>
   </g>
   <g id="text_22">
-   <text style="font-weight: 700; font-size: 16px; font-family: 'Helvetica'; text-anchor: start; fill: #e4dfd7" x="24" y="320" transform="rotate(-0 24 320)">b  Complete emit()</text>
+   <text style="font-weight: 700; font-size: 16px; font-family: 'Google Sans Code'; text-anchor: start; fill: #e4dfd7" x="24" y="323.456" transform="rotate(-0 24 323.456)">b  Complete emit()</text>
   </g>
  </g>
  <defs>
