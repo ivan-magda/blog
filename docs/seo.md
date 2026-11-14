@@ -67,6 +67,8 @@ cropped head-and-shoulders. There is no SVG: a photo gains nothing from vector.
 
 ## Cross-linking
 
+Series with a `slug` in `src/series.ts` get an indexable hub at `/series/<slug>/` (in the sitemap); `ContinueReading.astro` links it and lists every part. Tag pages stay noindexed, so they must not serve as a series hub.
+
 Blog posts in the series link to each other via Markdown links on existing "next guide" / "previous guide" references and concept mentions.
 
 ## Markdown for agents

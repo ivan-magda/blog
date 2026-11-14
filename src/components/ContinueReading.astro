@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getPath } from "@/utils/getPath";
-import { SERIES } from "@/series";
+import { SERIES, seriesPath } from "@/series";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
 
@@ -29,6 +29,12 @@ const partIndex = parts.findIndex(p => p.id === post.id);
 const prevPart = partIndex > 0 ? parts[partIndex - 1] : undefined;
 const nextPart = partIndex >= 0 ? parts[partIndex + 1] : undefined;
 const inSeries = series !== undefined && (prevPart || nextPart);
+const hubHref = series ? seriesPath(series) : undefined;
+// "Building a Coding Agent in Swift, Part 3: …" → "Part 3: …" under the series name.
+const partLabel = (part: Post) =>
+  series && part.data.title.startsWith(`${series.title}, `)
+    ? part.data.title.slice(series.title.length + 2)
+    : part.data.title;
 
 /* ========== Otherwise: posts sharing the most tags ========== */
 
@@ -57,9 +63,9 @@ const titleClass =
       {inSeries && series && (
         <>
           <p class="mt-1 flex flex-wrap gap-x-2 text-sm opacity-80">
-            {series.href ? (
+            {hubHref ? (
               <a
-                href={series.href}
+                href={hubHref}
                 class="underline decoration-dashed underline-offset-4 hover:text-accent"
               >
                 {series.title}
@@ -96,6 +102,24 @@ const titleClass =
               </a>
             )}
           </div>
+          <ol class="mt-6 space-y-1 border-s border-border ps-4 text-sm">
+            {parts.map(part =>
+              part.id === post.id ? (
+                <li aria-current="page" class="font-medium text-accent">
+                  {partLabel(part)}
+                </li>
+              ) : (
+                <li>
+                  <a
+                    href={getPath(part.id, part.filePath)}
+                    class="opacity-80 decoration-dashed underline-offset-4 hover:text-accent hover:underline hover:opacity-100"
+                  >
+                    {partLabel(part)}
+                  </a>
+                </li>
+              )
+            )}
+          </ol>
         </>
       )}
 

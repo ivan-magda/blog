@@ -1,0 +1,35 @@
+---
+import Main from "@/layouts/Main.astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SERIES, seriesPath } from "@/series";
+import { SITE } from "@/config";
+
+const hubs = SERIES.filter(series => series.slug);
+---
+
+<Layout
+  title={`Series | ${SITE.title}`}
+  description="Multi-part article series on the blog."
+>
+  <Header />
+  <Main pageTitle="Series" pageDesc="Multi-part article series.">
+    <ul>
+      {
+        hubs.map(series => (
+          <li class="my-6">
+            <a
+              href={seriesPath(series)}
+              class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 hover:underline"
+            >
+              <h2 class="text-pretty">{series.title}</h2>
+            </a>
+            <p class="font-prose text-pretty">{series.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Main>
+  <Footer />
+</Layout>
