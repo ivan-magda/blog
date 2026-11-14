@@ -16,18 +16,13 @@ scores and one-time verification claims were not retained as reusable facts.
 
 ## Synthesis posts
 
-The current content directory contains eight `synth-` posts with `draft: false`
-and `hideFromFeed: true`; old unmerged-branch descriptions are superseded. Keep the
-`synth-` filename label but omit it from the public slug. Review citations and
-cross-links, update `public/llms.txt`, and copy only specifically intended generated
-files so previous edited posts are not overwritten.
-
-The hiding contract is documented in [root guidance](../../CLAUDE.md): inspect
-[postFilter](../../src/utils/postFilter.ts), archives, and Pagefind markup together.
-These posts remain built and indexable while excluded from ordinary reader feeds.
-Use human-written posts for voice examples; review generated prose independently
-and vary repetitive openings. Content quality and citation accuracy need review;
-old content ratios are not current SEO evidence.
+Removed 2026-11-14. Search Console reported all eight hidden `synth-` posts
+(`hideFromFeed: true`, 800-1,300 words, overviews of the coding-agent series and
+WWDC26 posts) as "Crawled - currently not indexed": no internal links reached them,
+and they competed with the original posts for the same queries. The author deleted
+them without redirects; their URLs now return 404. Do not bring back hidden
+generated overviews as a way to win search traffic. The `hideFromFeed` mechanism
+still exists (see [root guidance](../../CLAUDE.md)).
 
 ## Foundation Models cluster
 
