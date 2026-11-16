@@ -11,7 +11,7 @@ I write about Swift performance and concurrency, and share what I learn from bui
 
 ### swift-claw
 
-My primary project is [swift-claw](https://github.com/ivan-magda/swift-claw), an always-on personal AI assistant that runs as a single pure-Swift daemon on your own hardware. It pairs a private Telegram bot with the LLM of your choice, keeps its memory local, and asks for approval before taking consequential actions.
+My primary project is [swift-claw](https://github.com/ivan-magda/swift-claw), an always-on personal AI assistant that runs as a single pure-Swift daemon on your own hardware. It pairs a private Telegram bot with the LLM of your choice and keeps its memory local.
 
 ### swift-claude-code
 
